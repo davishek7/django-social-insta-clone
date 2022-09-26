@@ -1,0 +1,5 @@
+env
+.env
+insta_media
+__pycache__/
+db.sqlite3

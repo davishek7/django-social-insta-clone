@@ -1,0 +1,25 @@
+<!-- Post Options Modal -->
+<div class="modal fade" id="post-options-{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded"> 
+            <div class="modal-body">
+                <ul class="list-group text-center">
+                    {% if request.user == post.user %}
+                        <a href="{% url 'post:delete_post' post.id %}" class="btn btn-light w-100 text-danger border-bottom">Delete</a>
+                        <a href="{% url 'post:update_post' post.slug %}" class="btn btn-light w-100 border-bottom">Edit</a>
+                    {% else %}
+                        <a href="#" class="btn btn-light w-100 text-danger border-bottom">Unfollow</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-light w-100 border-bottom">Add to favorites</a>
+                    <a href="{% url 'post:post_details' post.slug %}" class="btn btn-light w-100 border-bottom">Go to post</a>
+                    <a href="#" class="btn btn-light w-100 border-bottom">Share to...</a>
+                    <a href="#" class="btn btn-light w-100 border-bottom" onclick="copyLink()">
+                        <input type="text" value="{{request.get_host}}/p/{{post.slug}}/" id="copy-link" style="display:none;">
+                        Copy link
+                    </a>
+                    <a href="#" class="btn btn-light w-100 border-bottom" data-bs-dismiss="modal">Cancel</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
