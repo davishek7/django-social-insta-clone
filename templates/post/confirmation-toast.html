@@ -1,0 +1,13 @@
+{% load static %}
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="copyLinkToastr-{{post.id}}" class="toast text-white bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="{% static 'images/logo.png' %}" style="width: 24px;height:24px;" class="rounded me-2" alt="...">
+        <strong class="me-auto">Instagram</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Link copied to clipboard.
+      </div>
+    </div>
+</div>

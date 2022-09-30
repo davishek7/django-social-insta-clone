@@ -19,11 +19,12 @@
                                 </div>
                                 <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
                                 {% include 'post/post-options-modal.html' %}
+                                {% include 'post/share-options-modal.html' %}
                             </div>
                         </div>
                         {% with images=post.postimage_set.all %}
                             {% if images.count > 1 %}
-                            {% include 'common/carousel.html' %}
+                            {% include 'common/carousel-home.html' %}
                         {% else %}
                             {% for image in images %}
                             <div class="single-image bg-dark">

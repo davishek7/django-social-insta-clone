@@ -7,5 +7,6 @@ from django.contrib.auth.decorators import login_required
 # @login_required
 def index(request):
     posts = Post.objects.select_related('user').prefetch_related('likes').filter(status=True).all()
+    print(request.user.profile)
     context = {'posts':posts}
     return render(request, 'index.html', context=context)

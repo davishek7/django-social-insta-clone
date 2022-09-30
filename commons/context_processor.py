@@ -7,5 +7,5 @@ def common_context(request):
         'post_form' : PostForm(),
         'image_form' : PostImageForm(),
         'comment_form' : CommentForm(),
-        'profile' : get_object_or_404(Profile, id=request.user.id) if request.user.is_authenticated else None
+        'profile' : request.user.profile if request.user.is_authenticated else None
     }

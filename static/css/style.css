@@ -124,3 +124,19 @@
 .story-block::-webkit-scrollbar { 
   display: none;  /*Safari and Chrome*/
 }
+.related-post-image{
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+.related-post-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.profile-photo-avatar{
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+}

@@ -1,0 +1,56 @@
+{% extends 'layouts/main-layout.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row mb-5">
+        <div class="col-4 px-5">
+            <img src="{{user.profile_photo.url}}" alt="" class="profile-photo-avatar">
+        </div>
+        <div class="col-8">
+            <h1 class="mb-4">{{user.username}}
+                &ensp;
+                {% if request.user == user %}
+                <a href="#" class="btn btn-light rounded border border-dark text-dark fw-bold">Edit profile</a>
+                &ensp;
+                <a href="#" class="text-dark"><i class="bi bi-gear-wide" style="font-size:28px;"></i></a>
+                {% else %}
+                <a href="#" class="btn btn-light rounded border border-dark text-dark fw-bold">Message</a>
+                &nbsp;
+                <a href="{% url 'user:follow' user.id %}" class="btn btn-light rounded border border-dark text-dark"><i class="fas fa-user-check" style="font-size:20px;"></i></a>
+                &nbsp;
+                <a href="#" class="text-dark"><i class="fas fa-ellipsis-h pt-2" style="font-size:24px;"></i></a>
+                {% endif %}
+            </h1>
+            <div class="fs-5 mb-4">
+                <span class="fw-bold">{{request.user.post_set.count}}</span> posts
+                &ensp;
+                <span class="fw-bold">{{profile.followers.count}}</span> followers
+                &ensp;
+                <span class="fw-bold">{{profile.followings.count}}</span> following
+            </div>
+            <div class="fs-5">{{user.name}}</div>
+            <p class="fs-5">{{user.bio}}</p>
+        </div>
+    </div>
+    <hr>
+    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">POSTS</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">SAVED</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab" aria-controls="messages" aria-selected="false">TAGGED</button>
+        </li>
+    </ul>
+      
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">POSTS</div>
+        <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">SAVED</div>
+        <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">TAGGED</div>
+    </div>
+</div>
+
+{% endblock content %}

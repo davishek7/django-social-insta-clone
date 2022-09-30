@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from .models import Post, PostImage, Comment
 from .forms import PostForm, CommentForm
 from .decorators import owner_required
@@ -20,11 +21,12 @@ def create_post(request):
     return redirect('feed:index')
 
 def post_details(request, slug):
-    print(request.get_host())
     post = get_object_or_404(Post, slug=slug)
     images = get_list_or_404(PostImage, post=post)
     images_count = len(images)
-    context = {'post':post, 'images':images, 'images_count':images_count}
+    related_posts = Post.objects.filter(~Q(id=post.id), user=post.user).order_by('-created_at')[:6]
+    title = f'{post.user.name} on Instagram: "{post.caption}"'
+    context = {'post':post, 'images':images, 'images_count':images_count, 'details':True, 'related_posts':related_posts,'title':title}
     return render(request, 'post/detail.html', context=context)
 
 @login_required
@@ -55,7 +57,7 @@ def like_comment(request, pk):
         comment.likes.add(request.user)
     else:
         comment.likes.remove(request.user)
-    return redirect(request.META.get('HTTP_REFERER') + '#comment-' + str(comment.id))
+    return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 @owner_required

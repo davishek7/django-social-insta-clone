@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="navbar sticky-top navbar-expand navbar-light bg-light border">
     <div class="container d-flex justify-content-around">
-        <a class="navbar-brand me-5" href="#">
+        <a class="navbar-brand me-5 pb-3" href="/">
             <img src="{% static 'images/logo.png' %}" alt="logo" style="height: 30px;">
         </a>
         <form class="d-flex d-md-block d-sm-none d-none me-3" style="width: 25%;">
@@ -35,35 +35,14 @@
                         <a class="nav-link active me-1" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#">
                             <i class="far fa-heart" style='font-size:24px'></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" style="width: 300px">
-                            <nav class="d-grid gap-2 col-8">
-                            <a href="#" class="btn btn-hover-light d-flex align-items-center gap-3 py-2 px-3 lh-sm">
-                                <svg class="bi" width="32" height="32"><use xlink:href="#image-fill"/></svg>
-                                <div>
-                                <strong class="d-block">Features</strong>
-                                <small>Take a tour through the product</small>
-                                </div>
-                            </a>
-                            <a href="#" class="btn btn-hover-light d-flex align-items-center gap-3 py-2 px-3 lh-sm">
-                                <svg class="bi" width="32" height="32"><use xlink:href="#question-circle"/></svg>
-                                <div>
-                                <strong class="d-block">Support</strong>
-                                <small>Get help from our support crew</small>
-                                </div>
-                            </a>
-                            </nav>
-                            <div class="col-4">
-                            ...
-                            </div>
-                        </div>
+                        {% include 'common/notification-dropdown.html' %}
                     </li>
                     <li class="nav-item dropdown flex-shrink-0">
                         <a class="nav-link active me-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <!-- <img src="https://media-exp1.licdn.com/dms/image/C5603AQEbn2qoo74slQ/profile-displayphoto-shrink_200_200/0/1641133025708?e=1668643200&v=beta&t=VVXWG9oLgfeApvLsGFRfmnn3rMteY9heg0mLgUNAlF4" style="height: 28px;" class="img-fluid rounded-circle"> -->
                             <img src={{request.user.profile_photo.url}} class="navbar-profile-image">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="navbarDropdown" style="width: 200px">
-                        <li><a class="dropdown-item" href="{% url 'user:profile' request.user.username %}"><i class="bi bi-person-circle"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}"><i class="bi bi-person-circle"></i> Profile</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-bookmark"></i> Saved</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-gear-wide"></i> Settings</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat"></i> Switch accounts</a></li>

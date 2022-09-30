@@ -9,18 +9,19 @@
                 <p class="me-3">{{comment.created_at|naturaltime}}</p>
                 <p class="me-3">{{comment.likes.count}} like{{comment.likes.count|pluralize}}</p>
                 <p class="me-3">Reply</p>
-                <i class="fas fa-ellipsis-h pt-1" style="cursor:pointer;"></i>
+                <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;"></i>
+                <a href="{% url 'post:like_comment' comment.id %}" class="text-decoration-none">
+                    {% if request.user in comment.likes.all %}
+                        <i class="fas fa-heart me-3" style='font-size:10px;color: red;'></i>
+                    {% else %}
+                        <i class="far fa-heart me-3 text-dark" style='font-size:10px;'></i>
+                    {% endif %}
+                </a>
             </span>
         </div>
-        <!-- <span>
-            <a href="{% url 'post:like_comment' comment.id %}" class="text-decoration-none">
-                {% if request.user in comment.likes.all %}
-                    <i class="fas fa-heart me-3" style='font-size:10px;color: red;'></i>
-                {% else %}
-                    <i class="far fa-heart me-3 text-dark" style='font-size:10px;'></i>
-                {% endif %}
-            </a>
-        </span> -->
+        <span>
+
+        </span>
     </li>
     {% endfor %}
 </ol>

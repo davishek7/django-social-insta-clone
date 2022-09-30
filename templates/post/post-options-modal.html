@@ -1,4 +1,5 @@
 <!-- Post Options Modal -->
+{% load static %}
 <div class="modal fade" id="post-options-{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded"> 
@@ -11,12 +12,14 @@
                         <a href="#" class="btn btn-light w-100 text-danger border-bottom">Unfollow</a>
                     {% endif %}
                     <a href="#" class="btn btn-light w-100 border-bottom">Add to favorites</a>
-                    <a href="{% url 'post:post_details' post.slug %}" class="btn btn-light w-100 border-bottom">Go to post</a>
-                    <a href="#" class="btn btn-light w-100 border-bottom">Share to...</a>
-                    <a href="#" class="btn btn-light w-100 border-bottom" onclick="copyLink()">
-                        <input type="text" value="{{request.get_host}}/p/{{post.slug}}/" id="copy-link" style="display:none;">
+                    {% if not details %}
+                      <a href="{% url 'post:post_details' post.slug %}" class="btn btn-light w-100 border-bottom">Go to post</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-light w-100 border-bottom" data-bs-toggle="modal" data-bs-target="#share-options-{{post.id}}">Share to...</a>
+                    <button type="button" class="btn btn-light w-100 border-bottom" onclick="copyLink({{post.id}})" id="copyLinkBtn-{{post.id}}">
+                        <input type="text" value="{{request.get_host}}/p/{{post.slug}}/" id="copy-link-{{post.id}}" class="d-none">
                         Copy link
-                    </a>
+                    </button>
                     <a href="#" class="btn btn-light w-100 border-bottom" data-bs-dismiss="modal">Cancel</a>
                 </ul>
             </div>

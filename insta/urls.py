@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from user import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,10 @@ urlpatterns = [
     path('direct/', include('chat.urls', namespace='chat')),
     path('user/', include('user.urls', namespace='user')),
     path('stories/', include('story.urls', namespace='story')),
+
+    # user views
+    path('<str:username>/', user_views.profile, name='profile'),
+    path('explore/people/', user_views.suggestions, name='suggestions')
 ]
 
 if settings.DEBUG:
