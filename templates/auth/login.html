@@ -1,0 +1,32 @@
+{% extends 'layouts/auth-layout.html' %}
+{% load static %}
+{% block content %}
+<div class="row mt-5">
+    <div class="col-lg-4 col-md-8 col-sm-12 mx-auto px-5">
+        <div class="card shadow mb-2">
+            <div class="card-body">
+                <div class="card-text text-center fs-1 my-5">
+                    <img src="{% static 'images/logo.png' %}" alt="logo" style="height: 50px;">
+                </div>
+                <form action="" method="post" class="px-4">
+                    {% csrf_token %}
+                    {{form.email}}
+                    {{form.password}}
+                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded mb-2">Log in</button>
+                </form>
+                <hr>
+                <div class="text-center">
+                    <a href="#" class="small text-decoration-none">Forgot password?</a>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <div class="card-text">
+                    Don't have an account? <a href="{% url 'account:signup' %}" class="text-decoration-none fw-bold">Sign up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

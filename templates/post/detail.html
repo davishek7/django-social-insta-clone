@@ -38,7 +38,7 @@
                         <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
                     </div>
                 </div>
-                <div class="card-body comment-area d-none d-lg-block">
+                <div class="card-body comment-area d-none d-md-block d-lg-block">
                     <div class="mt-1 mb-3">
                         <div class="d-flex justify-content-between my-1">
                             <div class="d-flex justify-content-center">
@@ -87,11 +87,13 @@
     <hr>
 
     <!-- related posts -->
-    <div class="mt-5">
-        <p class="fw-bold mb-3"><span class="text-muted">More posts from</span>&nbsp;{{post.user.username}}</p>
-        <div class="row mb-5">
+    <div class="mt-5 px-4">
+        <p>
+            <a href="{% url 'profile' post.user.username %}" class="fw-bold mb-3 text-decoration-none text-dark"><span class="text-muted">More posts from</span>&nbsp;{{post.user.username}}</a>
+        </p>
+        <div class="row mb-5 gy-4">
             {% for post in related_posts %}
-                <div class="col-4 mb-2">
+                <div class="col-4">
                     <a href="{% url 'post:post_details' post.slug %}">
                         <div class="card bg-dark text-white related-post-image">
                             {% with image=post.postimage_set.first %}

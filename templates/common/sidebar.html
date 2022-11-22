@@ -5,7 +5,7 @@
       <div class="fw-bold">{{request.user.username}}</div>
       <span class="text-muted">{{request.user.name}}</span>
     </div>
-    <span><a href="#" class="fw-bold text-decoration-none">Profile</a></span>
+    <span><a href="{% url 'profile' request.user.username %}" class="fw-bold text-decoration-none">Profile</a></span>
   </li>
   <li class="list-group-item d-flex justify-content-between my-2" style="border: none">
     <div class="text-muted fw-bold">Suggested for you</div>

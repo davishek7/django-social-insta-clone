@@ -1,0 +1,34 @@
+<!-- Post Options Modal -->
+{% load static %}
+<div class="modal fade" id="followers-{{user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content rounded">
+            <div class="modal-header text-center">
+                <div class="modal-title w-100">
+                    Followers
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ol class="list-group list-group-flush">
+                    {% for follower in user.profile.followers.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-start" style="border: none">
+                            <a href="{% url 'profile' follower.username %}" class="text-decoration-none text-dark">
+                                <img src={{follower.profile_photo.url}} alt="" class="post-profile-avatar">
+                                <div class="ms-2 me-auto fs-6">
+                                    <div class="fw-bold">
+                                        {{follower.username}}</a>
+                                {% if follower not in request.user.profile.followings.all and follower != request.user %}
+                                    &#8226; <a href="{% url 'user:follow' follower.id %}" class="text-decoration-none">Follow</a>
+                                {% endif %}
+                                </div>
+                                <span class="text-muted">{{follower.name}}</span>
+                            </div>
+                            <span><a href="{% url 'user:remove_follower' follower.id %}" class="fw-bold btn btn-light border rounded">Remove</a></span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>

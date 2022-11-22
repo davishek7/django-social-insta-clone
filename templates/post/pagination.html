@@ -1,0 +1,18 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% for page_number in posts.paginator.get_elided_page_range %}
+            {% if page_number == posts.paginator.ELLIPSIS %}
+                {{page_number}}
+            {% else %}
+            <li class="page-item">
+                <a
+                    href="?page={{page_number}}"
+                    class="{% if page_number == posts.number %}btn btn-link text-decoration-none disabled{% else %}page-link{% endif %}"
+                >
+                    {{page_number}}
+                </a>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>

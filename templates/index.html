@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container mt-4 mb-2">
     <div class="row">
-        <div class="col-md-9 mx-auto px-3">
+        <div class="col-md-10 mx-auto px-3">
             <div class="row">
                 <div class="col-md-7 px-3">
                     <!-- Story card -->
@@ -13,10 +13,10 @@
                     <div class="card rounded my-3 shadow" id="{{post.slug}}">
                         <div class="card-header" id="card-header-footer-color">
                             <div class="d-flex justify-content-between my-1">
-                                <div class="d-flex justify-content-center">
+                                <a href="{% url 'profile' post.user.username %}" class="d-flex justify-content-center text-dark text-decoration-none">
                                     <img src="{{post.user.profile_photo.url}}" class="me-3 post-profile-avatar">
                                     <h6 class="fw-bold pt-2">{{post.user.username}}</h6>
-                                </div>
+                                </a>
                                 <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
                                 {% include 'post/post-options-modal.html' %}
                                 {% include 'post/share-options-modal.html' %}
@@ -68,6 +68,7 @@
                         </form>
                     </div>
                     {% endfor %}
+                    {% include 'post/pagination.html' %}
                     <!-- end of post card -->
                 </div>
                 <div class="col-md-5 d-none d-lg-block px-3">

@@ -9,7 +9,11 @@
                         <a href="{% url 'post:delete_post' post.id %}" class="btn btn-light w-100 text-danger border-bottom">Delete</a>
                         <a href="{% url 'post:update_post' post.slug %}" class="btn btn-light w-100 border-bottom">Edit</a>
                     {% else %}
-                        <a href="#" class="btn btn-light w-100 text-danger border-bottom">Unfollow</a>
+                        {% if post.user in request.user.profile.followings.all %}
+                            <a href="{% url 'user:follow' post.user.id %}" class="btn btn-light w-100 text-danger border-bottom">Unfollow <span class="fw-bold">{{post.user.username}}</span></a>
+                        {% else %}
+                            <a href="{% url 'user:follow' post.user.id %}" class="btn btn-light w-100 text-danger border-bottom">Follow <span class="fw-bold">{{post.user.username}}</span></a>
+                        {% endif %}
                     {% endif %}
                     <a href="#" class="btn btn-light w-100 border-bottom">Add to favorites</a>
                     {% if not details %}

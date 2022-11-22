@@ -22,6 +22,7 @@ from user import views as user_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('feed.urls', namespace='feed')),
+    path('accounts/', include('account.urls', namespace='account')),
     path('p/', include('post.urls', namespace='post')),
     path('direct/', include('chat.urls', namespace='chat')),
     path('user/', include('user.urls', namespace='user')),

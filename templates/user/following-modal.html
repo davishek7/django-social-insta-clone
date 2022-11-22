@@ -1,0 +1,29 @@
+<!-- Post Options Modal -->
+{% load static %}
+<div class="modal fade" id="following-{{user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content rounded">
+            <div class="modal-header text-center">
+                <div class="modal-title w-100">
+                    Following
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ol class="list-group list-group-flush">
+                    {% for following in user.profile.followings.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-start" style="border: none">
+                            <a href="{% url 'profile' following.username %}" class="text-decoration-none text-dark">
+                            <img src={{following.profile_photo.url}} alt="" class="post-profile-avatar">
+                            <div class="ms-2 me-auto fs-6">
+                                <div class="fw-bold">{{following.username}}</a></div>
+                                <span class="text-muted">{{following.name}}</span>
+                            </div>
+                                <span><a href="{% url 'user:unfollow' following.id %}" class="fw-bold btn btn-light border rounded">Following</a></span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
