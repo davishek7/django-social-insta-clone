@@ -10,7 +10,7 @@
                         <a href="{% url 'post:update_post' post.slug %}" class="btn btn-light w-100 border-bottom">Edit</a>
                     {% else %}
                         {% if post.user in request.user.profile.followings.all %}
-                            <a href="{% url 'user:follow' post.user.id %}" class="btn btn-light w-100 text-danger border-bottom">Unfollow <span class="fw-bold">{{post.user.username}}</span></a>
+                            <a href="{% url 'user:unfollow' post.user.id %}" class="btn btn-light w-100 text-danger border-bottom">Unfollow <span class="fw-bold">{{post.user.username}}</span></a>
                         {% else %}
                             <a href="{% url 'user:follow' post.user.id %}" class="btn btn-light w-100 text-danger border-bottom">Follow <span class="fw-bold">{{post.user.username}}</span></a>
                         {% endif %}

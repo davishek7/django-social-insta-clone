@@ -2,18 +2,19 @@
     <div class="row mb-5 gy-3">
         {% for post in user_bookmarks %}
             <div class="col-md-4 col-sm-4 col-xs-4 mb-2">
-                <a href="{% url 'post:post_details' post.slug %}">
-                    <div class="card bg-dark text-white related-post-image">
-                        {% with image=post.postimage_set.first %}
-                            <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
-                        {% endwith %}
-                        <div class="card-img-overlay">
-                            {{post.likes.count}}
-                            <br>
-                            {{post.post_comments.all.count}}
-                        </div>
+                <div class="card">
+                    <div class="card-body related-post-image">
+                        <a href="{% url 'post:post_details' post.slug %}">
+                            {% with image=post.postimage_set.first %}
+                                <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
+                            {% endwith %}
+                        </a>
                     </div>
-                </a>
+                    <div class="card-footer d-flex justify-content-evenly">
+                        <i class="far fa-heart fs-4"> {{post.likes.count}}</i> 
+                        <i class="far fa-comment fs-4"> {{post.post_comments.all.count}}</i>
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>
