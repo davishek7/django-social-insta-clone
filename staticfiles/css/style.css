@@ -1,0 +1,154 @@
+.form-group[class*="has-icon-"].has-icon-left .form-control {
+  padding-left: 2.5rem;
+}
+.form-group[class*="has-icon-"].has-icon-left .form-control-icon {
+  left: 0;
+}
+.form-group[class*="has-icon-"].has-icon-right .form-control {
+  padding-right: 2.5rem;
+}
+.form-group[class*="has-icon-"].has-icon-right .form-control-icon {
+  right: 0;
+}
+.form-group[class*="has-icon-"] .form-control:focus ~ .form-control-icon i,
+.form-group[class*="has-icon-"] .form-control:focus ~ .form-control-icon svg {
+  color: #5a8dee;
+}
+.form-group[class*="has-icon-"] .form-control.form-control-xl {
+  padding-left: 3rem;
+}
+.form-group[class*="has-icon-"]
+  .form-control.form-control-xl
+  ~ .form-control-icon
+  i {
+  font-size: 1.6rem;
+}
+.form-group[class*="has-icon-"]
+  .form-control.form-control-xl
+  ~ .form-control-icon
+  i:before {
+  color: #a6a8aa;
+}
+.form-group[class*="has-icon-"] .form-control-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 0.6rem;
+}
+.form-group[class*="has-icon-"] .form-control-icon i,
+.form-group[class*="has-icon-"] .form-control-icon svg {
+  width: 1.2rem;
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+.form-group[class*="has-icon-"] .form-control-icon i:before,
+.form-group[class*="has-icon-"] .form-control-icon svg:before {
+  vertical-align: sub;
+}
+
+.carousel .carousel-indicators button {
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
+}
+.carousel-item{
+  width: 100%;
+  height: 642px;
+  overflow: hidden;
+}
+.carousel-item img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.single-image{
+  width: 100%;
+  height: 642px;
+  overflow: hidden;
+}
+.single-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.profile-image-avatar
+{
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.story-image-avatar{
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.post-profile-avatar{
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+} 
+.comment-profile-avatar{
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+} 
+.navbar-profile-image{
+  height: 28px;
+  width: 28px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.comment-area{
+  height:400px;
+  overflow-x: hidden;
+}
+.comment-area {
+  -ms-overflow-style: none;  /*Internet Explorer 10+*/
+  scrollbar-width: none;  /*Firefox*/
+}
+.comment-area:-webkit-scrollbar { 
+  display: none;  /*Safari and Chrome*/
+}
+.story-block{
+  overflow-y: hidden;
+  /* white-space: nowrap; */
+}
+.story-block {
+  -ms-overflow-style: none;  /*Internet Explorer 10+*/
+  scrollbar-width: none;  /*Firefox*/
+}
+.story-block::-webkit-scrollbar { 
+  display: none;  /*Safari and Chrome*/
+}
+.related-post-image{
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+}
+.related-post-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.profile-photo-avatar{
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.unfollow-image-avatar{
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.profile-small-image-avatar{
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
