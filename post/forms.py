@@ -20,7 +20,7 @@ class PostImageForm(forms.Form):
 
 class CommentForm(forms.ModelForm):
 
-    body = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Add a comment', 'id':'add-comment'}))
+    body = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Add a comment', 'id':'add-comment', 'rows':'1'}))
 
     class Meta:
         model = Comment

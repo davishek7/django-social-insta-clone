@@ -53,7 +53,7 @@
 }
 .carousel-item{
   width: 100%;
-  height: 650px;
+  height: 642px;
   overflow: hidden;
 }
 .carousel-item img{
@@ -63,7 +63,7 @@
 }
 .single-image{
   width: 100%;
-  height: 650px;
+  height: 642px;
   overflow: hidden;
 }
 .single-image img{
@@ -103,7 +103,7 @@
   border-radius: 50%;
 }
 .comment-area{
-  height:500px;
+  height:400px;
   overflow-x: hidden;
 }
 .comment-area {
@@ -137,6 +137,18 @@
 .profile-photo-avatar{
   height: 200px;
   width: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.unfollow-image-avatar{
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.profile-small-image-avatar{
+  height: 100px;
+  width: 100px;
   object-fit: cover;
   border-radius: 50%;
 }

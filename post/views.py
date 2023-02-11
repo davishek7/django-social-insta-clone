@@ -35,6 +35,7 @@ def add_comment(request, pk):
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
+            print(True)
             comment = comment_form.save(commit=False)
             comment.user = request.user
             comment.post = post

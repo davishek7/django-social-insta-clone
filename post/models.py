@@ -36,8 +36,11 @@ class PostImage(TimeStampModel, StatusModel):
 class Comment(TimeStampModel, StatusModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comments', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comments', blank=True, null=True)
-    body = models.CharField(max_length=255, blank=True, null=True)
+    body = models.TextField(max_length=255, blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='comment_likes', blank=True)
 
     def __str__(self):
         return self.body
+    
+    class Meta:
+        ordering = ['-created_at']

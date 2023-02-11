@@ -11,20 +11,14 @@
     <div class="text-muted fw-bold">Suggested for you</div>
     <a href="{% url 'suggestions' %}" class="fw-bold text-decoration-none text-dark">See All</a>
   </li>
-  <li class="list-group-item d-flex justify-content-between align-items-start" style="border: none">
-    <img src={{request.user.profile_photo.url}} alt="" class="post-profile-avatar">
-    <div class="ms-2 me-auto">
-      <div class="fw-bold">canavi048</div>
-      <span class="text-muted">Suggested for you</span>
-    </div>
-      <span><a href="#" class="fw-bold text-decoration-none">Follow</a></span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-start" style="border: none">
-    <img src={{request.user.profile_photo.url}} alt="" class="post-profile-avatar">
-    <div class="ms-2 me-auto">
-      <div class="fw-bold">dbubai95</div>
-      <span class="text-muted">New to Instagram</span>
-    </div>
-      <span><a href="#" class="fw-bold text-decoration-none">Follow</a></span>
-  </li>
+  {% for suggestion in suggestions %}
+    <li class="list-group-item d-flex justify-content-between align-items-start" style="border: none">
+      <img src={{suggestion.profile_photo.url}} alt="" class="post-profile-avatar">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{suggestion.username}}</div>
+        <span class="text-muted">Suggested for you</span>
+      </div>
+        <span><a href="{% url 'user:follow' suggestion.id %}" class="fw-bold text-decoration-none">Follow</a></span>
+    </li>
+  {% endfor %}
 </ol>

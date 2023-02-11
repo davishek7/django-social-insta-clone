@@ -1,0 +1,34 @@
+{% load humanize %}
+<div class="offcanvas offcanvas-end" tabindex="-1" id="notifications" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title fw-bold" id="offcanvasLabel">Notifications</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        {% for noti in notifications %}
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item" style="border: none">
+                    <img src="{{noti.from_user.profile_photo.url}}" alt="{{noti.user.usernme}}" class="comment-profile-avatar me-3">
+                </li>
+                <li class="list-group-item" style="border: none;">
+                    <p> <b>{{noti.from_user.username}}</b> {{noti.title}}&nbsp;<span class="text-muted small">{{noti.created_at|date:"M d"}}</span> </p>
+                </li>
+                <li class="list-group-item mt-2" style="border: none">
+                    {% if noti.post %}
+                        <a href="http://127.0.0.1:8000/p/{{noti.post.slug}}/">
+                            {% with image=noti.post.postimage_set.first %}
+                                <img src="{{image.image.url}}" alt="{{noti.post.caption}}" style="width:48px;height:48px;object-fit: cover;">
+                            {% endwith %}
+                        </a>
+                    {% else %}
+                        {% if not noti.from_user in request.user.profile.followings.all %}
+                            <a href="{% url 'user:follow' noti.from_user.id %}" class="btn btn-primary rounded fw-bold" style="height:40px;">Follow</a>
+                        {% else %}
+                            <a href="{% url 'user:unfollow' noti.from_user.username %}" class="btn btn-light border rounded fw-bold" style="height:40px;">Following</a>
+                        {% endif %}
+                    {% endif %}
+                </li>
+            </ul>
+        {% endfor %}
+    </div>
+</div>

@@ -1,27 +1,28 @@
 {% load humanize %}
-<ol class="list-group list-group-flush">
-    {% for comment in post.post_comments.all %}
-    <li class="list-group-item d-flex justify-content-between align-items-start" style="border: none">
-        <img src={{comment.user.profile_photo.url}} alt="" class="me-3 post-profile-avatar">
-        <div class="ms-2 me-auto">
-            <p><b>{{comment.user.username}}</b>&nbsp;{{comment.body}}</p>
-            <span class="small text-muted d-flex justify-content-start">
-                <p class="me-3">{{comment.created_at|naturaltime}}</p>
-                <p class="me-3">{{comment.likes.count}} like{{comment.likes.count|pluralize}}</p>
-                <p class="me-3">Reply</p>
-                <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;"></i>
-                <a href="{% url 'post:like_comment' comment.id %}" class="text-decoration-none">
-                    {% if request.user in comment.likes.all %}
-                        <i class="fas fa-heart me-3" style='font-size:10px;color: red;'></i>
-                    {% else %}
-                        <i class="far fa-heart me-3 text-dark" style='font-size:10px;'></i>
-                    {% endif %}
-                </a>
-            </span>
-        </div>
-        <span>
-
-        </span>
+{% for comment in post.post_comments.all %}
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item" style="border: none">
+        <img src={{comment.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
     </li>
-    {% endfor %}
-</ol>
+    <li class="list-group-item" style="border: none; width:{% if details %}500px{% else %}300px{% endif %}">
+        <b>{{comment.user.username}}</b>
+        <p>{{comment.body}}</p>
+        <span class="small text-muted d-flex justify-content-start">
+            <p class="me-3">{{comment.created_at|date:'M d, Y'}}</p>
+            <a href="#" class="me-3 text-decoration-none">Reply</a>
+            <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;"></i>
+        </span>   
+    </li>
+    <li class="list-group-item mt-2" style="border: none">
+        <a href="{% url 'post:like_comment' comment.id %}" class="text-decoration-none">
+            {% if request.user in comment.likes.all %}
+                <i class="fas fa-heart me-3" style='font-size:14px;color: red;'></i>
+            {% else %}
+                <i class="far fa-heart me-3 text-dark" style='font-size:14px;'></i>
+            {% endif %}
+        </a>
+        <br>
+        <small class="ms-1" style="font-size: 14px;">{{comment.likes.count}}</small>
+    </li>
+</ul>
+{% endfor %}

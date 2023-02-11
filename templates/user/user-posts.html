@@ -1,21 +1,28 @@
 <div class="mt-5">
     <div class="row mb-5 gy-3">
-        {% for post in user_posts %}
-            <div class="col-md-4 col-sm-4 col-xs-4 mb-2">
-                <div class="card">
-                    <div class="card-body related-post-image">
-                        <a href="{% url 'post:post_details' post.slug %}">
-                            {% with image=post.postimage_set.first %}
-                                <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
-                            {% endwith %}
-                        </a>
-                    </div>
-                    <div class="card-footer d-flex justify-content-evenly">
-                        <i class="far fa-heart fs-4"> {{post.likes.count}}</i> 
-                        <i class="far fa-comment fs-4"> {{post.post_comments.all.count}}</i>
+        {% if user_posts %}
+            {% for post in user_posts %}
+                <div class="col-md-4 col-sm-12 mb-2">
+                    <div class="card w-100">
+                        <div class="card-body related-post-image">
+                            <a href="{% url 'post:post_details' post.slug %}">
+                                {% with image=post.postimage_set.first %}
+                                    <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
+                                {% endwith %}
+                            </a>
+                        </div>
+                        <div class="card-footer d-flex justify-content-evenly">
+                            <i class="far fa-heart fs-4"> {{post.likes.count}}</i> 
+                            <i class="far fa-comment fs-4"> {{post.post_comments.all.count}}</i>
+                        </div>
                     </div>
                 </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-center mt-5">
+                <i class="fas fa-camera mb-5" style="font-size: 48px;"></i>
+                <h1 class="fs-1">No Posts Yet</h1>
             </div>
-        {% endfor %}
+        {% endif %}
     </div>
 </div>

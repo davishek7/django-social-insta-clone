@@ -3,12 +3,13 @@
 {% block content %}
 <div class="container my-5">
     <div class="row mb-5 px-5">
-        <div class="col-4 text-center">
+        <!-- Large screen -->
+        <div class="col-4 text-center d-md-block d-none">
             <a href="{{user.profile_photo.url}}">
                 <img src="{{user.profile_photo.url}}" alt="" class="profile-photo-avatar">
             </a>
         </div>
-        <div class="col-8">
+        <div class="col-8 d-md-block d-none">
             <h1 class="mb-4">{{user.username}}
                 &ensp;
                 {% if request.user == user %}
@@ -19,7 +20,7 @@
                     {% if user in request.user.profile.followings.all %}
                         <a href="{% url 'chat:inbox' %}" class="btn btn-light rounded border border-dark text-dark fw-bold">Message</a>
                         &nbsp;
-                        <a href="{% url 'user:unfollow' user.id %}" class="btn btn-light rounded border border-dark text-dark"><i class="fas fa-user-check" style="font-size:20px;"></i></a>
+                        <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light rounded border border-dark text-dark"><i class="fas fa-user-check" style="font-size:20px;"></i></a>
                         &nbsp;
                         <a href="#" class="text-dark"><i class="fas fa-ellipsis-h pt-2" style="font-size:24px;"></i></a>
                     {% else %}
@@ -43,29 +44,65 @@
             <div class="fs-5">{{user.name}}</div>
             <p class="fs-5">{{user.bio}}</p>
         </div>
+        <!-- Large screen -->
+        <!-- Small screen -->
+        <div class="col-4 text-center d-md-none d-sm-block">
+            <a href="{{user.profile_photo.url}}">
+                <img src="{{user.profile_photo.url}}" alt="" class="profile-small-image-avatar">
+            </a>
+        </div>
+        <div class="col-4 text-center d-md-none d-sm-block">
+            <h1 class="mb-4">{{user.username}}
+                &ensp;
+                {% if request.user == user %}
+                    <a href="#" class="btn btn-light rounded border border-dark text-dark fw-bold">Edit profile</a>
+                    &ensp;
+                    <a href="#" class="text-dark"><i class="bi bi-gear-wide" style="font-size:28px;"></i></a>
+                {% else %}
+                    {% if user in request.user.profile.followings.all %}
+                        <a href="{% url 'chat:inbox' %}" class="btn btn-light rounded border border-dark text-dark fw-bold">Message</a>
+                        &nbsp;
+                        <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light rounded border border-dark text-dark"><i class="fas fa-user-check" style="font-size:20px;"></i></a>
+                        &nbsp;
+                        <a href="#" class="text-dark"><i class="fas fa-ellipsis-h pt-2" style="font-size:24px;"></i></a>
+                    {% else %}
+                        <a href="{% url 'user:follow' user.id %}" class="btn btn-primary rounded">Follow</a>
+                    {% endif %}
+                {% endif %}
+            </h1>
+        </div>
+        <div class="d-md-none d-sm-block">        
+            {{user.name}}
+            <br>
+            {{user.bio}}
+        </div>
+
+        <!-- Small Screen -->
     </div>
     <hr>
     <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="pills-posts-tab" data-bs-toggle="pill" data-bs-target="#pills-posts" type="button" role="tab" aria-controls="pills-posts"><i class="fas fa-th"></i>&nbsp;POSTS</button>
+          <button class="nav-link active" id="posts" data-bs-toggle="pill" data-bs-target="#posts-tab" type="button" role="tab" aria-controls="pills-posts"><i class="fas fa-th"></i>&nbsp;POSTS</button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-saved-tab" data-bs-toggle="pill" data-bs-target="#pills-saved" type="button" role="tab" aria-controls="pills-saved"><i class="fas fa-bookmark text-dark"></i>&nbsp;SAVED</button>
-        </li>
+        {% if request.user == user %}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="bookmarks" data-bs-toggle="pill" data-bs-target="#saved-tab" type="button" role="tab" aria-controls="pills-saved"><i class="fas fa-bookmark text-dark"></i>&nbsp;SAVED</button>
+            </li>
+        {% endif %}
     </ul>
     <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-posts" role="tabpanel" aria-labelledby="pills-posts-tab">
+        <div class="tab-pane fade show active" id="posts-tab" role="tabpanel" aria-labelledby="pills-posts-tab">
             <div class="px-4 mx-auto">
                 {% include 'user/user-posts.html' %}
             </div>
-            
         </div>
-        <div class="tab-pane fade" id="pills-saved" role="tabpanel" aria-labelledby="pills-saved-tab">
-            <div class="px-4 mx-auto">
-                {% include 'user/user-bookmarks.html' %}
+        {% if request.user == user %}
+            <div class="tab-pane fade" id="saved-tab" role="tabpanel" aria-labelledby="pills-saved-tab">
+                <div class="px-4 mx-auto">
+                    {% include 'user/user-bookmarks.html' %}
+                </div>
             </div>
-            
-        </div>
+        {% endif %}
     </div>
 </div>  
 

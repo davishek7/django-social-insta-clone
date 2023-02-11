@@ -14,7 +14,7 @@ def send_notification_on_follow(sender, instance, action, pk_set, **kwargs):
         notification_receiver = User.objects.get(id = instance.user_id)
         if instance.user != notification_sender:
             Notification.objects.create(
-                title = f'{notification_sender.username} started following you.',
+                title = ' started following you.',
                 from_user = notification_sender,
                 to_user = notification_receiver
             )
@@ -26,7 +26,7 @@ def send_notification_on_like(sender, instance, action, pk_set, **kwargs):
         notification_receiver = User.objects.get(id = instance.user_id)
         if instance.user != notification_sender:
             Notification.objects.create(
-                title = f'{notification_sender.username} liked your post.',
+                title = ' liked your post.',
                 from_user = notification_sender,
                 to_user = notification_receiver,
                 post = instance
@@ -39,7 +39,7 @@ def send_notification_on_comment(created, sender, instance, **kwargs):
         notification_receiver = User.objects.get(id = instance.post.user_id)
         if instance.user != instance.post.user:
             Notification.objects.create(
-                title = f'{notification_sender.username} commented on your post.',
+                title = ' commented on your post.',
                 from_user = notification_sender,
                 to_user = notification_receiver,
                 post = instance.post

@@ -31,11 +31,10 @@
                     <li class="nav-item">
                         <a class="nav-link active me-1" href="#"><i class="far fa-compass" style='font-size:24px'></i></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active me-1" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#">
+                    <li class="nav-item">
+                        <a class="nav-link active me-1" role="button" data-bs-toggle="offcanvas" data-bs-target="#notifications" aria-controls="offcanvasTop">
                             <i class="far fa-heart" style='font-size:24px'></i>
                         </a>
-                        {% include 'common/notification-dropdown.html' %}
                     </li>
                     <li class="nav-item dropdown flex-shrink-0">
                         <a class="nav-link active me-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -43,7 +42,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="navbarDropdown" style="width: 200px">
                         <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}"><i class="bi bi-person-circle"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-bookmark"></i> Saved</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}#saved-tab"><i class="bi bi-bookmark"></i> Saved</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-gear-wide"></i> Settings</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat"></i> Switch accounts</a></li>
                         <li><hr class="dropdown-divider"></li>
@@ -62,3 +61,4 @@
         </div>
     </div>
 </nav>
+{% include 'common/notification-canvas.html' %}
