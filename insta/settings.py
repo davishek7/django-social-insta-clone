@@ -146,7 +146,7 @@ STATICFILES_DIRS = [
     BASE_DIR/'static'
 ]
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/insta_media/'
 
 if not DEBUG:
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
