@@ -166,6 +166,6 @@ CLOUDINARY_STORAGE = {
     'API_KEY': os.environ.get('API_KEY'),  # required
     'API_SECRET': os.environ.get('API_SECRET'),  # required
     'SECURE': True,
-    'MEDIA_TAG': 'media',
+    'MEDIA_TAG': 'insta_media',
     'PREFIX': MEDIA_URL
 }
