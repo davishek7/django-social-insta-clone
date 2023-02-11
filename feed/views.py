@@ -20,5 +20,5 @@ def index(request):
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    context = {'posts': page_obj, 'suggestions':suggestions}
+    context = {'posts': page_obj, 'suggestions':suggestions, 'followings_posts':followings_posts}
     return render(request, 'index.html', context=context)

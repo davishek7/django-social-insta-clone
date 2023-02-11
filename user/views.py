@@ -10,8 +10,9 @@ def profile(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     title = f'{user.name} (@{user.username}) \u2022 Instagram photos and videos'
     user_posts = Post.objects.filter(user=user, status=True).order_by('-created_at')
-    user_bookmarks = user.profile.bookmarks.all()
-    context = {'user':user, 'title':title, 'user_posts':user_posts, 'user_bookmarks':user_bookmarks}
+    user_posts_count = user_posts.count()
+    user_bookmarks = user.profile.bookmarks.filter(status=True)
+    context = {'user':user, 'title':title, 'user_posts':user_posts, 'user_bookmarks':user_bookmarks, 'user_posts_count':user_posts_count}
     return render(request, 'user/profile.html', context=context)
 
 def suggestions(request):

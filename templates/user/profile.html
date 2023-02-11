@@ -1,7 +1,7 @@
 {% extends 'layouts/main-layout.html' %}
 
 {% block content %}
-<div class="container my-5">
+<div class="container my-5 px-5">
     <div class="row mb-5 px-5">
         <!-- Large screen -->
         <div class="col-4 text-center d-md-block d-none">
@@ -29,7 +29,7 @@
                 {% endif %}
             </h1>
             <div class="fs-5 mb-4">
-                <span class="fw-bold">{{user.post_set.count}}</span> posts
+                <span class="fw-bold">{{user_posts_count}}</span> posts
                 &ensp;
                 <a data-bs-toggle="modal" data-bs-target="#followers-{{user.id}}" class="text-dark text-decoration-none" style="cursor:pointer">
                     <span class="fw-bold">{{user.profile.followers.count}}</span> followers

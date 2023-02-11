@@ -24,7 +24,7 @@ def post_details(request, slug):
     post = get_object_or_404(Post, slug=slug)
     images = get_list_or_404(PostImage, post=post)
     images_count = len(images)
-    related_posts = Post.objects.filter(~Q(id=post.id), user=post.user).order_by('-created_at')[:6]
+    related_posts = Post.objects.filter(~Q(id=post.id), user=post.user, status=True).order_by('-created_at')[:6]
     title = f'{post.user.name} on Instagram: "{post.caption}"'
     context = {'post':post, 'images':images, 'images_count':images_count, 'details':True, 'related_posts':related_posts,'title':title}
     return render(request, 'post/detail.html', context=context)

@@ -5,7 +5,7 @@ from .models import User, Profile
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'followers_count', 'followings_count', 'bookmarks_count']
+    list_display = ['user', 'followers_count', 'followings_count', 'bookmarks_count', 'favourites_count']
 
     def followers_count(self, obj):
         return obj.followers.count()
@@ -15,6 +15,9 @@ class ProfileAdmin(admin.ModelAdmin):
 
     def bookmarks_count(self, obj):
         return obj.bookmarks.count()
+    
+    def favourites_count(self, obj):
+        return obj.favourites.count()
 
 
 @admin.register(User)

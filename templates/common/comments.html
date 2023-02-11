@@ -5,10 +5,9 @@
         <img src={{comment.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
     </li>
     <li class="list-group-item" style="border: none; width:{% if details %}500px{% else %}300px{% endif %}">
-        <b>{{comment.user.username}}</b>
+        <b>{{comment.user.username}}</b> <small class="ms-2 text-muted">{{comment.created_at|date:'M d, Y'}}</small>
         <p>{{comment.body}}</p>
         <span class="small text-muted d-flex justify-content-start">
-            <p class="me-3">{{comment.created_at|date:'M d, Y'}}</p>
             <a href="#" class="me-3 text-decoration-none">Reply</a>
             <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;"></i>
         </span>   
