@@ -1,0 +1,81 @@
+{% extends 'layouts/main-layout.html' %}
+{% load humanize %}
+{% block content %}
+<div class="container mt-4 mb-2">
+    <div class="row">
+        <div class="col-md-10 mx-auto px-3">
+            <div class="row">
+                <div class="col-md-7 px-3">
+                    <!-- Story card -->
+                    {% include 'common/story-card.html' %}
+                    <!-- Post card -->
+                    {% for post in posts %}
+                    <div class="card rounded my-3 shadow" id="{{post.slug}}">
+                        <div class="card-header" id="card-header-footer-color">
+                            <div class="d-flex justify-content-between my-1">
+                                <a href="{% url 'profile' post.user.username %}" class="d-flex justify-content-center text-dark text-decoration-none">
+                                    <img src="{{post.user.profile_photo.url}}" class="me-3 post-profile-avatar">
+                                    <h6 class="fw-bold pt-2">{{post.user.username}}</h6>
+                                </a>
+                                <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                {% include 'post/post-options-modal.html' %}
+                                {% include 'post/share-options-modal.html' %}
+                            </div>
+                        </div>
+                        {% with images=post.postimage_set.all %}
+                            {% if images.count > 1 %}
+                                {% include 'common/carousel-home.html' %}
+                            {% else %}
+                                {% for image in images %}
+                                    <div class="single-image bg-dark">
+                                        <img src="{{image.image.url}}" class="card-img-top" alt="...">
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between my-2">
+                                <div class="d-flex justify-content-center">
+                                    <a href="{% url 'post:add_like' post.id %}" class="text-decoration-none">
+                                        {% if request.user in post.likes.all %}
+                                        <i class="fas fa-heart me-3" style='font-size:24px;color: red;'></i>
+                                        {% else %}
+                                        <i class="far fa-heart me-3 text-dark" style='font-size:24px;'></i>
+                                        {% endif %}
+                                    </a>
+                                    <i class="far fa-comment me-3" style='font-size:24px; cursor:pointer;' data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}"></i>
+                                        {% include 'post/post-detail-modal.html' %}
+                                    <i class="far fa-paper-plane" style='font-size:24px'></i>
+                                </div>
+                                <a href="{% url 'post:add_bookmark' post.id %}" class="text-decoration-none">
+                                    {% if post in profile.bookmarks.all %}
+                                        <i class="fas fa-bookmark text-dark" style='font-size:24px'></i>
+                                    {% else %}
+                                        <i class="far fa-bookmark text-dark" style='font-size:24px'></i>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <p class="fw-bold">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
+                            <p class="card-text"><b>{{post.user.username}}</b>&nbsp;{{post.caption}}</p>
+                            <p class="text-muted" data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}" style='cursor:pointer;'>View all {{post.post_comments.all.count}} comments</p>
+                            <small class="text-muted">{{post.created_at|date:'M d Y'}}</small>
+                        </div>
+                        <form action="{% url 'post:add_comment' post.id %}" method="post" class="input-group">
+                            {% csrf_token %}
+                            <span class="input-group-text"><i class='far fa-smile' style='font-size:24px'></i></span>
+                            {{comment_form.body}}
+                            <button class="btn btn-outline-primary" type="submit">Post</button>                                                 
+                        </form>
+                    </div>
+                    {% endfor %}
+                    {% include 'post/pagination.html' %}
+                    <!-- end of post card -->
+                </div>
+                <div class="col-md-5 d-md-block d-none px-3">
+                    {% include 'common/sidebar.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

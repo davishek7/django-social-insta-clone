@@ -15,6 +15,14 @@ def profile(request, username):
     context = {'user':user, 'title':title, 'user_posts':user_posts, 'user_bookmarks':user_bookmarks, 'user_posts_count':user_posts_count}
     return render(request, 'user/profile.html', context=context)
 
+def upload_profile_photo(request, username):
+    user = get_object_or_404(get_user_model(), username=username)
+    if request.method == 'POST':
+        profile_photo = request.FILES.get('profile_photo')
+        print(profile_photo)
+        return redirect(request.META.get('HTTP_REFERER'))
+ 
+
 def suggestions(request):
     suggestions = get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all())|Q(id=request.user.id))
     context={'suggestions':suggestions}

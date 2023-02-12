@@ -1,0 +1,18 @@
+<!-- Profile Picture Upload Modal -->
+{% load static %}
+<div class="modal fade" id="picture-upload" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content rounded"> 
+            <div class="modal-body">
+                <img src={{user.profile_photo.url}} alt="" class="unfollow-image-avatar my-3">
+                <ul class="list-group text-center">
+                    <form action="{% url 'user:upload_profile_photo' user.username %}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="profile_photo" id="file-input" class="visuallyhidden">
+                    </form>
+                    <button type="submit" class="file-upload btn btn-light w-100 border-bottom fw-bold text-primary">Upload Photo</button>
+                    <a href="#" class="btn btn-light w-100 border-bottom" data-bs-dismiss="modal">Cancel</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

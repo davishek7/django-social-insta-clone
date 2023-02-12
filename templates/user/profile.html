@@ -5,9 +5,8 @@
     <div class="row mb-5 px-5">
         <!-- Large screen -->
         <div class="col-4 text-center d-md-block d-none">
-            <a href="{{user.profile_photo.url}}">
-                <img src="{{user.profile_photo.url}}" alt="" class="profile-photo-avatar">
-            </a>
+            <img src="{{user.profile_photo.url}}" alt="" class="profile-photo-avatar" data-bs-toggle="modal" data-bs-target="#picture-upload">
+            {% include 'user/profile-picture-upload-modal.html' %}
         </div>
         <div class="col-8 d-md-block d-none">
             <h1 class="mb-4">{{user.username}}

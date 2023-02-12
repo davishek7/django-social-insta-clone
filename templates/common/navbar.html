@@ -1,15 +1,27 @@
 {% load static %}
 <nav class="navbar sticky-top navbar-expand navbar-light bg-light border">
     <div class="container d-flex justify-content-around">
-        <div class="navbar-brand dropdown pb-3 me-5">
-            <a class="nav-link active me-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{% static 'images/logo.png' %}" alt="logo" style="height: 30px;">
+
+        {% if variant == 'following' %}
+            <a class="navbar-brand pb-3 me-5 fs-4" href="/">
+                <i class="fas fa-chevron-left"></i>&ensp;Following
             </a>
-            <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}#saved-tab">Following<i class="fas fa-user-check ms-5"></i></a></li>                
-                <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}">Favorites<i class="far fa-star ms-5"></i></a></li>
-            </ul>
-        </div>
+        {% elif variant == 'favorites' %}
+            <a class="navbar-brand pb-3 me-5 fs-4" href="/">
+                <i class="fas fa-chevron-left"></i>&ensp;Favorites
+            </a>
+        {% else %}
+            <div class="navbar-brand dropdown pb-3 me-5">
+                <a class="nav-link active me-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{% static 'images/logo.png' %}" alt="logo" style="height: 30px;">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant=following">Following<i class="fas fa-user-check ms-5"></i></a></li>                
+                    <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant=favorites">Favorites<i class="far fa-star ms-5"></i></a></li>
+                </ul>
+            </div>
+        {% endif %}
+
         <form class="d-flex d-md-block d-sm-none d-none me-3" style="width: 25%;">
             <!-- <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search"> -->
             <div class="form-group position-relative has-icon-left">

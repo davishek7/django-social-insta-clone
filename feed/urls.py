@@ -5,4 +5,5 @@ app_name = 'feed'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('custom/feed/', views.custom_feed, name='custom_feed')
 ]
