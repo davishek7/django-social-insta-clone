@@ -7,10 +7,14 @@
                 <img src={{user.profile_photo.url}} alt="" class="unfollow-image-avatar my-3">
                 <ul class="list-group text-center">
                     <form action="{% url 'user:upload_profile_photo' user.username %}" method="post" enctype="multipart/form-data">
-                        <input type="file" name="profile_photo" id="file-input" class="visuallyhidden">
-                    </form>
-                    <button type="submit" class="file-upload btn btn-light w-100 border-bottom fw-bold text-primary">Upload Photo</button>
-                    <a href="#" class="btn btn-light w-100 border-bottom" data-bs-dismiss="modal">Cancel</a>
+                        {% csrf_token %}
+                        <input type="file" name="profile_photo" id="file-input" class="visuallyhidden" accept="image/*">
+                        <button class="file-upload btn btn-light w-100 fw-bold text-primary">Upload Photo</button>
+                        <div class="modal-footer flex-nowrap p-0">
+                            <button type="submit" class="btn btn-lg btn-link fs-6 fw-bold text-decoration-none col-6 m-0 rounded-0 border-right">Upload</button>
+                            <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                </form>
                 </ul>
             </div>
         </div>

@@ -7,7 +7,7 @@
                 <i class="fas fa-chevron-left"></i>&ensp;Following
             </a>
         {% elif variant == 'favorites' %}
-            <a class="navbar-brand pb-3 me-5 fs-4" href="/">
+            <a class="navbar-brand pb-3 ms-5 fs-4" href="/">
                 <i class="fas fa-chevron-left"></i>&ensp;Favorites
             </a>
         {% else %}
@@ -16,8 +16,8 @@
                     <img src="{% static 'images/logo.png' %}" alt="logo" style="height: 30px;">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant=following">Following<i class="fas fa-user-check ms-5"></i></a></li>                
-                    <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant=favorites">Favorites<i class="far fa-star ms-5"></i></a></li>
+                    <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant={{'following' | urlencode}}">Following<i class="fas fa-user-check ms-5"></i></a></li>                
+                    <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant={{'favorites' | urlencode}}">Favorites<i class="far fa-star ms-5"></i></a></li>
                 </ul>
             </div>
         {% endif %}
@@ -51,7 +51,11 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active me-1" role="button" data-bs-toggle="offcanvas" data-bs-target="#notifications" aria-controls="offcanvasTop">
-                            <i class="far fa-heart" style='font-size:24px'></i>
+                            {% if unread_notifications_count > 0 %}
+                                <i class="fas fa-heart" style='font-size:24px;color:red;'></i>
+                            {% else %}
+                                <i class="far fa-heart" style='font-size:24px;'></i>
+                            {% endif %}
                         </a>
                     </li>
                     <li class="nav-item dropdown flex-shrink-0">
@@ -60,7 +64,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="navbarDropdown" style="width: 200px">
                             <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}"><i class="bi bi-person-circle"></i> Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}#saved-tab"><i class="bi bi-bookmark"></i> Saved</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}#saved"><i class="bi bi-bookmark"></i> Saved</a></li>
                             <li><a class="dropdown-item" href="#"><i class="bi bi-gear-wide"></i> Settings</a></li>
                             <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat"></i> Switch accounts</a></li>
                             <li><hr class="dropdown-divider"></li>

@@ -5,6 +5,7 @@ from .models import Post, PostImage, Comment
 from .forms import PostForm, CommentForm
 from .decorators import owner_required
 from account.models import Profile
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 
@@ -35,7 +36,6 @@ def add_comment(request, pk):
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            print(True)
             comment = comment_form.save(commit=False)
             comment.user = request.user
             comment.post = post
@@ -85,3 +85,13 @@ def add_bookmark(request, pk):
     else:
         profile.bookmarks.remove(post)
     return redirect(request.META.get('HTTP_REFERER') + '#' + post.slug)
+
+@login_required
+def add_favorites(request, user_id):
+    post_user = get_object_or_404(get_user_model(), id=user_id)
+    profile = get_object_or_404(Profile, id=request.user.id)
+    if post_user not in profile.favourites.all():
+        profile.favourites.add(post_user)
+    else:
+        profile.favourites.remove(post_user)
+    return redirect(request.META.get('HTTP_REFERER'))

@@ -27,6 +27,7 @@ urlpatterns = [
     path('direct/', include('chat.urls', namespace='chat')),
     path('user/', include('user.urls', namespace='user')),
     path('stories/', include('story.urls', namespace='story')),
+    path('notification/', include('notification.urls', namespace='notification')),
 
     # user views
     path('<str:username>/', user_views.profile, name='profile'),

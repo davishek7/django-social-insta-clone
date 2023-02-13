@@ -10,6 +10,7 @@ class Notification(TimeStampModel, StatusModel):
     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notification_sender', blank=True, null=True)
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notification_receiver', blank=True, null=True)
     post = models.ForeignKey(Post, on_delete=models.DO_NOTHING, related_name='notification_post', blank=True, null=True)
+    read_status = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_at']

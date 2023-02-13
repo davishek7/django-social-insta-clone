@@ -18,10 +18,10 @@ def profile(request, username):
 def upload_profile_photo(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     if request.method == 'POST':
-        profile_photo = request.FILES.get('profile_photo')
-        print(profile_photo)
-        return redirect(request.META.get('HTTP_REFERER'))
- 
+        uploaded_photo = request.FILES.get('profile_photo')
+        user.profile_photo = uploaded_photo
+        user.save()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def suggestions(request):
     suggestions = get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all())|Q(id=request.user.id))
@@ -41,7 +41,7 @@ def unfollow(request, username):
         if user in request.user.profile.followings.all():
             request.user.profile.followings.remove(user)
             user.profile.followers.remove(request.user)
-            return redirect(request.META.get('HTTP_REFERER'))
+            return redirect('profile', request.user.username)
     context = {'user':user}
     return render(request, 'user/unfollow.html',context=context)
 

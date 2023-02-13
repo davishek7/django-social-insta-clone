@@ -59,7 +59,7 @@ class User(AbstractBaseUser,PermissionsMixin, TimeStampModel):
 class Profile(TimeStampModel, StatusModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     bookmarks = models.ManyToManyField(Post, related_name='user_bookmarks', blank=True)
-    favourites = models.ManyToManyField(Post, related_name='user_favourites', blank=True)
+    favourites = models.ManyToManyField(User, related_name='user_favourites', blank=True)
     followers = models.ManyToManyField(User, related_name='user_followers', blank=True)
     followings = models.ManyToManyField(User, related_name='user_followings', blank=True)
 

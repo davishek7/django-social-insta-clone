@@ -15,7 +15,13 @@
                             <a href="{% url 'user:follow' post.user.id %}" class="btn btn-light w-100 text-danger border-bottom">Follow <span class="fw-bold">{{post.user.username}}</span></a>
                         {% endif %}
                     {% endif %}
-                    <a href="#" class="btn btn-light w-100 border-bottom">Add to favorites</a>
+                    <a href="{% url 'post:add_favorites' post.user.id %}" class="btn btn-light w-100 border-bottom">
+                    {% if post.user not in request.user.profile.favourites.all %}
+                        Add to favorites
+                    {% else %}
+                        Remove from favorites
+                    {% endif %}
+                    </a>
                     {% if not details %}
                       <a href="{% url 'post:post_details' post.slug %}" class="btn btn-light w-100 border-bottom">Go to post</a>
                     {% endif %}

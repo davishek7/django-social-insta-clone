@@ -5,17 +5,22 @@
 {% block content %}
 <div class="container px-5">
     <div class="row mx-auto">
-        <div class="col-md-12">
+        <div class="col-12">
             <div class="card rounded mt-5">
                 <div class="row g-0">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="card-header d-md-none d-sm-block" id="card-header-footer-color">
                             <div class="d-flex justify-content-between my-1">
                                 <div class="d-flex justify-content-center">
                                     <img src="{{post.user.profile_photo.url}}" class="me-3 post-profile-avatar">
                                     <h6 class="fw-bold pt-2">{{post.user.username}}</h6>
                                 </div>
-                                <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                <div>
+                                    {% if post.user in request.user.profile.favourites.all %}
+                                        <i class="fas fa-star pt-2 me-3" style="color: darkorange;"></i>
+                                    {% endif %}
+                                    <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                </div>
                             </div>
                         </div>
                         {% with images=post.postimage_set.all %}
@@ -30,14 +35,19 @@
                             {% endif %}
                         {% endwith %}
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="card-header d-md-block d-none" id="card-header-footer-color">
                             <div class="d-flex justify-content-between my-1">
                                 <div class="d-flex justify-content-center">
                                     <img src="{{post.user.profile_photo.url}}" class="me-3 post-profile-avatar">
                                     <h6 class="fw-bold pt-2">{{post.user.username}}</h6>
                                 </div>
-                                <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                <div>
+                                    {% if post.user in request.user.profile.favourites.all %}
+                                        <i class="fas fa-star pt-2 me-3" style="color: darkorange;"></i>
+                                    {% endif %}
+                                    <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body comment-area d-md-block d-none">
