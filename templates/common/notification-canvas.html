@@ -1,10 +1,15 @@
-{% load humanize %}
+{% load format_created_at %}
 <div class="offcanvas offcanvas-end" tabindex="-1" id="notifications" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title fw-bold" id="offcanvasLabel">Notifications</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
+        {% if not unread_notifications and not read_notifications %}
+            <p class="text-center fs-5">
+                No new notifications to show
+            </p>
+        {% endif %}
         {% if unread_notifications %}
             <div class="d-flex justify-content-between mb-2">
                 <h6 class="fw-bold">Unread</h6>   
@@ -18,51 +23,54 @@
                         <img src="{{noti.from_user.profile_photo.url}}" alt="{{noti.user.usernme}}" class="comment-profile-avatar me-3">
                     </li>
                     <li class="list-group-item" style="border: none;">
-                        <p> <b>{{noti.from_user.username}}</b> {{noti.title}}&nbsp;<span class="text-muted small">{{noti.created_at|date:"M d"}}</span> </p>
+                        <p> <b>{{noti.from_user.username}}</b> {{noti.title}}&nbsp;<span class="text-muted small">{{noti.created_at|format_created_time}}</span> </p>
                     </li>
                     <li class="list-group-item mt-2" style="border: none">
                         {% if noti.post %}
-                            <a href="http://127.0.0.1:8000/p/{{noti.post.slug}}/">
+                            <a href="{{host}}p/{{noti.post.slug}}/">
                                 {% with image=noti.post.postimage_set.first %}
                                     <img src="{{image.image.url}}" alt="{{noti.post.caption}}" style="width:48px;height:48px;object-fit: cover;">
                                 {% endwith %}
                             </a>
                         {% else %}
                             {% if not noti.from_user in request.user.profile.followings.all %}
-                                <a href="{% url 'user:follow' noti.from_user.id %}" class="btn btn-primary rounded fw-bold" style="height:40px;">Follow</a>
+                                <a href="{% url 'user:follow' noti.from_user.id %}" class="btn btn-primary btn-sm rounded fw-bold">Follow</a>
                             {% else %}
-                                <a href="{% url 'user:unfollow' noti.from_user.username %}" class="btn btn-light border rounded fw-bold" style="height:40px;">Following</a>
+                                <a href="{% url 'user:unfollow' noti.from_user.username %}" class="btn btn-light btn-sm border rounded fw-bold">Following</a>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                </ul>
+            {% endfor %}
+            <hr>
+        {% endif %}
+        {% if read_notifications %}
+            <h6 class="fw-bold">Read</h6>   
+            {% for noti in read_notifications %}
+                <ul class="list-group list-group-horizontal mb-2">
+                    <li class="list-group-item" style="border: none">
+                        <img src="{{noti.from_user.profile_photo.url}}" alt="{{noti.user.usernme}}" class="comment-profile-avatar me-3">
+                    </li>
+                    <li class="list-group-item" style="border: none;">
+                        <p> <b>{{noti.from_user.username}}</b> {{noti.title}}&nbsp;<span class="text-muted small">{{noti.created_at|format_created_time}}</span> </p>
+                    </li>
+                    <li class="list-group-item mt-2" style="border: none">
+                        {% if noti.post %}
+                            <a href="{{host}}p/{{noti.post.slug}}/">
+                                {% with image=noti.post.postimage_set.first %}
+                                    <img src="{{image.image.url}}" alt="{{noti.post.caption}}" style="width:48px;height:48px;object-fit: cover;">
+                                {% endwith %}
+                            </a>
+                        {% else %}
+                            {% if not noti.from_user in request.user.profile.followings.all %}
+                                <a href="{% url 'user:follow' noti.from_user.id %}" class="btn btn-primary btn-sm rounded fw-bold">Follow</a>
+                            {% else %}
+                                <a href="{% url 'user:unfollow' noti.from_user.username %}" class="btn btn-light btn-sm border rounded fw-bold">Following</a>
                             {% endif %}
                         {% endif %}
                     </li>
                 </ul>
             {% endfor %}
         {% endif %}
-        <h6 class="fw-bold">Read</h6>   
-        {% for noti in read_notifications %}
-            <ul class="list-group list-group-horizontal mb-2">
-                <li class="list-group-item" style="border: none">
-                    <img src="{{noti.from_user.profile_photo.url}}" alt="{{noti.user.usernme}}" class="comment-profile-avatar me-3">
-                </li>
-                <li class="list-group-item" style="border: none;">
-                    <p> <b>{{noti.from_user.username}}</b> {{noti.title}}&nbsp;<span class="text-muted small">{{noti.created_at|date:"M d"}}</span> </p>
-                </li>
-                <li class="list-group-item mt-2" style="border: none">
-                    {% if noti.post %}
-                        <a href="http://127.0.0.1:8000/p/{{noti.post.slug}}/">
-                            {% with image=noti.post.postimage_set.first %}
-                                <img src="{{image.image.url}}" alt="{{noti.post.caption}}" style="width:48px;height:48px;object-fit: cover;">
-                            {% endwith %}
-                        </a>
-                    {% else %}
-                        {% if not noti.from_user in request.user.profile.followings.all %}
-                            <a href="{% url 'user:follow' noti.from_user.id %}" class="btn btn-primary rounded fw-bold" style="height:40px;">Follow</a>
-                        {% else %}
-                            <a href="{% url 'user:unfollow' noti.from_user.username %}" class="btn btn-light border rounded fw-bold" style="height:40px;">Following</a>
-                        {% endif %}
-                    {% endif %}
-                </li>
-            </ul>
-        {% endfor %}
     </div>
 </div>

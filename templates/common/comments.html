@@ -1,11 +1,11 @@
-{% load humanize %}
+{% load format_created_at %}
 {% for comment in post.post_comments.all %}
 <ul class="list-group list-group-horizontal">
     <li class="list-group-item" style="border: none">
         <img src={{comment.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
     </li>
     <li class="list-group-item" style="border: none; width:{% if details %}500px{% else %}300px{% endif %}">
-        <b>{{comment.user.username}}</b> <small class="ms-2 text-muted">{{comment.created_at|date:'M d, Y'}}</small>
+        <b>{{comment.user.username}}</b> <small class="ms-2 text-muted">{{comment.created_at|format_created_time}}</small>
         <p>{{comment.body}}</p>
         <span class="small text-muted d-flex justify-content-start">
             <a href="#" class="me-3 text-decoration-none">Reply</a>

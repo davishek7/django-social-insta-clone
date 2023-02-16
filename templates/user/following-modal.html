@@ -19,9 +19,15 @@
                                 <div class="fw-bold">{{following.username}}</a></div>
                                 <span class="text-muted">{{following.name}}</span>
                             </div>
-                                <span>
-                                    <a href="{% url 'user:unfollow' following.username %}" class="fw-bold btn btn-light border rounded">Following</a>
-                                </span>
+                            <span>
+                                {% if following != request.user %}
+                                    {% if following in request.user.profile.followings.all %}
+                                        <a href="{% url 'user:unfollow' following.username %}" class="fw-bold btn btn-light border rounded">Following</a>
+                                    {% else %}
+                                        <a href="{% url 'user:follow' following.id %}" class="fw-bold btn btn-primary rounded">Follow</a>
+                                    {% endif %}
+                                {% endif %}
+                            </span>
                         </li>
                     {% endfor %}
                 </ol>

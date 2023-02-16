@@ -20,7 +20,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -30,8 +29,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.getcwd() == '/app' else True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.railway.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.railway.app', '.ngrok.io']
 
+HOST = os.environ.get('DEV_URL') if DEBUG else os.environ.get('LIVE_URL')
 
 # Application definition
 
@@ -45,13 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     # local
+    'commons',
     'account',
     'feed',
     'post',
     'user',
     'chat',
     'notification',
-    'commons',
     'story',
 ]
 

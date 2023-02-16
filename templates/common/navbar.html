@@ -7,7 +7,7 @@
                 <i class="fas fa-chevron-left"></i>&ensp;Following
             </a>
         {% elif variant == 'favorites' %}
-            <a class="navbar-brand pb-3 ms-5 fs-4" href="/">
+            <a class="navbar-brand pb-3 me-5 fs-4" href="/">
                 <i class="fas fa-chevron-left"></i>&ensp;Favorites
             </a>
         {% else %}
@@ -73,10 +73,10 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link active me-1 btn btn-primary fw-bold btn-sm text-light rounded" href="#">Log In</a>
+                        <a class="nav-link active me-1 btn btn-primary fw-bold btn-sm text-light rounded" href="{% url 'account:login' %}">Log In</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active me-1 btn btn-link fw-bold text-primary" href="#">Sign Up</a>
+                        <a class="nav-link active me-1 btn btn-link fw-bold text-primary" href="{% url 'account:signup' %}">Sign Up</a>
                     </li>
                 {% endif %}
             </ul>

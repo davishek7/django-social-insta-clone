@@ -1,5 +1,5 @@
 <!-- Post Details Modal -->
-{% load humanize %}
+{% load format_created_at %}
 <div class="modal fade" id="post-details-{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content rounded">
@@ -84,7 +84,7 @@
                                     </a>
                                 </div>
                                 <p class="fw-bold">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
-                                <small class="text-muted">{{post.created_at|date:'M d, Y'}}</small>
+                                <small class="text-muted">{{post.created_at|format_created_time}}</small>
                             </div>
                             <form action="{% url 'post:add_comment' post.id %}" method="post" class="input-group">
                                 {% csrf_token %}

@@ -12,9 +12,9 @@ from django.contrib.auth import get_user_model
 def index(request):
     posts = Post.objects.select_related('user').prefetch_related('likes').filter(status=True).all()
     
-    suggestions = get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all())|Q(id=request.user.id))
+    suggestions = get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all()) | Q(id=request.user.id))[:3]
     
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, 25)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'posts': page_obj, 'suggestions':suggestions}
@@ -30,13 +30,15 @@ def custom_feed(request):
     favourites_posts = Post.objects.select_related('user').prefetch_related('likes').filter(
         status=True).filter(user__id__in=request.user.profile.favourites.all())
     
-    context = {}
+    suggestions = get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all()) | Q(id=request.user.id))[:3]
 
     variant = request.GET['variant']
+    
+    context = {'variant':variant, 'suggestions':suggestions}
 
     if variant == 'following':
-        context = {'posts':followings_posts, 'variant':variant}
+        context.update({'posts':followings_posts})
     elif variant == 'favorites':
-        context = {'posts':favourites_posts, 'variant':variant}
+        context.update({'posts':favourites_posts})
 
     return render(request, 'feed/custom-feed.html', context=context)

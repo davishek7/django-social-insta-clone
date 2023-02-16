@@ -1,6 +1,6 @@
 {% extends 'layouts/main-layout.html' %}
 {% load static %}
-{% load humanize %}
+{% load format_created_at %}
 {% block content %}
 <div class="container mt-4 mb-2">
     <div class="row">
@@ -15,7 +15,7 @@
                                 <div class="d-flex justify-content-between my-1">
                                     <a href="{% url 'profile' post.user.username %}" class="d-flex justify-content-center text-dark text-decoration-none">
                                         <img src="{{post.user.profile_photo.url}}" class="me-3 post-profile-avatar">
-                                        <h6 class="fw-bold pt-2">{{post.user.username}}</h6>
+                                        <h6 class="fw-bold pt-2">{{post.user.username}} &bull; <small class="text-muted">{{post.created_at|format_created_time}}</small></h6>
                                     </a>
                                     <div>
                                         {% if post.user in request.user.profile.favourites.all %}
@@ -63,7 +63,6 @@
                                 <p class="fw-bold">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
                                 <p class="card-text"><b>{{post.user.username}}</b>&nbsp;{{post.caption}}</p>
                                 <p class="text-muted" data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}" style='cursor:pointer;'>View all {{post.post_comments.all.count}} comments</p>
-                                <small class="text-muted">{{post.created_at|date:'M d Y'}}</small>
                             </div>
                             <form action="{% url 'post:add_comment' post.id %}" method="post" class="input-group">
                                 {% csrf_token %}
@@ -83,7 +82,7 @@
                                 <p>Add accounts to your favorites to see their posts here, starting with the most recent posts.</p>
                             {% elif variant == 'following' %}
                                 <p>
-                                    <img src="{% static 'images/star.png' %}" alt="following icon" height="100">
+                                    <img src="{% static 'images/user-check.png' %}" alt="following icon" height="100">
                                 </p>
                                 <h3>Follow the accounts you can't miss out on</h3>
                                 <p>Follow accounts to see their posts here, starting with the most recent posts.</p>

@@ -10,12 +10,16 @@
                     {% for suggestion in suggestions %}
                     <ul class="list-group list-group-horizontal">
                         <li class="list-group-item" style="border: none">
-                        <img src={{suggestion.profile_photo.url}} alt="" class="story-image-avatar">
+                            <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
+                                <img src={{suggestion.profile_photo.url}} alt="" class="story-image-avatar">
+                            </a>
                         </li>
                         <li class="list-group-item" style="border: none; width: 1000px;">
                             <div class="ms-2 me-auto">
-                                <div class="fw-bold">{{suggestion.username}}</div>
-                                <span class="text-muted">{{suggestion.name}}</span>
+                                <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
+                                    <div class="fw-bold">{{suggestion.username}}</div>
+                                    <span class="text-muted">{{suggestion.name}}</span>
+                                </a>
                                 <p class="text-muted">Suggested for you</p>
                             </div>
                         </li>
