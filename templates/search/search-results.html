@@ -1,0 +1,53 @@
+{% extends 'layouts/main-layout.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 col-lg-7 mx-auto my-3">
+            <!-- <h3 class="fw-bold mb-3">Search Results</h3> -->
+            <div class="mx-auto">
+                <div class="py-3">
+                    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">All</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="accounts-tab" data-bs-toggle="tab" data-bs-target="#accounts" type="button" role="tab" aria-controls="accounts" aria-selected="false">Accounts</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts" type="button" role="tab" aria-controls="posts" aria-selected="false">Posts</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                            {% if users %}
+                                {% include 'search/user-search-results.html' %}
+                            {% else %}
+                                <h5 class="my-3 px-3">No results found for "{{search_term}}"</h5>
+                            {% endif %}
+                            {% if posts %}
+                                {% include 'search/post-search-results.html' %}
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade" id="accounts" role="tabpanel" aria-labelledby="accounts-tab">
+                            {% if users %}
+                                {% include 'search/user-search-results.html' %}
+                            {% else %}
+                                <h5 class="my-3 px-3">No results found for "{{search_term}}"</h5>
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                            {% if posts %}
+                                {% include 'search/post-search-results.html' %}
+                            {% else %}
+                                <h5 class="my-3 px-3">No results found for "{{search_term}}"</h5>
+                            {% endif %}
+                        </div>
+                    </div>
+                      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

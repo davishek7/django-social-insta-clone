@@ -1,0 +1,16 @@
+<h5 class="fw-bold my-3">Posts</h5>
+<div class="row g-0 mb-5">
+    {% for post in posts %}
+        <div class="col-md-4 col-sm-12">
+            <div class="card w-100">
+                <div class="card-body related-post-image">
+                    <a href="{% url 'post:post_details' post.slug %}">
+                        {% with image=post.postimage_set.first %}
+                            <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
+                        {% endwith %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

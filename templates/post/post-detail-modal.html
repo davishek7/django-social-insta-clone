@@ -56,8 +56,16 @@
                                 <div class="mt-1 mb-3">
                                     <div class="d-flex justify-content-between my-1">
                                         <div class="d-flex justify-content-center">
-                                            <img src="{{post.user.profile_photo.url}}" class="me-3 post-profile-avatar">
-                                            <p><b>{{post.user.username}}</b>&nbsp;{{post.caption}}</p>
+                                            <ul class="list-group list-group-horizontal">
+                                                <li class="list-group-item" style="border: none">
+                                                    <a href="{% url 'profile' post.user.username %}">
+                                                        <img src={{post.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+                                                    </a>
+                                                </li>
+                                                <li class="list-group-item" style="border: none;">
+                                                    <p> <a href="{% url 'profile' post.user.username %}" class="fw-bold text-decoration-none text-dark">{{post.user.username}}</a> &nbsp;{{post.caption}}</p>  
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div> 
                                 </div>

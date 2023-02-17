@@ -1,0 +1,26 @@
+{% load format_created_at %}
+<div class="offcanvas offcanvas-bottom d-md-none d-sm-block" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="post-{{post.id}}-comment" aria-labelledby="offcanvasBottomLabel" style="height:500px">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasBottomLabel">Comments</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body small">
+    <div class="d-flex justify-content-between my-1">
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item" style="border: none">
+                <a href="{% url 'profile' post.user.username %}">
+                    <img src={{post.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+                </a>
+            </li>
+            <li class="list-group-item" style="border: none;">
+                <a href="{% url 'profile' post.user.username %}" class="fw-bold text-decoration-none text-dark">
+                    {{post.user.username}}
+                </a> 
+                <small class="ms-2 text-muted">{{post.created_at|format_created_time}}</small>
+                <p>{{post.caption}}</p>
+            </li>
+        </ul>
+    </div> 
+    {% include 'common/comments.html' %}
+  </div>
+</div>

@@ -22,11 +22,9 @@
             </div>
         {% endif %}
 
-        <form class="d-flex d-md-block d-sm-none d-none me-3" style="width: 25%;">
-            <!-- <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search"> -->
+        <form class="d-flex d-md-block d-sm-none d-none me-3" style="width: 25%;" action="{% url 'search' %}" method="get">
             <div class="form-group position-relative has-icon-left">
-                <input type="text" class="form-control rounded"
-                    placeholder="Search">
+                <input type="text" class="form-control rounded" placeholder="Search" name="q" {% if "search_term" %}value="{{search_term}}"{% endif %} required>
                 <div class="form-control-icon">
                     <i class="bi bi-search"></i>
                 </div>

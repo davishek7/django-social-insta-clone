@@ -48,8 +48,10 @@
                                         <i class="far fa-heart me-3 text-dark" style='font-size:24px;'></i>
                                         {% endif %}
                                     </a>
-                                    <i class="far fa-comment me-3" style='font-size:24px; cursor:pointer;' data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}"></i>
+                                    <i class="far fa-comment me-3 d-md-block d-none" style='font-size:24px; cursor:pointer;' data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}"></i>
                                         {% include 'post/post-detail-modal.html' %}
+                                    <i class="far fa-comment me-3 d-md-none d-sm-block" style='font-size:24px; cursor:pointer;' data-bs-toggle="offcanvas" data-bs-target="#post-{{post.id}}-comment" aria-controls="offcanvasBottom"></i>
+                                        {% include 'common/comment-canvas.html' %}
                                     <i class="far fa-paper-plane" style='font-size:24px'></i>
                                 </div>
                                 <a href="{% url 'post:add_bookmark' post.id %}" class="text-decoration-none">
@@ -63,7 +65,8 @@
                             <p class="fw-bold" data-bs-toggle="modal" data-bs-target="#post-{{post.id}}-likes">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
                             {% include 'post/post-likes-modal.html' %}
                             <p class="card-text"><b>{{post.user.username}}</b>&nbsp;{{post.caption}}</p>
-                            <p class="text-muted" data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}" style='cursor:pointer;'>View all {{post.post_comments.all.count}} comments</p>
+                            <p class="text-muted d-md-block d-none" data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}" style='cursor:pointer;'>View all {{post.post_comments.all.count}} comments</p>
+                            <p class="text-muted d-md-none d-sm-block" data-bs-toggle="offcanvas" data-bs-target="#post-{{post.id}}-comment" aria-controls="offcanvasBottom" style='cursor:pointer;'>View all {{post.post_comments.all.count}} comments</p>
                         </div>
                         <form action="{% url 'post:add_comment' post.id %}" method="post" class="input-group">
                             {% csrf_token %}

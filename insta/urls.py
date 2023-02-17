@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from user import views as user_views
+from search import views as search_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,7 +32,10 @@ urlpatterns = [
 
     # user views
     path('<str:username>/', user_views.profile, name='profile'),
-    path('explore/people/', user_views.suggestions, name='suggestions')
+    path('explore/people/', user_views.suggestions, name='suggestions'),
+
+    # search views
+    path('search', search_views.search, name='search'),
 ]
 
 if settings.DEBUG:
