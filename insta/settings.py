@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.getcwd() == '/app' else True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.railway.app', '.ngrok.io']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.railway.app', '.ngrok.io', 'django-insta', 'dashboard.django-insta']
 
 HOST = os.environ.get('DEV_URL') if DEBUG else os.environ.get('LIVE_URL')
 
@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
+    'django_hosts',
+
     # local
     'commons',
     'account',
@@ -54,9 +56,11 @@ INSTALLED_APPS = [
     'notification',
     'story',
     'search',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -65,9 +69,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware',
 ]
 
 ROOT_URLCONF = 'insta.urls'
+
+ROOT_HOSTCONF = 'insta.hosts'
+
+DEFAULT_HOST = ' '
 
 TEMPLATES = [
     {

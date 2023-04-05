@@ -1,0 +1,19 @@
+<!-- Story Options Modal -->
+{% load static %}
+<div class="modal fade" id="story-option-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content rounded">
+            <div class="modal-body">
+                <ul class="list-group">
+                    {% if my_active_story_count %}
+                        <a href="{% url 'story:story_details' request.user.username request.user.story_set.first.slug %}" class="btn btn-light w-100 border-bottom text-start">View Story</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-light w-100 border-bottom text-start" data-bs-toggle="modal" data-bs-target="#add-to-story">
+                        Add to Story
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'story/story-create-modal.html' %}

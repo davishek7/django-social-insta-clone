@@ -1,0 +1,36 @@
+<!-- Post Options Dropdown -->
+{% load static %}
+<ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end text-center rounded" style="width: 280px;">
+    {% if request.user == post.user %}
+        <a href="{% url 'post:delete_post' post.id %}" class="dropdown-item text-danger fw-bold border-bottom">Delete</a>
+        <a href="{% url 'post:update_post' post.slug %}" class="dropdown-item border-bottom">Edit</a>
+    {% else %}
+        {% if post.user in request.user.profile.followings.all %}
+            <a href="{% url 'user:unfollow' post.user.username %}" class="dropdown-item text-danger border-bottom">Unfollow <span class="fw-bold">{{post.user.username}}</span></a>
+        {% else %}
+            <a href="{% url 'user:follow' post.user.id %}" class="dropdown-item border-bottom">Follow <span class="fw-bold">{{post.user.username}}</span></a>
+        {% endif %}
+    {% endif %}
+    {% if request.user != post.user and post.user in request.user.profile.followings.all %}
+        <a href="{% url 'post:add_favorites' post.user.id %}" class="dropdown-item border-bottom">
+        {% if post.user not in request.user.profile.favourites.all %}
+            Add to favorites
+        {% else %}
+            Remove from favorites
+        {% endif %}
+        </a>
+    {% endif %}
+    {% if not details %}
+        <a href="{% url 'post:post_details' post.slug %}" class="dropdown-item border-bottom">Go to post</a>
+    {% endif %}
+    <div class="dropdown">
+        <button class="dropdown-item border-bottom" data-bs-toggle="dropdown">Share to...</button>
+        {% include 'post/share-options-dropdown.html' %}
+    </div>
+    <button type="button" class=" dropdown-item border-bottom" onclick="copyLink({{post.id}})" id="copyLinkBtn-{{post.id}}">
+        <input type="text" value="{{request.get_host}}/p/{{post.slug}}/" id="copy-link-{{post.id}}" class="d-none">
+        Copy link
+    </button>
+    <button class="dropdown-item border-bottom">Cancel</button>
+</ul>
+{% include 'post/confirmation-toast.html' %}

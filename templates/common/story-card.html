@@ -4,64 +4,26 @@
             
             <li class="list-group-item" style="border: none">
                 <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
+                    <img src="{{request.user.profile_photo.url}}" alt="" 
+                    class="story-image-avatar border border-4 border-danger"
+                    data-bs-toggle="modal" data-bs-target="#story-option-modal">
                 </a>
+                <br>
                 <small>Your story</small>
             </li>
-            <li class="list-group-item" style="border: none">
-                <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
-                </a>
-                <small>{% if request.user.username|length > 9 %}{{request.user.username|slice:':6'}}...{% else %}{{request.user.username}}{% endif %}</small>
-            </li>
-            <li class="list-group-item" style="border: none">
-                <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
-                </a>
-                <small>{% if request.user.username|length > 9 %}{{request.user.username|slice:':6'}}...{% else %}{{request.user.username}}{% endif %}</small>
-            </li>
-            <li class="list-group-item" style="border: none">
-                <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
-                </a>
-                <small>{% if request.user.username|length > 9 %}{{request.user.username|slice:':6'}}...{% else %}{{request.user.username}}{% endif %}</small>
-            </li>
-            <li class="list-group-item" style="border: none">
-                <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
-                </a>
-                <small>{% if request.user.username|length > 9 %}{{request.user.username|slice:':6'}}...{% else %}{{request.user.username}}{% endif %}</small>
-            </li>
-            <li class="list-group-item" style="border: none">
-                <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
-                </a>
-                <small>{% if request.user.username|length > 9 %}{{request.user.username|slice:':6'}}...{% else %}{{request.user.username}}{% endif %}</small>
-            </li>
-            <li class="list-group-item" style="border: none">
-                <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
-                </a>
-                <small>{% if request.user.username|length > 9 %}{{request.user.username|slice:':6'}}...{% else %}{{request.user.username}}{% endif %}</small>
-            </li>
-            <li class="list-group-item" style="border: none">
-                <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
-                </a>
-                <small>{% if request.user.username|length > 9 %}{{request.user.username|slice:':6'}}...{% else %}{{request.user.username}}{% endif %}</small>
-            </li>
-            <li class="list-group-item" style="border: none">
-                <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
-                </a>
-                <small>{% if request.user.username|length > 9 %}{{request.user.username|slice:':6'}}...{% else %}{{request.user.username}}{% endif %}</small>
-            </li>
-            <li class="list-group-item" style="border: none">
-                <a href="#">
-                    <img src="{{request.user.profile_photo.url}}" alt="" class="story-image-avatar border border-3 border-danger">
-                </a>
-                <small>{% if request.user.username|length > 9 %}{{request.user.username|slice:':6'}}...{% else %}{{request.user.username}}{% endif %}</small>
-            </li>
+            {% if story_users %}
+                {% for user in story_users %}
+                    <li class="list-group-item" style="border: none">
+                        <a href="{% url 'story:story_details' user.username user.story_set.first.slug %}">
+                            <img src="{{user.profile_photo.url}}" alt="" 
+                            class="story-image-avatar border border-3 border-danger">
+                        </a>
+                        <br>
+                        <small data-bs-toggle="tooltip" data-bs-placement="top" title="{{user.username}}">{% if user.username|length > 9 %}{{user.username|slice:':6'}}...{% else %}{{user.username}}{% endif %}</small>
+                    </li>
+                {% endfor %}
+            {% endif %}
         </ul>
     </div>
 </div>
+{% include 'story/story-option-modal.html' %}

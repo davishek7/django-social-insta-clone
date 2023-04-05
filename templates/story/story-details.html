@@ -1,0 +1,71 @@
+{% extends 'layouts/story-layout.html' %}
+{% load static %}
+{% load format_created_at %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-10 mx-auto px-3">
+      <div class="row">
+          <div class="col-md-7 px-3 mx-auto">
+            <div class="card rounded shadow" style="border:none">
+              <div class="story-image bg-dark">
+                <img src="{{story.image.url}}" class="card-img-top" alt="...">
+              </div>
+              <div class="card-img-overlay text-center story-image">
+                <h5 class="card-title fw-bold fs-1 text-light">{{story.caption}}</h5>
+              </div>
+              <div class="card-body text-center bg-dark px-3">
+                <div class="d-flex justify-content-between mb-3">
+                  <a href="{% url 'profile' story.user.username %}" class="d-flex justify-content-start text-light text-decoration-none">
+                      <img src="{{story.user.profile_photo.url}}" class="me-1 post-profile-avatar">
+                      <h6 class="fw-bold pb-1">{{story.user.username}}</h6> 
+                        &nbsp; &bull; &nbsp; 
+                      <small class="text-muted">{{story.created_at|format_created_time}}</small>
+                  </a>
+                </div>
+                {% if request.user != story.user %}
+                  <form action="{% url 'story:reply_to_story' story.slug %}" method="post">
+                    {% csrf_token %}
+                    <div class="row g-4">
+                      <div class="col-sm-10">
+                        {{story_reply_form.body}}
+                      </div>
+                      <div class="col-sm-2 pt-1">
+                        <a href="{% url 'story:like_story' story.slug %}" class="">
+                          {% if request.user in story.likes.all %}
+                            <i class="fas fa-heart" style="font-size:32px; color: crimson;"></i>
+                          {% else %}
+                            <i class="far fa-heart" style="font-size:32px;"></i>
+                          {% endif %}
+                        </a>
+                      </div>
+                    </div>
+                  </form>
+                {% else %}
+                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#story-{{story.id}}-views"><i class="fas fa-eye"></i>&nbsp;{{story.views.count}}</button>
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#story-{{story.id}}-replies"><i class="fas fa-comment"></i>&nbsp;{{story.story_replies.count}}</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#story-{{story.id}}-likes"><i class="fas fa-thumbs-up"></i>&nbsp;{{story.likes.count}}</button>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="text-center clearfix">
+  {% if next_story %}
+    <a href="{% url 'story:story_details' user.username next_story.slug %}" class="btn btn-light btn-lg rounded float-end">&#8250;</a>
+  {% endif %}
+  {% if prev_story %}
+    <a href="{% url 'story:story_details' user.username prev_story.slug %}" class="btn btn-light btn-lg rounded float-start">&#8249;</a>
+  {% endif %}
+</div>
+
+{% include 'story/story-like-modal.html' %}
+{% include 'story/story-reply-modal.html' %}
+{% include 'story/story-views-modal.html' %}
+
+{% endblock content%}

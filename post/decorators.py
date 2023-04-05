@@ -1,9 +1,9 @@
 from functools import wraps
 from django.shortcuts import redirect, get_object_or_404
-from .models import Post
+from .models import Post, Comment
 
 
-def owner_required(view_func):
+def post_user_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         if 'pk' in kwargs:
@@ -11,6 +11,17 @@ def owner_required(view_func):
         if 'slug' in kwargs:
             post = get_object_or_404(Post, slug=kwargs.get('slug'))
         if post.user == request.user:
+            return view_func(request, *args, **kwargs)
+        else:
+            return redirect(request.META.get('HTTP_REFERER'))
+    return wrapper
+
+def comment_user_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if 'pk' in kwargs:
+            comment = get_object_or_404(Comment, id=kwargs.get('pk'))
+        if comment.user == request.user:
             return view_func(request, *args, **kwargs)
         else:
             return redirect(request.META.get('HTTP_REFERER'))

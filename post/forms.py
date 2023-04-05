@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, PostImage, Comment
+from .models import Post, PostImage, Comment, Reply
 
 
 class PostForm(forms.Form):
@@ -24,4 +24,13 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
+        fields = ['body']
+
+
+class ReplyForm(forms.ModelForm):
+
+    body = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Add your reply', 'id':'add-comment', 'rows':'1'}))
+
+    class Meta:
+        model = Reply
         fields = ['body']

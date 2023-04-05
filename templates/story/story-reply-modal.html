@@ -1,0 +1,37 @@
+<!-- Post Likes Modal -->
+{% load static %}
+{% load format_created_at %}
+
+<div class="modal fade" id="story-{{story.id}}-replies" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content rounded">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100">
+                    Replies
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% for reply in story.story_replies.all %}
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item" style="border: none">
+                            <img src={{reply.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+                        </li>
+                        <li class="list-group-item" style="border: none;">
+                            <b>{{reply.user.username}}</b> <small class="text-muted">{{story.created_at|format_created_time}}</small>
+                            <p>{{reply.body}}</p>
+                            <span class="small text-muted d-flex justify-content-start">
+                                <div class="dropdown">
+                                    <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu text-center dropdown-menu-start" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item text-danger fw-bold" href="#">Report</a></li>
+                                    </ul>
+                                </div>
+                            </span> 
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

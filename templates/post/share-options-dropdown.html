@@ -1,0 +1,15 @@
+<!-- Share Options Dropdown -->
+{% load static %}
+<ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start rounded">
+    <li><h5 class="dropdown-header fw-bold">Share to...</h5></li>
+    <a href="#" class="dropdown-item border-bottom">
+        <i class="far fa-paper-plane"></i>&ensp;Share to Direct
+    </a>
+    <a href="#" class="dropdown-item border-bottom"><i class="fab fa-facebook"></i>&ensp;Share to Facebook</a>
+    <a href="#" class="dropdown-item border-bottom"><i class="fab fa-twitter"></i>&ensp;Share to Twitter</a>
+    <a href="#" class="btn btn-light w-100 border-bottom text-start border-bottom"><i class="fas fa-envelope"></i>&ensp;Share via Email</a>
+    <button type="button" class="dropdown-item border-bottom" onclick="copyLink({{post.id}})" id="copyLinkBtn-{{post.id}}">
+        <input type="text" value="{{request.get_host}}/p/{{post.slug}}/" id="copy-link-{{post.id}}" class="d-none">
+        <i class="fas fa-link border-bottom"></i>&ensp;Copy link
+    </button>
+</ul>

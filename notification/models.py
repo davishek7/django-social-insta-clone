@@ -14,3 +14,6 @@ class Notification(TimeStampModel, StatusModel):
 
     class Meta:
         ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.from_user}'s notification to {self.to_user}"

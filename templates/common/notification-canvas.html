@@ -19,7 +19,7 @@
             </div>
             {% for noti in unread_notifications %}
                 <ul class="list-group list-group-horizontal mb-2">
-                    <li class="list-group-item" style="border: none">
+                    <li class="list-group-item" style="border: none; width:60px;">
                         <img src="{{noti.from_user.profile_photo.url}}" alt="{{noti.user.usernme}}" class="comment-profile-avatar me-3">
                     </li>
                     <li class="list-group-item" style="border: none;">
@@ -48,7 +48,7 @@
             <h6 class="fw-bold">Read</h6>   
             {% for noti in read_notifications %}
                 <ul class="list-group list-group-horizontal mb-2">
-                    <li class="list-group-item" style="border: none">
+                    <li class="list-group-item" style="border: none; width:60px;">
                         <img src="{{noti.from_user.profile_photo.url}}" alt="{{noti.user.usernme}}" class="comment-profile-avatar me-3">
                     </li>
                     <li class="list-group-item" style="border: none;">

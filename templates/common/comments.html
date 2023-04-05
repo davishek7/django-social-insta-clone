@@ -8,9 +8,30 @@
         <b>{{comment.user.username}}</b> <small class="ms-2 text-muted">{{comment.created_at|format_created_time}}</small>
         <p>{{comment.body}}</p>
         <span class="small text-muted d-flex justify-content-start">
-            <a href="#" class="me-3 text-decoration-none">Reply</a>
-            <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;"></i>
-        </span>   
+            <div class="dropdown">
+                <a href="#" class="me-3 text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">Reply</a>
+                <form class="dropdown-menu p-4" method="post" action="{% url 'post:add_reply' comment.id %}" style="width:400px">
+                    <li><h6 class="dropdown-header">Reply to @{{comment.user.username}}</h6></li>
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        {{reply_form.body}}
+                        <label for="caption" class="col-form-label">Write your reply</label>
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Post</button>
+                    </div>
+                </form>
+            </div>
+            <div class="dropdown">
+                <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                <ul class="dropdown-menu text-center dropdown-menu-start" aria-labelledby="dropdownMenuButton1">
+                    {% if request.user == comment.user %}
+                        <li><a class="dropdown-item text-danger fw-bold" href="{% url 'post:delete_comment' comment.id %}">Delete</a></li>
+                    {% endif %}
+                    {% if request.user != comment.user %}
+                        <li><a class="dropdown-item text-danger fw-bold" href="#">Report</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </span> 
     </li>
     <li class="list-group-item mt-2" style="border: none">
         <a href="{% url 'post:like_comment' comment.id %}" class="text-decoration-none">
@@ -24,4 +45,22 @@
         <small class="ms-1" style="font-size: 14px;">{{comment.likes.count}}</small>
     </li>
 </ul>
+<div class="ms-5">
+    {% if comment.comment_replies.count > 0 %}
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#replies-{{comment.id}}" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <small class="text-muted fw-bold">View replies({{comment.comment_replies.count}})</small> 
+                    </button>
+                </h2>
+                <div id="replies-{{comment.id}}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <!-- <div class="accordion-body"> -->
+                        {% include 'common/comment-replies.html' %}
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
 {% endfor %}

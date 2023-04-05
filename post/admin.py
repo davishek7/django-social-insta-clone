@@ -1,15 +1,21 @@
 from django.contrib import admin
-from .models import Post, PostImage, Comment
+from .models import Post, PostImage, Comment, Reply
 
 
 class PostImageAdmin(admin.TabularInline):
-    model=PostImage
+    model = PostImage
     readonly_fields = ['post']
+
+
+class ReplyAdmin(admin.TabularInline):
+    model = Reply
+    # readonly_fields = ['user']
 
 
 class CommentAdmin(admin.TabularInline):
     model = Comment
-    readonly_fields = ['user']
+    # readonly_fields = ['user']
+    inlines = [ReplyAdmin]
 
 
 @admin.register(Post)

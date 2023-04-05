@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 from django.db.models import Q
 from account.models import Profile
 from post.models import Post
@@ -24,11 +25,12 @@ def upload_profile_photo(request, username):
         uploaded_photo = request.FILES.get('profile_photo')
         user.profile_photo = uploaded_photo
         user.save()
+        messages.success(request, 'Profile picture updated successfully.')
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def suggestions(request):
-    suggestions = get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all())|Q(id=request.user.id))
+    suggestions = get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all())|Q(id=request.user.id)|Q(is_superuser=True))
     context={'suggestions':suggestions}
     return render(request, 'user/suggestions.html', context=context)
 

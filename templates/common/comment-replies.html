@@ -1,0 +1,38 @@
+{% load format_created_at %}
+{% for comment in comment.comment_replies.all %}
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item" style="border: none">
+        <img src={{comment.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+    </li>
+    <li class="list-group-item" style="border: none; width:200px">
+        <b>{{comment.user.username}}</b> <small class="ms-2 text-muted">{{comment.created_at|format_created_time}}</small>
+        <p>{{comment.body}}</p>
+        <span class="small text-muted d-flex justify-content-start">
+            <a href="#" class="me-3 text-decoration-none" data-bs-toggle="modal" data-bs-target="#comment-reply-modal">Reply</a>
+            {% include 'common/comment-reply-modal.html' %}
+            <div class="dropdown">
+                <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
+                    {% if request.user == comment.user %}
+                        <li><a class="dropdown-item text-danger fw-bold" href="{% url 'post:delete_comment' comment.id %}">Delete</a></li>
+                    {% endif %}
+                    {% if request.user != comment.user %}
+                        <li><a class="dropdown-item text-danger fw-bold" href="#">Report</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </span> 
+    </li>
+    <li class="list-group-item mt-2" style="border: none">
+        <a href="{% url 'post:like_comment' comment.id %}" class="text-decoration-none">
+            {% if request.user in comment.likes.all %}
+                <i class="fas fa-heart me-3" style='font-size:14px;color: red;'></i>
+            {% else %}
+                <i class="far fa-heart me-3 text-dark" style='font-size:14px;'></i>
+            {% endif %}
+        </a>
+        <br>
+        <small class="ms-1" style="font-size: 14px;">{{comment.likes.count}}</small>
+    </li>
+</ul>
+{% endfor %}
