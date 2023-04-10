@@ -5,9 +5,11 @@ from django.db.models import Q
 from account.models import Profile
 from post.models import Post
 from django.contrib.auth.decorators import login_required
+from commons.decorators import normal_user_only
 
 # Create your views here.
 
+@normal_user_only
 def profile(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     title = f'{user.name} (@{user.username}) \u2022 Instagram photos and videos'
@@ -19,6 +21,7 @@ def profile(request, username):
 
 
 @login_required
+@normal_user_only
 def upload_profile_photo(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     if request.method == 'POST':
@@ -29,12 +32,14 @@ def upload_profile_photo(request, username):
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
+@normal_user_only
 def suggestions(request):
     suggestions = get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all())|Q(id=request.user.id)|Q(is_superuser=True))
     context={'suggestions':suggestions}
     return render(request, 'user/suggestions.html', context=context)
 
 @login_required
+@normal_user_only
 def follow(request, user_id):
     user = get_object_or_404(get_user_model(), id=user_id)
     if user not in request.user.profile.followings.all():
@@ -43,6 +48,7 @@ def follow(request, user_id):
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
+@normal_user_only
 def unfollow(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     if request.method == 'POST':
@@ -54,6 +60,7 @@ def unfollow(request, username):
     return render(request, 'user/unfollow.html',context=context)
 
 @login_required
+@normal_user_only
 def remove_follower(request, user_id):
     user = get_object_or_404(get_user_model(), id=user_id)
     if user in request.user.profile.followers.all():

@@ -1,0 +1,41 @@
+{% extends 'layouts/main-layout.html' %}
+{% load format_created_at %}
+{% block content %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col-12 col-lg-6 mx-auto my-3">
+            <h3 class="fw-bold mb-3">Notifications</h3>
+            <div class="card shadow-sm rounded mx-auto">
+                <div class="card-body">
+                    {% for noti in notifications %}
+                        <ul class="list-group list-group-horizontal mb-2">
+                            <li class="list-group-item" style="border: none; width:60px;">
+                                <img src="{{noti.from_user.profile_photo.url}}" alt="{{noti.user.usernme}}" class="comment-profile-avatar me-3">
+                            </li>
+                            <li class="list-group-item" style="border: none; width:500px;">
+                                <p> <b>{{noti.from_user.username}}</b> {{noti.title}}&nbsp;<span class="text-muted small">{{noti.created_at|format_created_time}}</span> </p>
+                            </li>
+                            <li class="list-group-item mt-2 d-flex align-items-center" style="border: none;">
+                                {% if noti.post %}
+                                    <a href="{{host}}p/{{noti.post.slug}}/">
+                                        {% with image=noti.post.postimage_set.first %}
+                                            <img src="{{image.image.url}}" alt="{{noti.post.caption}}" style="width:48px;height:48px;object-fit: cover;">
+                                        {% endwith %}
+                                    </a>
+                                {% else %}
+                                    {% if not noti.from_user in request.user.profile.followings.all %}
+                                        <a href="{% url 'user:follow' noti.from_user.id %}" class="btn btn-primary btn-sm rounded fw-bold">Follow</a>
+                                    {% else %}
+                                        <a href="{% url 'user:unfollow' noti.from_user.username %}" class="btn btn-light btn-sm border rounded fw-bold">Following</a>
+                                    {% endif %}
+                                {% endif %}
+                            </li>
+                        </ul>
+                    {% endfor %}
+                </div>
+                {% include 'notification/pagination.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -5,7 +5,7 @@ from .models import Story
 from .forms import StoryForm, StoryReplyForm
 from django.contrib import messages
 from .decorators import increament_story_view_count
-
+from commons.decorators import normal_user_only
 # Create your views here.
 
 User = get_user_model()
@@ -15,13 +15,15 @@ User = get_user_model()
 def story_details(request, username, slug):
     user = get_user_model().objects.filter(username=username).first()
     story = Story.objects.filter(user = user, slug = slug).first()
+    user_stories = Story.objects.filter(user=user).all()
     prev_story = Story.objects.filter(user = user, created_at__lt = story.created_at).last()
     next_story = Story.objects.filter(user = user, created_at__gt = story.created_at).first()
     story_reply_form = StoryReplyForm()
-    context = {'user':user, 'story':story, 'prev_story':prev_story, 'next_story':next_story, 'story_reply_form':story_reply_form}
+    context = {'user':user, 'story':story, 'user_stories':user_stories, 'prev_story':prev_story, 'next_story':next_story, 'story_reply_form':story_reply_form}
     return render(request, 'story/story-details.html', context=context)
 
 @login_required
+@normal_user_only
 def add_to_story(request):
     if request.method == 'POST':
         story_form = StoryForm(request.POST, request.FILES)
@@ -33,6 +35,7 @@ def add_to_story(request):
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
+@normal_user_only
 def like_story(request, slug):
     story = get_object_or_404(Story, slug=slug)
     if request.user not in story.likes.all():
@@ -42,6 +45,7 @@ def like_story(request, slug):
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
+@normal_user_only
 def reply_to_story(request, slug):
     story = get_object_or_404(Story, slug=slug)
     if request.method == 'POST':

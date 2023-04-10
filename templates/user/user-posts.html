@@ -2,7 +2,7 @@
     <div class="row mb-5 gy-3">
         {% if user_posts %}
             {% for post in user_posts %}
-                <div class="col-md-4 col-sm-12 mb-2">
+                <div class="col-md-4 col-sm-12 mb-2 ">
                     <div class="card w-100">
                         <div class="card-body related-post-image">
                             <a href="{% url 'post:post_details' post.slug %}">

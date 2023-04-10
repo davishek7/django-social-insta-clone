@@ -6,32 +6,34 @@
 <div class="row">
   <div class="col-md-10 mx-auto px-3">
       <div class="row">
-          <div class="col-md-7 px-3 mx-auto">
-            <div class="card rounded shadow" style="border:none">
-              <div class="story-image bg-dark">
+          <div class="col-md-6 px-3 mx-auto">
+            <div class="card shadow rounded border-info">
+              <div class="story-image">
                 <img src="{{story.image.url}}" class="card-img-top" alt="...">
               </div>
               <div class="card-img-overlay text-center story-image">
-                <h5 class="card-title fw-bold fs-1 text-light">{{story.caption}}</h5>
+                <h5 class="card-title fw-bold fs-1">{{story.caption}}</h5>
               </div>
-              <div class="card-body text-center bg-dark px-3">
-                <div class="d-flex justify-content-between mb-3">
-                  <a href="{% url 'profile' story.user.username %}" class="d-flex justify-content-start text-light text-decoration-none">
-                      <img src="{{story.user.profile_photo.url}}" class="me-1 post-profile-avatar">
-                      <h6 class="fw-bold pb-1">{{story.user.username}}</h6> 
-                        &nbsp; &bull; &nbsp; 
-                      <small class="text-muted">{{story.created_at|format_created_time}}</small>
+              <div class="card-body text-center">
+                <div class="d-flex justify-content-between mb-4 px-3">
+                  <a href="{% url 'profile' story.user.username %}" class="d-flex justify-content-start text-decoration-none text-dark">
+                      <img src="{{story.user.profile_photo.url}}" class="me-2 post-profile-avatar">
+                      <h6 class="fw-bold pt-2">{{story.user.username}}
+                        &bull;
+                        <small class="text-muted">{{story.created_at|format_created_time}}</small>
+                      </h6> 
                   </a>
                 </div>
+
                 {% if request.user != story.user %}
-                  <form action="{% url 'story:reply_to_story' story.slug %}" method="post">
+                  <form action="{% url 'story:reply_to_story' story.slug %}" method="post" class="px-3">
                     {% csrf_token %}
-                    <div class="row g-4">
+                    <div class="row">
                       <div class="col-sm-10">
                         {{story_reply_form.body}}
                       </div>
-                      <div class="col-sm-2 pt-1">
-                        <a href="{% url 'story:like_story' story.slug %}" class="">
+                      <div class="col-sm-2">
+                        <a href="{% url 'story:like_story' story.slug %}" class="text-decoration-none text-dark">
                           {% if request.user in story.likes.all %}
                             <i class="fas fa-heart" style="font-size:32px; color: crimson;"></i>
                           {% else %}
@@ -42,10 +44,12 @@
                     </div>
                   </form>
                 {% else %}
-                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#story-{{story.id}}-views"><i class="fas fa-eye"></i>&nbsp;{{story.views.count}}</button>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#story-{{story.id}}-replies"><i class="fas fa-comment"></i>&nbsp;{{story.story_replies.count}}</button>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#story-{{story.id}}-likes"><i class="fas fa-thumbs-up"></i>&nbsp;{{story.likes.count}}</button>
+                  <div class="d-flex justify-content-between my-2 px-3">
+                    <button type="button" class="btn btn-dark rounded" data-bs-toggle="modal" data-bs-target="#story-{{story.id}}-views"><i class="fas fa-eye"></i>&nbsp;{{story.views.count}}</button>
+                    <div class="d-flex justify-content-center">
+                      <button type="button" class="btn btn-outline-primary rounded me-1" data-bs-toggle="modal" data-bs-target="#story-{{story.id}}-replies"><i class="fas fa-comment"></i>&nbsp;{{story.story_replies.count}}</button>
+                      <button type="button" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#story-{{story.id}}-likes"><i class="fas fa-heart"></i>&nbsp;{{story.likes.count}}</button>
+                    </div>
                   </div>
                 {% endif %}
               </div>
@@ -55,12 +59,21 @@
   </div>
 </div>
 
-<div class="text-center clearfix">
+<div class="text-center mt-2">
   {% if next_story %}
-    <a href="{% url 'story:story_details' user.username next_story.slug %}" class="btn btn-light btn-lg rounded float-end">&#8250;</a>
+    <a href="{% url 'story:story_details' user.username next_story.slug %}" class="btn btn-dark btn-sm rounded float-end">&#8250;</a>
+  {% else %}
+    <a href="#" class="btn btn-dark btn-sm rounded float-end disabled">&#8250;</a>
   {% endif %}
+
+  {% for user_story in user_stories %}
+    <span class="badge rounded-pill btn-sm bg-{% if user_story.id == story.id %}info{% else %}secondary{% endif %} disabled">{{forloop.counter}}</span>  
+  {% endfor %}
+
   {% if prev_story %}
-    <a href="{% url 'story:story_details' user.username prev_story.slug %}" class="btn btn-light btn-lg rounded float-start">&#8249;</a>
+    <a href="{% url 'story:story_details' user.username prev_story.slug %}" class="btn btn-dark btn-sm rounded float-start">&#8249;</a>
+  {% else %}
+    <a href="#" class="btn btn-dark btn-sm rounded float-start disabled">&#8249;</a>
   {% endif %}
 </div>
 

@@ -10,6 +10,10 @@
             <a class="navbar-brand pb-3 me-5 fs-4" href="/">
                 <i class="fas fa-chevron-left"></i>&ensp;Favorites
             </a>
+        {% elif variant == 'hot' %}
+            <a class="navbar-brand pb-3 me-5 fs-4" href="/">
+                <i class="fas fa-chevron-left"></i>&ensp;Hot Posts
+            </a>
         {% else %}
             <div class="navbar-brand dropdown pb-3 me-5">
                 <a class="nav-link active me-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -18,6 +22,7 @@
                 <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant={{'following' | urlencode}}">Following<i class="fas fa-user-check ms-5"></i></a></li>                
                     <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant={{'favorites' | urlencode}}">Favorites<i class="far fa-star ms-5"></i></a></li>
+                    <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant={{'hot' | urlencode}}">Hot Posts<i class="fas fa-fire ms-5"></i></a></li>
                 </ul>
             </div>
         {% endif %}
@@ -48,7 +53,7 @@
                         <a class="nav-link active me-1" href="#"><i class="far fa-compass" style='font-size:24px'></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active me-1" role="button" data-bs-toggle="offcanvas" data-bs-target="#notifications" aria-controls="offcanvasTop">
+                        <a class="nav-link active me-1" href="{% url 'notification:list' %}">
                             {% if unread_notifications_count > 0 %}
                                 <i class="fas fa-heart" style='font-size:24px;color:red;'></i>
                             {% else %}

@@ -23,8 +23,6 @@
                                         {% endif %}
                                         <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
                                     </div>
-                                    {% include 'post/post-options-modal.html' %}
-                                    {% include 'post/share-options-modal.html' %}
                                 </div>
                             </div>
                             {% with images=post.postimage_set.all %}

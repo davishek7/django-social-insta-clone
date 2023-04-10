@@ -3,9 +3,11 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from post.models import Post
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required
 def search(request):
 
     search_term = request.GET.get('q').strip()

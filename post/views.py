@@ -8,10 +8,12 @@ from account.models import Profile
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from story.models import Story
+from commons.decorators import normal_user_only
 
 # Create your views here.
 
 @login_required
+@normal_user_only
 def create_post(request):
     if request.method == 'POST':
         post_form = PostForm(request.POST)
@@ -35,6 +37,7 @@ def post_details(request, slug):
     return render(request, 'post/detail.html', context=context)
 
 @login_required
+@normal_user_only
 def add_comment(request, pk):
     post = get_object_or_404(Post, id=pk)
     if request.method == 'POST':
@@ -47,6 +50,7 @@ def add_comment(request, pk):
     return redirect(request.META.get('HTTP_REFERER') + '#' + post.slug)
 
 @login_required
+@normal_user_only
 def add_reply(request, comment_pk):
     comment = get_object_or_404(Comment, id=comment_pk)
     if request.method == 'POST':
@@ -59,6 +63,7 @@ def add_reply(request, comment_pk):
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
+@normal_user_only
 @comment_user_required
 def delete_comment(request, pk):
     comment = get_object_or_404(Comment, id=pk)
@@ -67,6 +72,7 @@ def delete_comment(request, pk):
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
+@normal_user_only
 def add_like(request, pk):
     post = get_object_or_404(Post, id=pk)
     if request.user not in post.likes.all():
@@ -76,6 +82,7 @@ def add_like(request, pk):
     return redirect(request.META.get('HTTP_REFERER') + '#' + post.slug)
 
 @login_required
+@normal_user_only
 def like_comment(request, pk):
     comment = get_object_or_404(Comment, id=pk)
     if request.user not in comment.likes.all():
@@ -85,6 +92,7 @@ def like_comment(request, pk):
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
+@normal_user_only
 @post_user_required
 def update_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -93,6 +101,7 @@ def update_post(request, slug):
     return render(request, 'post/update.html', context=context)
 
 @login_required
+@normal_user_only
 @post_user_required
 def delete_post(request, pk):
     post = get_object_or_404(Post, id=pk)
@@ -101,6 +110,7 @@ def delete_post(request, pk):
     return redirect('/')
 
 @login_required
+@normal_user_only
 def add_bookmark(request, pk):
     post = get_object_or_404(Post, id=pk)
     profile = get_object_or_404(Profile, id=request.user.id)
@@ -113,6 +123,7 @@ def add_bookmark(request, pk):
     return redirect(request.META.get('HTTP_REFERER') + '#' + post.slug)
 
 @login_required
+@normal_user_only
 def add_favorites(request, user_id):
     post_user = get_object_or_404(get_user_model(), id=user_id)
     profile = get_object_or_404(Profile, id=request.user.id)

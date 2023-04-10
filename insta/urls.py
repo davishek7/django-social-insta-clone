@@ -29,7 +29,7 @@ urlpatterns = [
     path('user/', include('user.urls', namespace='user')),
     path('stories/', include('story.urls', namespace='story')),
     path('notification/', include('notification.urls', namespace='notification')),
-    # path('dashboard/', include('dashboard.urls', namespace='dashboard')),
+    path('dashboard/', include('dashboard.urls', namespace='dashboard')),
 
     # user views
     path('<str:username>/', user_views.profile, name='profile'),
