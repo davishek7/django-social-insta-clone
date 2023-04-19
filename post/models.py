@@ -37,6 +37,7 @@ class CommentManager(BaseUserManager):
     def get_queryset(self):
         return super().get_queryset().filter(status=True)
     
+    
 class Comment(TimeStampModel, StatusModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comments', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comments', blank=True, null=True)

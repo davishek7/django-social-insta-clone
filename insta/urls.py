@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from user import views as user_views
 from search import views as search_views
+from post import views as post_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +35,9 @@ urlpatterns = [
     # user views
     path('<str:username>/', user_views.profile, name='profile'),
     path('explore/people/', user_views.suggestions, name='suggestions'),
+
+    # post views
+    path('explore/p/', post_views.explore, name='explore'),
 
     # search views
     path('search', search_views.search, name='search'),

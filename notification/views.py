@@ -3,10 +3,12 @@ from .models import Notification
 from django.core.paginator import Paginator
 from .decorators import read_notifications
 from django.contrib.auth.decorators import login_required
+from commons.decorators import normal_user_only
 
 # Create your views here.
 
 @login_required
+@normal_user_only
 @read_notifications
 def list(request):
     notifications = Notification.objects.filter(to_user = request.user, status=True).all()

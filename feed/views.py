@@ -1,26 +1,28 @@
 from django.shortcuts import render
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Subquery, OuterRef
 from post.models import Post
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 from story.models import Story
-from story.utils import check_user_active_story
 from commons.decorators import normal_user_only
+from .decorators import remove_old_stories
 
 # Create your views here.
 
 
 @login_required
 @normal_user_only
+@remove_old_stories
 def index(request):
     posts = Post.objects.select_related('user').prefetch_related('likes').filter(status=True).all()
 
-    active_story_user_ids = Story.objects.filter(user__in = request.user.profile.followings.all(), status=True).order_by('created_at').distinct().values_list('user')
-    print(active_story_user_ids)
+    active_story_user_ids = Story.objects.filter(user__in = request.user.profile.followings.all(), status=True).values_list('user', flat=True).order_by('-created_at').distinct()
 
-    active_story_users = get_user_model().objects.filter(id__in = active_story_user_ids).all()
-    print(active_story_users)
+    newest_story = Story.objects.filter(user = OuterRef('pk')).order_by('-created_at')
+    active_story_users = get_user_model().objects.filter(
+        id__in = active_story_user_ids).annotate(
+        newest_story_created_at = Subquery(newest_story.values('created_at')[:1])).order_by('-newest_story_created_at').all()
 
     my_active_story_count = Story.objects.filter(user=request.user, status=True).all()
     
@@ -41,8 +43,8 @@ def custom_feed(request):
     favourites_posts = Post.objects.select_related('user').prefetch_related('likes').filter(
         status=True).filter(user__id__in=request.user.profile.favourites.all())
     
-    hot_posts = Post.objects.select_related('user').prefetch_related('likes').filter(
-        status=True).annotate(likes_count = Count('likes'), comments_count = Count('post_comments')).order_by('-likes_count', '-comments_count').all()
+    hot_posts = Post.objects.select_related('user').prefetch_related('likes').annotate(likes_count = Count('likes'), comment_count = Count('post_comments')).order_by('-likes_count', '-comment_count', '-created_at').filter(
+        status=True).all()
 
     variant = request.GET['variant']
     

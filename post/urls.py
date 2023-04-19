@@ -14,5 +14,5 @@ urlpatterns = [
     path('delete/<str:pk>/', views.delete_post, name='delete_post'),
     path('update/<slug:slug>/', views.update_post, name='update_post'),
     path('like-comment/<str:pk>', views.like_comment, name='like_comment'),
-    path('add-favorite/<str:user_id>', views.add_favorites, name='add_favorites')
+    path('add-favorite/<str:user_id>', views.add_favorites, name='add_favorites'),
 ]

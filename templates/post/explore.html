@@ -1,0 +1,32 @@
+{% extends 'layouts/main-layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <div class="row g-1 my-3">
+                {% if posts %}
+                    {% for post in posts %}
+                        <div class="col-md-4 col-sm-12">
+                            <div class="card shadow-sm rounded">
+                                <div class="card-body related-post-image">
+                                    <a href="{% url 'post:post_details' post.slug %}">
+                                        {% with image=post.postimage_set.first %}
+                                            <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
+                                        {% endwith %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center mt-5">
+                        <i class="fas fa-camera mb-5" style="font-size: 48px;"></i>
+                        <h1 class="fs-1">No Posts Yet</h1>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

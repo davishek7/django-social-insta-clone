@@ -1,0 +1,11 @@
+<!-- Post Options Dropdown -->
+{% load static %}
+<ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end text-center rounded">
+    {% if request.user == highlight.user %}
+        <a href="{% url 'user:delete_highlight' highlight.slug %}" class="dropdown-item text-danger fw-bold">Delete</a>
+        <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#edit-highlight">Edit</a>
+    {% else %}
+        <a href="#" class="dropdown-item text-danger fw-bold">Report</a>
+    {% endif %}
+</ul>
+{% include 'user/highlights-edit-modal.html' %}

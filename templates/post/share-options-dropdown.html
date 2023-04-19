@@ -8,8 +8,8 @@
     <a href="#" class="dropdown-item border-bottom"><i class="fab fa-facebook"></i>&ensp;Share to Facebook</a>
     <a href="#" class="dropdown-item border-bottom"><i class="fab fa-twitter"></i>&ensp;Share to Twitter</a>
     <a href="#" class="dropdown-item border-bottom"><i class="fas fa-envelope"></i>&ensp;Share via Email</a>
-    <button type="button" class="dropdown-item border-bottom" onclick="copyLink({{post.id}})" id="copyLinkBtn-{{post.id}}">
+    <button type="button" class="dropdown-item" onclick="copyLink({{post.id}})" id="copyLinkBtn-{{post.id}}">
         <input type="text" value="{{request.get_host}}/p/{{post.slug}}/" id="copy-link-{{post.id}}" class="d-none">
-        <i class="fas fa-link border-bottom"></i>&ensp;Copy link
+        <i class="fas fa-link"></i>&ensp;Copy link
     </button>
 </ul>

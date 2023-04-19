@@ -21,7 +21,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant={{'following' | urlencode}}">Following<i class="fas fa-user-check ms-5"></i></a></li>                
-                    <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant={{'favorites' | urlencode}}">Favorites<i class="far fa-star ms-5"></i></a></li>
+                    <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant={{'favorites' | urlencode}}">Favorites<i class="fas fa-star ms-5"></i></a></li>
                     <li><a class="dropdown-item" href="{% url 'feed:custom_feed' %}?variant={{'hot' | urlencode}}">Hot Posts<i class="fas fa-fire ms-5"></i></a></li>
                 </ul>
             </div>
@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active me-1" href="#"><i class="far fa-compass" style='font-size:24px'></i></a>
+                        <a class="nav-link active me-1" href="{% url 'explore' %}"><i class="far fa-compass" style='font-size:24px'></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active me-1" href="{% url 'notification:list' %}">

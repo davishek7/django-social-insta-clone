@@ -1,5 +1,6 @@
 from django.db import models
 from commons.models import TimeStampModel, StatusModel
+from django.contrib.auth.models import BaseUserManager
 from django.conf import settings
 from post.random_slug import generate_random_slug
 

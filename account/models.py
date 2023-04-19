@@ -54,6 +54,10 @@ class User(AbstractBaseUser,PermissionsMixin, TimeStampModel):
 
     def __str__(self):
         return self.username
+    
+    @property
+    def get_first_active_story(self):
+        return self.story_set.filter(status = True).first()
 
 
 class Profile(TimeStampModel, StatusModel):

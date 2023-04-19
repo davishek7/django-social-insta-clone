@@ -1,0 +1,9 @@
+<!-- Post Options Dropdown -->
+{% load static %}
+<ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end text-center rounded">
+    {% if request.user == story.user %}
+        <a href="{% url 'story:delete_story' story.slug %}" class="dropdown-item text-danger fw-bold">Delete</a>
+    {% else %}
+        <a href="#" class="dropdown-item text-danger fw-bold">Report</a>
+    {% endif %}
+</ul>

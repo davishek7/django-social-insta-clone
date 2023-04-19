@@ -15,10 +15,7 @@ def common_context(request):
         'reply_form' : ReplyForm(),
         'story_form' : StoryForm(),
         'profile' : request.user.profile if request.user.is_authenticated else None,
-        # 'unread_notifications' : Notification.objects.filter(to_user = request.user, status=True, read_status=False) if request.user.is_authenticated else None,
-        # 'read_notifications' : Notification.objects.filter(to_user = request.user, status=True, read_status=True) if request.user.is_authenticated else None,
         'unread_notifications_count' : Notification.objects.filter(to_user = request.user, read_status = False).count() if request.user.is_authenticated else None,
         'host' : settings.HOST,
         'suggestions' : get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all()) | Q(id=request.user.id) | Q(is_superuser=True))[:3] if request.user.is_authenticated else None
-
     }

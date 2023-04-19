@@ -20,7 +20,8 @@
                                     {% if post.user in request.user.profile.favourites.all %}
                                         <i class="fas fa-star pt-2 me-3" style="color: darkorange;"></i>
                                     {% endif %}
-                                    <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                    <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="dropdown" data-bs-auto-close="outside" style="cursor:pointer;"></i>
+                                    {% include 'post/post-options-dropdown.html' %}
                                 </div>
                             </div>
                         </div>
@@ -47,7 +48,8 @@
                                     {% if post.user in request.user.profile.favourites.all %}
                                         <i class="fas fa-star pt-2 me-3" style="color: darkorange;"></i>
                                     {% endif %}
-                                    <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                    <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="dropdown" data-bs-auto-close="outside" style="cursor:pointer;"></i>
+                                    {% include 'post/post-options-dropdown.html' %}
                                 </div>
                             </div>
                         </div>
@@ -90,7 +92,8 @@
                                     {% endif %}
                                 </a>
                             </div>
-                            <p class="fw-bold">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
+                            <p class="fw-bold" data-bs-toggle="modal" data-bs-target="#post-{{post.id}}-likes">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
+                            {% include 'post/post-likes-modal.html' %}
                             <small class="text-muted">{{post.created_at|format_created_time}}</small>
                         </div>
                         <form action="{% url 'post:add_comment' post.id %}" method="post" class="input-group">
@@ -111,20 +114,16 @@
         <p>
             <a href="{% url 'profile' post.user.username %}" class="fw-bold mb-3 text-decoration-none text-dark"><span class="text-muted">More posts from</span>&nbsp;{{post.user.username}}</a>
         </p>
-        <div class="row mb-5 gy-4">
+        <div class="row g-1 mb-5">
             {% for post in related_posts %}
-                <div class="col-md-4 col-sm-4 col-xs-4 mb-2">
-                    <div class="card">
-                        <div class="card-body related-post-image">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="card rounded shadow-sm">
+                        <div class="related-post-image">
                             <a href="{% url 'post:post_details' post.slug %}">
                                 {% with image=post.postimage_set.first %}
                                     <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
                                 {% endwith %}
                             </a>
-                        </div>
-                        <div class="card-footer d-flex justify-content-evenly">
-                            <i class="far fa-heart fs-4"> {{post.likes.count}}</i> 
-                            <i class="far fa-comment fs-4"> {{post.post_comments.all.count}}</i>
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,8 @@
                                         {% if post.user in request.user.profile.favourites.all %}
                                             <i class="fas fa-star pt-2 me-3" style="color: darkorange;"></i>
                                         {% endif %}
-                                        <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                        <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="dropdown" data-bs-auto-close="outside" style="cursor:pointer;"></i>
+                                        {% include 'post/post-options-dropdown.html' %}
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +59,8 @@
                                         {% endif %}
                                     </a>
                                 </div>
-                                <p class="fw-bold">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
+                                <p class="fw-bold" data-bs-toggle="modal" data-bs-target="#post-{{post.id}}-likes">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
+                                {% include 'post/post-likes-modal.html' %}
                                 <p class="card-text"><b>{{post.user.username}}</b>&nbsp;{{post.caption}}</p>
                                 <p class="text-muted" data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}" style='cursor:pointer;'>View all {{post.post_comments.all.count}} comments</p>
                             </div>

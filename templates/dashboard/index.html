@@ -1,20 +1,18 @@
 {% extends 'layouts/dashboard-layout.html' %}
 {% block content %}
 
-<main id="main" class="main">
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard:home' %}">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+    </nav>
+</div><!-- End Page Title -->
 
-    <div class="pagetitle">
-        <h1>Dashboard</h1>
-        <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'dashboard:home' %}">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-        </nav>
-    </div><!-- End Page Title -->
-
-    <section class="section dashboard">
-        <div class="row">
+<section class="section dashboard">
+    <div class="row">
 
         <!-- Left side columns -->
         <div class="col-lg-8">
@@ -84,21 +82,21 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Fullname</th>
+                                    <th scope="col">Name</th>
                                     <th scope="col">Username</th>
-                                    <th scope="col">Follower count</th>
-                                    <th scope="col">Post count</th>
+                                    <th scope="col">Followers</th>
+                                    <th scope="col">Posts</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for user in users %}
-                                <tr>
-                                    <th scope="row"><a href="#">#{{forloop.counter}}</a></th>
-                                    <td>{{user.name}}</td>
-                                    <td>{{user.username}}</td>
-                                    <td>{{user.profile.followers.count}}</td>
-                                    <td>{{user.post_set.count}}</td>
-                                </tr>
+                                {% for user in top_users %}
+                                    <tr>
+                                        <th scope="row"><a href="#">#{{forloop.counter}}</a></th>
+                                        <td>{{user.name}}</td>
+                                        <td>{{user.username}}</td>
+                                        <td>{{user.profile.followers.count}}</td>
+                                        <td>{{user.post_set.count}}</td>
+                                    </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -123,7 +121,7 @@
                             </tr>
                         </thead>
                             <tbody>
-                                {% for post in posts %}
+                                {% for post in top_posts %}
                                     <tr>
                                         <th scope="row">
                                             <a href="{% url 'post:post_details' post.slug %}">
@@ -249,9 +247,7 @@
             </div>
         </div>
 
-        </div>
-    </section>
-
-</main>
+    </div>
+</section>
 
 {% endblock content %}

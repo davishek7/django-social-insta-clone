@@ -21,23 +21,27 @@
                       <h6 class="fw-bold pt-2">{{story.user.username}}
                         &bull;
                         <small class="text-muted">{{story.created_at|format_created_time}}</small>
-                      </h6> 
+                      </h6>
                   </a>
+                  <div class="dropdown">
+                    <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="dropdown" data-bs-auto-close="outside" style="cursor:pointer;"></i>
+                    {% include 'story/story-options-dropdown.html' %}
+                  </div>
                 </div>
 
                 {% if request.user != story.user %}
                   <form action="{% url 'story:reply_to_story' story.slug %}" method="post" class="px-3">
                     {% csrf_token %}
-                    <div class="row">
+                    <div class="row g-0">
                       <div class="col-sm-10">
                         {{story_reply_form.body}}
                       </div>
                       <div class="col-sm-2">
                         <a href="{% url 'story:like_story' story.slug %}" class="text-decoration-none text-dark">
                           {% if request.user in story.likes.all %}
-                            <i class="fas fa-heart" style="font-size:32px; color: crimson;"></i>
+                            <i class="fas fa-heart py-1" style="font-size:30px; color: crimson;"></i>
                           {% else %}
-                            <i class="far fa-heart" style="font-size:32px;"></i>
+                            <i class="far fa-heart py-1" style="font-size:30px;"></i>
                           {% endif %}
                         </a>
                       </div>
@@ -67,7 +71,7 @@
   {% endif %}
 
   {% for user_story in user_stories %}
-    <span class="badge rounded-pill btn-sm bg-{% if user_story.id == story.id %}info{% else %}secondary{% endif %} disabled">{{forloop.counter}}</span>  
+    <span class="badge rounded-pill bg-{% if user_story.id == story.id %}info{% else %}secondary{% endif %} text-decoration-none">-</span>  
   {% endfor %}
 
   {% if prev_story %}

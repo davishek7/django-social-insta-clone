@@ -1,0 +1,56 @@
+{% extends 'layouts/story-layout.html' %}
+{% load static %}
+{% load format_created_at %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-10 mx-auto px-3">
+      <div class="row">
+          <div class="col-md-6 px-3 mx-auto">
+            <div class="card shadow rounded border-info">
+              <div class="story-image">
+                <img src="{{story.image.url}}" class="card-img-top" alt="...">
+              </div>
+              <div class="card-img-overlay text-center story-image">
+                <h5 class="card-title fw-bold fs-1">{{story.caption}}</h5>
+              </div>
+              <div class="card-body text-center">
+                <div class="d-flex justify-content-between mb-4 px-3">
+                  <a href="{% url 'profile' story.user.username %}" class="d-flex justify-content-start text-decoration-none text-dark">
+                      <img src="{{story.user.profile_photo.url}}" class="me-2 post-profile-avatar">
+                      <h6 class="fw-bold pt-2">{{story.user.username}}
+                        &bull;
+                        <small class="text-muted">{{story.created_at|format_created_time}}</small>
+                      </h6>
+                  </a>
+                  <div class="dropdown">
+                    <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="dropdown" data-bs-auto-close="outside" style="cursor:pointer;"></i>
+                    {% include 'user/highlight-options-dropdown.html' %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="text-center mt-2">
+  {% if next_story %}
+    <a href="{% url 'story:highlight_details' highlight.slug next_story.slug %}" class="btn btn-dark btn-sm rounded float-end">&#8250;</a>
+  {% else %}
+    <a href="#" class="btn btn-dark btn-sm rounded float-end disabled">&#8250;</a>
+  {% endif %}
+
+  {% for highlight_story in highlight_stories %}
+    <span class="badge rounded-pill bg-{% if highlight_story.id == story.id %}info{% else %}secondary{% endif %} text-decoration-none">-</span>  
+  {% endfor %}
+
+  {% if prev_story %}
+    <a href="{% url 'story:highlight_details' highlight.slug prev_story.slug %}" class="btn btn-dark btn-sm rounded float-start">&#8249;</a>
+  {% else %}
+    <a href="#" class="btn btn-dark btn-sm rounded float-start disabled">&#8249;</a>
+  {% endif %}
+</div>
+
+{% endblock content%}

@@ -134,3 +134,12 @@ def add_favorites(request, user_id):
         profile.favourites.remove(post_user)
         messages.warning(request, f'{post_user.username} removed from your favourites.')
     return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+@normal_user_only
+def explore(request):
+    posts = Post.objects.select_related('user').prefetch_related('likes').exclude(user = request.user).filter(
+        status=True).filter(~Q(user__id__in=request.user.profile.followings.all()) | ~Q(id__in=request.user.post_likes.all())).order_by('?').all()
+    
+    context = {'posts':posts}
+    return render(request, 'post/explore.html', context=context)

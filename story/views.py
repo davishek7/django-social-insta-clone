@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Story
 from .forms import StoryForm, StoryReplyForm
 from django.contrib import messages
-from .decorators import increament_story_view_count
+from .decorators import increament_story_view_count, story_user_required
 from commons.decorators import normal_user_only
 # Create your views here.
 
@@ -14,12 +14,13 @@ User = get_user_model()
 @increament_story_view_count
 def story_details(request, username, slug):
     user = get_user_model().objects.filter(username=username).first()
-    story = Story.objects.filter(user = user, slug = slug).first()
-    user_stories = Story.objects.filter(user=user).all()
-    prev_story = Story.objects.filter(user = user, created_at__lt = story.created_at).last()
-    next_story = Story.objects.filter(user = user, created_at__gt = story.created_at).first()
+    story = Story.objects.filter(user = user, slug = slug, status = True).first()
+    user_stories = Story.objects.filter(user=user, status = True).all()
+
+    prev_story = Story.objects.filter(user = user, created_at__lt = story.created_at, status = True).last()
+    next_story = Story.objects.filter(user = user, created_at__gt = story.created_at, status = True).first()
     story_reply_form = StoryReplyForm()
-    context = {'user':user, 'story':story, 'user_stories':user_stories, 'prev_story':prev_story, 'next_story':next_story, 'story_reply_form':story_reply_form}
+    context = {'user':user, 'story':story, 'user_stories':user_stories, 'prev_story':prev_story, 'next_story':next_story, 'story_reply_form':story_reply_form, 'title':'Stories'}
     return render(request, 'story/story-details.html', context=context)
 
 @login_required
@@ -57,5 +58,15 @@ def reply_to_story(request, slug):
             story_reply.save()
             messages.success(request, 'Message sent.')
         else:
-            messages.error(request, 'Something haappened.')
+            messages.error(request, 'Something went wrong.')
     return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+@normal_user_only
+@story_user_required
+def delete_story(request, slug):
+    story = get_object_or_404(Story, slug=slug)
+    story.status=False
+    story.save()
+    messages.info(request, 'Story deleted.')
+    return redirect('/')

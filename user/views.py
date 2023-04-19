@@ -6,6 +6,9 @@ from account.models import Profile
 from post.models import Post
 from django.contrib.auth.decorators import login_required
 from commons.decorators import normal_user_only
+from .models import Highlight
+from story.models import Story
+from .decorators import highlight_user_required
 
 # Create your views here.
 
@@ -14,11 +17,13 @@ def profile(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     title = f'{user.name} (@{user.username}) \u2022 Instagram photos and videos'
     user_posts = Post.objects.filter(user=user, status=True).order_by('-created_at')
+    stories_count = Story.objects.filter(user = user).count()
+    highlights = Highlight.objects.filter(user = user, status = True).order_by('-created_at').all()
     user_posts_count = user_posts.count()
     user_bookmarks = user.profile.bookmarks.filter(status=True)
-    context = {'user':user, 'title':title, 'user_posts':user_posts, 'user_bookmarks':user_bookmarks, 'user_posts_count':user_posts_count}
-    return render(request, 'user/profile.html', context=context)
-
+    context = {'user':user, 'title':title, 'user_posts':user_posts, 'user_bookmarks':user_bookmarks, 
+               'user_posts_count':user_posts_count, 'highlights':highlights, 'stories_count':stories_count}
+    return render(request, 'user/profile/profile.html', context=context)
 
 @login_required
 @normal_user_only
@@ -67,3 +72,58 @@ def remove_follower(request, user_id):
         request.user.profile.followers.remove(user_id)
         user.profile.followings.remove(request.user)
     return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+@normal_user_only
+def create_highlight(request, username):
+    user = get_user_model().objects.select_related('profile').filter(username = username, is_active = True).first()
+    if request.method == 'POST':
+        name = request.POST.get('highlight_name')
+        _stories = request.POST.getlist('story')
+        if len(_stories) > 1:
+            highlight = Highlight.objects.create(name = name, user = user)
+            stories = Story.objects.filter(id__in = _stories, user = user).all()
+            highlight.stories.add(*stories)
+            messages.info(request, 'Highlight added.')
+        else:
+            messages.warning(request, 'Please select atleast one story.')
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+@normal_user_only
+def highlight_details(request, slug, story_slug):
+    highlight = get_object_or_404(Highlight, slug = slug)
+    story = get_object_or_404(Story, slug=story_slug)
+    highlight_stories = Story.objects.filter(id__in = highlight.stories.all()).all()
+
+    prev_story = Story.objects.filter(id__in = highlight.stories.all(), created_at__lt = story.created_at,).last()
+    next_story = Story.objects.filter(id__in = highlight.stories.all(), created_at__gt = story.created_at,).first()
+
+    context = {'highlight':highlight, 'story':story, 'highlight_stories':highlight_stories, 
+               'prev_story':prev_story, 'next_story':next_story, 'title':'Stories'}
+    return render(request, 'user/highlight-details.html', context=context)
+
+@login_required
+@normal_user_only
+@highlight_user_required
+def edit_highlight(request, slug):
+    highlight = get_object_or_404(Highlight, slug=slug)
+    if request.method == 'POST':
+        name = request.POST.get('highlight_name')
+        _stories = request.POST.getlist('story')
+        if name != highlight.name:
+            highlight.name = name
+            highlight.save()
+        stories = Story.objects.filter(id__in = _stories)
+        for story in stories:
+            if story not in highlight.stories.all():
+                highlight.stories.add(story)
+    return redirect('profile', username=highlight.user.username)
+
+@login_required
+@normal_user_only
+@highlight_user_required
+def delete_highlight(request, slug):
+    highlight = get_object_or_404(Highlight, slug=slug)
+    highlight.delete()
+    return redirect('profile', username = highlight.user.username)

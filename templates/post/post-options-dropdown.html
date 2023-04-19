@@ -5,6 +5,7 @@
         <a href="{% url 'post:delete_post' post.id %}" class="dropdown-item text-danger fw-bold border-bottom">Delete</a>
         <a href="{% url 'post:update_post' post.slug %}" class="dropdown-item border-bottom">Edit</a>
     {% else %}
+        <a href="#" class="dropdown-item text-danger fw-bold border-bottom">Report</a>
         {% if post.user in request.user.profile.followings.all %}
             <a href="{% url 'user:unfollow' post.user.username %}" class="dropdown-item text-danger border-bottom">Unfollow <span class="fw-bold">{{post.user.username}}</span></a>
         {% else %}
@@ -31,6 +32,6 @@
         <input type="text" value="{{request.get_host}}/p/{{post.slug}}/" id="copy-link-{{post.id}}" class="d-none">
         Copy link
     </button>
-    <button class="dropdown-item border-bottom">Cancel</button>
+    <button class="dropdown-item">Cancel</button>
 </ul>
 {% include 'post/confirmation-toast.html' %}

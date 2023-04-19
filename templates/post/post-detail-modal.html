@@ -1,6 +1,6 @@
 <!-- Post Details Modal -->
 {% load format_created_at %}
-<div class="modal fade" id="post-details-{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="post-details-{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content rounded">
             <div class="modal-body">
@@ -17,7 +17,8 @@
                                         {% if post.user in request.user.profile.favourites.all %}
                                             <i class="fas fa-star pt-2 me-3" style="color: darkorange;"></i>
                                         {% endif %}
-                                        <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                        <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="dropdown" data-bs-auto-close="outside" style="cursor:pointer;"></i>
+                                        {% include 'post/post-options-dropdown.html' %}
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +45,8 @@
                                         {% if post.user in request.user.profile.favourites.all %}
                                             <i class="fas fa-star pt-2 me-3" style="color: darkorange;"></i>
                                         {% endif %}
-                                        <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="modal" data-bs-target="#post-options-{{post.id}}" style="cursor:pointer;"></i>
+                                        <i class="fas fa-ellipsis-h pt-2" data-bs-toggle="dropdown" data-bs-auto-close="outside" style="cursor:pointer;"></i>
+                                        {% include 'post/post-options-dropdown.html' %}
                                     </div>
                                 </div>
                             </div>

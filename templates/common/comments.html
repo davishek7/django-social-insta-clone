@@ -45,19 +45,17 @@
         <small class="ms-1" style="font-size: 14px;">{{comment.likes.count}}</small>
     </li>
 </ul>
-<div class="ms-5">
+<div class="ms-3">
     {% if comment.comment_replies.count > 0 %}
         <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#replies-{{comment.id}}" aria-expanded="false" aria-controls="flush-collapseOne">
-                        <small class="text-muted fw-bold">View replies({{comment.comment_replies.count}})</small> 
+                        <small class="text-muted fw-bold ms-5">View replies({{comment.comment_replies.count}})</small> 
                     </button>
                 </h2>
                 <div id="replies-{{comment.id}}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                    <!-- <div class="accordion-body"> -->
-                        {% include 'common/comment-replies.html' %}
-                    <!-- </div> -->
+                    {% include 'common/comment-replies.html' %}
                 </div>
             </div>
         </div>
