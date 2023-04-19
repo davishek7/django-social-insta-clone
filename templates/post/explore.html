@@ -8,8 +8,8 @@
                 {% if posts %}
                     {% for post in posts %}
                         <div class="col-md-4 col-sm-12">
-                            <div class="card shadow-sm rounded">
-                                <div class="card-body related-post-image">
+                            <div class="card rounded shadow">
+                                <div class="related-post-image">
                                     <a href="{% url 'post:post_details' post.slug %}">
                                         {% with image=post.postimage_set.first %}
                                             <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">

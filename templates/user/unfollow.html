@@ -1,22 +1,26 @@
 {% extends 'layouts/main-layout.html' %}
 
 {% block content %}
-<div class="container my-5 w-50">
-    <div class="card shadow-sm rounded w-50 mx-auto">
-        <div class="card-body text-center">
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 col-lg-5 mx-auto my-3">
+            <div class="card shadow-sm rounded mx-auto">
+                <div class="card-body text-center">
 
-            <img src={{user.profile_photo.url}} alt="" class="unfollow-image-avatar my-3">
+                    <img src={{user.profile_photo.url}} alt="" class="unfollow-image-avatar my-3">
 
-            <p class="mb-3"> Unfollow <b> @{{user.username}} </b> ?  </p>
+                    <p class="mb-3"> Unfollow <b> @{{user.username}} </b> ?  </p>
 
-            <ul class="list-group text-center mb-3">
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-light w-100 text-danger rounded mb-2 border fw-bold">Unfollow</button>
-                </form>
-                <button onclick="history.go(-1)" class="btn btn-light w-100 rounded border">Cancel</button>
-            </ul>
+                    <ul class="list-group text-center mb-3">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-light w-100 text-danger rounded mb-2 border fw-bold">Unfollow</button>
+                        </form>
+                        <button onclick="history.go(-1)" class="btn btn-light w-100 rounded border">Cancel</button>
+                    </ul>
 
+                </div>
+            </div>
         </div>
     </div>
 </div>

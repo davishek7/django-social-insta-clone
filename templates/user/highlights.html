@@ -4,13 +4,13 @@
         <ul class="list-group list-group-horizontal list-group-flush">
             {% if highlights %}
                 {% for highlight in highlights %}
-                    <li class="list-group-item text-center me-3 dropdown" style="border: none">
+                    <li class="list-group-item text-center me-1" style="border: none">
                         <a href="{% url 'story:highlight_details' highlight.slug highlight.get_first_story.slug %}">
                             <img src="{{highlight.get_first_story.image.url}}" alt="" 
                             class="higlights-avatar border border-3">
                         </a>
                         <br>
-                        <small data-bs-toggle="tooltip" data-bs-placement="top" title="{{highlight.name}}">{% if highlight.name|length > 15 %}{{highlight.name|slice:':10'}}...{% else %}{{highlight.name}}{% endif %}</small>
+                        <small data-bs-toggle="tooltip" data-bs-placement="top" title="{{highlight.name}}">{% if highlight.name|length > 12 %}{{highlight.name|slice:':10'}}...{% else %}{{highlight.name}}{% endif %}</small>
                     </li>
                 {% endfor %}
             {% endif %}
@@ -28,4 +28,3 @@
         </ul>
     </div>
 </div>
-{% include 'user/highlights-create-modal.html' %}

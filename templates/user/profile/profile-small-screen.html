@@ -1,35 +1,56 @@
-<div class="col-4 text-center d-md-none d-sm-block">
-    <a href="{{user.profile_photo.url}}">
-        <img src="{{user.profile_photo.url}}" alt="" class="profile-small-image-avatar">
-    </a>
-</div>
-<div class="col-6 text-center d-md-none d-sm-block">
-    <h1 class="mb-4">{{user.username}}
-        &ensp;
-        {% if request.user == user %}
-            <a href="#" class="btn btn-light rounded border border-dark text-dark fw-bold">Edit profile</a>
-            &ensp;
-            <a href="#" class="text-dark"><i class="bi bi-gear-wide" style="font-size:28px;"></i></a>
-        {% else %}
-            {% if user in request.user.profile.followings.all %}
-                <a href="{% url 'chat:inbox' %}" class="btn btn-light rounded border border-dark text-dark fw-bold">Message</a>
-                &nbsp;
-                <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light rounded border border-dark text-dark"><i class="fas fa-user-check" style="font-size:20px;"></i></a>
-                &nbsp;
-                <a href="#" class="text-dark"><i class="fas fa-ellipsis-h pt-2" style="font-size:24px;"></i></a>
-            {% else %}
-                <a href="{% url 'user:follow' user.id %}" class="btn btn-primary rounded">Follow</a>
-            {% endif %}
+<div class="d-md-none d-sm-block">
+    <div class="row mb-3">
+        <div class="col-4 text-center mb-5">
+            <img src="{{user.profile_photo.url}}" alt="" class="profile-small-image-avatar" data-bs-toggle="modal" data-bs-target="#picture-upload">
+            {% include 'user/profile-picture-upload-modal.html' %}
+        </div>
+        <div class="col-8">
+            <h1 class="mb-4">{{user.username}}
+                &ensp;
+                {% if request.user == user %}
+                    <a href="#" class="btn btn-light rounded border border-dark text-dark fw-bold">Edit profile</a>
+                    &ensp;
+                    <a href="#" class="text-dark"><i class="bi bi-gear-wide" style="font-size:28px;"></i></a>
+                {% else %}
+                    {% if user in request.user.profile.followings.all %}
+                        <a href="{% url 'chat:inbox' %}" class="btn btn-light rounded border border-dark text-dark fw-bold">Message</a>
+                        &nbsp;
+                        <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light rounded border border-dark text-dark"><i class="fas fa-user-check" style="font-size:20px;"></i></a>
+                        &nbsp;
+                        <a href="#" class="text-dark"><i class="fas fa-ellipsis-h pt-2" style="font-size:24px;"></i></a>
+                    {% else %}
+                        <a href="{% url 'user:follow' user.id %}" class="btn btn-primary rounded">Follow</a>
+                    {% endif %}
+                {% endif %}
+            </h1>
+            <div class="fs-5">{{user.name}}</div>
+            <p class="fs-5">{{user.bio}}</p>
+        </div>
+        {% if stories_count > 0 %}
+            <div class="px-5">
+                {% include 'user/highlights.html' %}
+            </div>
         {% endif %}
-    </h1>
-</div>
-<div class="d-md-none d-sm-block">        
-    {{user.name}}
-    <br>
-    {{user.bio}}
-</div>
-{% if stories_count > 0 %}
-    <div class="d-md-none d-sm-block">
-        {% include 'user/highlights.html' %}
+        <div class="fs-5 mb-4 d-flex justify-content-around">
+            <a href="" class="text-dark text-decoration-none text-center disabled">
+                <span class="fw-bold">{{user_posts_count}}</span>
+                <br>
+                <span class="text-muted fs-6">posts</span>
+            </a>
+            &ensp;
+            <a class="text-dark text-decoration-none text-center" data-bs-toggle="modal" data-bs-target="#followers-{{user.id}}" class="" style="cursor:pointer">
+                <span class="fw-bold">{{user.profile.followers.count}}</span>
+                <br>
+                <span class="text-muted fs-6">followers</span>
+            </a>
+            &ensp;
+            <a class="text-dark text-decoration-none text-center" data-bs-toggle="modal" data-bs-target="#following-{{user.id}}" class="text-dark text-decoration-none" style="cursor:pointer">
+                <span class="fw-bold">{{user.profile.followings.count}}</span>
+                <br>
+                <span class="text-muted fs-6">following</span>
+            </a>
+            {% include 'user/follower-modal.html' %}
+            {% include 'user/following-modal.html' %}
+        </div>
     </div>
-{% endif %}
+</div>

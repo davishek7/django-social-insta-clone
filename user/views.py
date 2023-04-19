@@ -80,7 +80,7 @@ def create_highlight(request, username):
     if request.method == 'POST':
         name = request.POST.get('highlight_name')
         _stories = request.POST.getlist('story')
-        if len(_stories) > 1:
+        if len(_stories) > 0:
             highlight = Highlight.objects.create(name = name, user = user)
             stories = Story.objects.filter(id__in = _stories, user = user).all()
             highlight.stories.add(*stories)
