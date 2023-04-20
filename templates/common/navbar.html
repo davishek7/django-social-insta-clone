@@ -27,7 +27,7 @@
             </div>
         {% endif %}
 
-        <form class="d-flex d-md-block d-sm-none d-none me-3" style="width: 25%;" action="{% url 'search' %}" method="get">
+        <form class="d-flex me-3" style="width: 25%;" action="{% url 'search' %}" method="get">
             <div class="form-group position-relative has-icon-left">
                 <input type="text" class="form-control rounded" placeholder="Search" name="q" {% if "search_term" %}value="{{search_term}}"{% endif %} required>
                 <div class="form-control-icon">
@@ -38,18 +38,18 @@
         <div>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex">
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item">
+                    <li class="nav-item d-md-block d-sm-none d-none">
                         <a class="nav-link active me-1" href="/"><i class="fas fa-home" style='font-size:24px'></i></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item d-md-block d-sm-none d-none">
                         <a class="nav-link active me-1" href="{% url 'chat:inbox' %}"><i class="fab fa-facebook-messenger" style='font-size:24px;'></i></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item d-md-block d-sm-none d-none">
                         <a class="nav-link active me-1" href="#" data-bs-toggle="modal" data-bs-target="#create-post-modal">
                             <i class="far fa-plus-square" style='font-size:24px'></i>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item d-md-block d-sm-none d-none">
                         <a class="nav-link active me-1" href="{% url 'explore' %}"><i class="far fa-compass" style='font-size:24px'></i></a>
                     </li>
                     <li class="nav-item">
@@ -61,7 +61,7 @@
                             {% endif %}
                         </a>
                     </li>
-                    <li class="nav-item dropdown flex-shrink-0">
+                    <li class="nav-item dropdown flex-shrink-0 d-md-block d-sm-none d-none">
                         <a class="nav-link active me-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src={{request.user.profile_photo.url}} class="navbar-profile-image">
                         </a>
@@ -86,4 +86,41 @@
         </div>
     </div>
 </nav>
-{% include 'common/notification-canvas.html' %}
+
+<nav class="d-md-none d-sm-block navbar fixed-bottom navbar-light bg-light">
+    <div class="container d-flex justify-content-around">
+        <div>
+            <ul class="nav justify-content-around">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link active me-1 text-decoration-none text-dark" href="/"><i class="fas fa-home" style='font-size:24px'></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active me-1 text-decoration-none text-dark" href="{% url 'chat:inbox' %}"><i class="fab fa-facebook-messenger" style='font-size:24px;'></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active me-1 text-decoration-none text-dark" href="#" data-bs-toggle="modal" data-bs-target="#create-post-modal">
+                            <i class="far fa-plus-square" style='font-size:24px'></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active me-1 text-decoration-none text-dark" href="{% url 'explore' %}"><i class="far fa-compass" style='font-size:24px'></i></a>
+                    </li>
+                    <li class="nav-item dropup flex-shrink-0 text-decoration-none text-dark">
+                        <a class="nav-link active me-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src={{request.user.profile_photo.url}} class="navbar-profile-image">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="navbarDropdown" style="width: 200px">
+                            <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}"><i class="bi bi-person-circle"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}#saved"><i class="bi bi-bookmark"></i> Saved</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear-wide"></i> Settings</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat"></i> Switch accounts</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'account:logout'%}">Log Out</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

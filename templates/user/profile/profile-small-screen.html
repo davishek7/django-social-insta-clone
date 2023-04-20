@@ -23,16 +23,16 @@
                     {% endif %}
                 {% endif %}
             </h1>
-            <div class="fs-5">{{user.name}}</div>
-            <p class="fs-5">{{user.bio}}</p>
+            <p class="fs-5">{{user.name}}</p>
+            <p class="fs-5">{{user.bio|linebreaks}}</p>
         </div>
         {% if stories_count > 0 %}
-            <div class="px-5">
+            <div class="px-1">
                 {% include 'user/highlights.html' %}
             </div>
         {% endif %}
         <div class="fs-5 mb-4 d-flex justify-content-around">
-            <a href="" class="text-dark text-decoration-none text-center disabled">
+            <a href="javascript:void(0)" class="text-dark text-decoration-none text-center disabled">
                 <span class="fw-bold">{{user_posts_count}}</span>
                 <br>
                 <span class="text-muted fs-6">posts</span>
@@ -49,8 +49,6 @@
                 <br>
                 <span class="text-muted fs-6">following</span>
             </a>
-            {% include 'user/follower-modal.html' %}
-            {% include 'user/following-modal.html' %}
         </div>
     </div>
 </div>

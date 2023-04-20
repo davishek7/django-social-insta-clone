@@ -33,11 +33,9 @@
                 <a data-bs-toggle="modal" data-bs-target="#following-{{user.id}}" class="text-dark text-decoration-none" style="cursor:pointer">
                     <span class="fw-bold">{{user.profile.followings.count}}</span> following
                 </a>
-                {% include 'user/follower-modal.html' %}
-                {% include 'user/following-modal.html' %}
             </div>
-            <div class="fs-5">{{user.name}}</div>
-            <p class="fs-5">{{user.bio}}</p>
+            <p class="fs-5">{{user.name}}</p>
+            <p class="fs-5">{{user.bio|linebreaks}}</p>
         </div>
         {% if stories_count > 0 %}
             <div class="px-5">
