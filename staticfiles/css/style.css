@@ -178,6 +178,9 @@
   height: 100%;
   object-fit: cover;
 }
+.search-area{
+  width:25%;
+}
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -210,5 +213,8 @@
     width: 60px;
     object-fit: cover;
     border-radius: 50%;
+  }
+  .search-area{
+    width:100%;
   }
 }

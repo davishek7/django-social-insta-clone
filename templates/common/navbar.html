@@ -27,7 +27,7 @@
             </div>
         {% endif %}
 
-        <form class="d-flex me-3" style="width: 25%;" action="{% url 'search' %}" method="get">
+        <form class="d-flex me-3 search-area" action="{% url 'search' %}" method="get">
             <div class="form-group position-relative has-icon-left">
                 <input type="text" class="form-control rounded" placeholder="Search" name="q" {% if "search_term" %}value="{{search_term}}"{% endif %} required>
                 <div class="form-control-icon">
