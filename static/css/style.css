@@ -1,3 +1,6 @@
+body{
+  padding-bottom: 60px;
+}
 .form-group[class*="has-icon-"].has-icon-left .form-control {
   padding-left: 2.5rem;
 }
@@ -195,7 +198,7 @@
 @media only screen and (max-width: 990px) {
   .related-post-image{
     width: 100%;
-    height: 125px;
+    height: 100px;
     overflow: hidden;
   }
   .single-image{
@@ -216,5 +219,10 @@
   }
   .search-area{
     width:100%;
+  }
+  .story-image{
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
   }
 }

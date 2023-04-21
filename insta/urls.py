@@ -34,6 +34,7 @@ urlpatterns = [
 
     # user views
     path('<str:username>/', user_views.profile, name='profile'),
+    path('<str:username>/saved/', user_views.user_saved, name='user_saved'),
     path('explore/people/', user_views.suggestions, name='suggestions'),
 
     # post views

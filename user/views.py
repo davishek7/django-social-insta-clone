@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from commons.decorators import normal_user_only
 from .models import Highlight
 from story.models import Story
-from .decorators import highlight_user_required
+from .decorators import highlight_user_required, user_required
 
 # Create your views here.
 
@@ -20,8 +20,22 @@ def profile(request, username):
     stories_count = Story.objects.filter(user = user).count()
     highlights = Highlight.objects.filter(user = user, status = True).order_by('-created_at').all()
     user_posts_count = user_posts.count()
+    context = {'user':user, 'title':title, 'user_posts':user_posts,
+               'user_posts_count':user_posts_count, 'highlights':highlights, 'stories_count':stories_count}
+    return render(request, 'user/profile/profile.html', context=context)
+
+@login_required
+@normal_user_only
+@user_required
+def user_saved(request, username):
+    user = get_object_or_404(get_user_model(), username=username)
+    title = f'{user.name} (@{user.username}) \u2022 Instagram photos and videos'
+    user_posts = Post.objects.filter(user=user, status=True).order_by('-created_at')
+    stories_count = Story.objects.filter(user = user).count()
+    highlights = Highlight.objects.filter(user = user, status = True).order_by('-created_at').all()
+    user_posts_count = user_posts.count()
     user_bookmarks = user.profile.bookmarks.filter(status=True)
-    context = {'user':user, 'title':title, 'user_posts':user_posts, 'user_bookmarks':user_bookmarks, 
+    context = {'user':user, 'title':title, 'user_bookmarks':user_bookmarks, 
                'user_posts_count':user_posts_count, 'highlights':highlights, 'stories_count':stories_count}
     return render(request, 'user/profile/profile.html', context=context)
 

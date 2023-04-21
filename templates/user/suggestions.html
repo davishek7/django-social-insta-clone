@@ -4,32 +4,39 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-12 col-lg-7 mx-auto my-3">
-            <h3 class="fw-bold mb-3">Suggested</h3>
-            <div class="card shadow-sm rounded mx-auto">
-                <div class="card-body">
-                    {% for suggestion in suggestions %}
-                    <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item" style="border: none">
-                            <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
-                                <img src={{suggestion.profile_photo.url}} alt="" class="story-image-avatar">
-                            </a>
-                        </li>
-                        <li class="list-group-item" style="border: none; width: 1000px;">
-                            <div class="ms-2 me-auto">
-                                <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
-                                    <div class="fw-bold">{{suggestion.username}}</div>
-                                    <span class="text-muted">{{suggestion.name}}</span>
-                                </a>
-                                <p class="text-muted">Suggested for you</p>
-                            </div>
-                        </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="{% url 'user:follow' suggestion.id %}" class="fw-bold btn btn-primary rounded">Follow</a>
-                        </li>
-                    </ul>
-                    {% endfor %}
+            {% if suggestions %}
+                <h3 class="fw-bold mb-3">Suggested</h3>
+                <div class="card shadow-sm rounded mx-auto">
+                    <div class="card-body">
+                        {% for suggestion in suggestions %}
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item" style="border: none">
+                                    <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
+                                        <img src={{suggestion.profile_photo.url}} alt="" class="story-image-avatar">
+                                    </a>
+                                </li>
+                                <li class="list-group-item" style="border: none; width: 1000px;">
+                                    <div class="ms-2 me-auto">
+                                        <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
+                                            <div class="fw-bold">{{suggestion.username}}</div>
+                                            <span class="text-muted">{{suggestion.name}}</span>
+                                        </a>
+                                        <p class="text-muted">Suggested for you</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item" style="border: none;">
+                                    <a href="{% url 'user:follow' suggestion.id %}" class="fw-bold btn btn-primary rounded">Follow</a>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
+            {% else %}
+                <div class="text-center mt-5">
+                    <i class="fas fa-user-plus mb-5" style="font-size: 48px;"></i>
+                    <h1 class="fs-1">No suggestions for now</h1>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

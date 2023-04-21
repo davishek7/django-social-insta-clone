@@ -1,7 +1,7 @@
 <h5 class="fw-bold my-3">Posts</h5>
 <div class="row g-1 mb-5">
     {% for post in posts %}
-        <div class="col-md-4 col-sm-12">
+        <div class="col-4">
             <div class="card rounded shadow-sm">
                 <div class="related-post-image">
                     <a href="{% url 'post:post_details' post.slug %}">
