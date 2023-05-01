@@ -24,9 +24,9 @@
                                     </a>
                                 {% else %}
                                     {% if not noti.from_user in request.user.profile.followings.all %}
-                                        <a href="{% url 'user:follow' noti.from_user.id %}" class="btn btn-primary btn-sm rounded fw-bold">Follow</a>
+                                        <a href="{% url 'user:follow' noti.from_user.id %}" class="btn btn-primary rounded fw-bold" title="Follow"><i class="fas fa-user-plus"></i></a>
                                     {% else %}
-                                        <a href="{% url 'user:unfollow' noti.from_user.username %}" class="btn btn-light btn-sm border rounded fw-bold">Following</a>
+                                        <a href="{% url 'user:unfollow' noti.from_user.username %}" class="btn btn-light border rounded fw-bold" title="Following"><i class="fas fa-user-check"></i></a>
                                     {% endif %}
                                 {% endif %}
                             </li>

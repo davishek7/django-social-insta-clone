@@ -20,7 +20,7 @@ def profile(request, username):
     stories_count = Story.objects.filter(user = user).count()
     highlights = Highlight.objects.filter(user = user, status = True).order_by('-created_at').all()
     user_posts_count = user_posts.count()
-    context = {'user':user, 'title':title, 'user_posts':user_posts,
+    context = {'user':user, 'title':title, 'user_profile':True, 'user_posts':user_posts,
                'user_posts_count':user_posts_count, 'highlights':highlights, 'stories_count':stories_count}
     return render(request, 'user/profile/profile.html', context=context)
 
@@ -35,7 +35,7 @@ def user_saved(request, username):
     highlights = Highlight.objects.filter(user = user, status = True).order_by('-created_at').all()
     user_posts_count = user_posts.count()
     user_bookmarks = user.profile.bookmarks.filter(status=True)
-    context = {'user':user, 'title':title, 'user_bookmarks':user_bookmarks, 
+    context = {'user':user, 'title':title, 'user_bookmarks':user_bookmarks, 'bookmark':True, 
                'user_posts_count':user_posts_count, 'highlights':highlights, 'stories_count':stories_count}
     return render(request, 'user/profile/profile.html', context=context)
 

@@ -3,9 +3,9 @@
 <div class="modal" id="picture-upload" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content rounded"> 
-            <div class="modal-body">
+            <div class="modal-body text-center">
                 <img src={{user.profile_photo.url}} alt="" class="unfollow-image-avatar my-3">
-                <ul class="list-group text-center">
+                <ul class="list-group">
                     <form action="{% url 'user:upload_profile_photo' user.username %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="file" name="profile_photo" id="file-input" class="visuallyhidden" accept="image/*">

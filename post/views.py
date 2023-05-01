@@ -96,7 +96,19 @@ def like_comment(request, pk):
 @post_user_required
 def update_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    print(post)
+    if request.method == 'POST':
+        print(request.FILES)
+        caption = request.POST.get('caption')
+        if caption != post.caption:
+            post.caption = caption
+            post.save()
+        new_images = request.FILES.getlist('new_images')
+        for image in new_images:
+            PostImage.objects.create(image=image, post=post)
+        delete_images = request.POST.getlist('delete_images')
+        PostImage.objects.filter(id__in=delete_images, post=post).delete()
+        messages.success(request, 'Post updated successfully!')
+        return redirect('post:post_details', slug=post.slug)
     context={'post':post}
     return render(request, 'post/update.html', context=context)
 

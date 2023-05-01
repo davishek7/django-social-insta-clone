@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if os.getcwd() == '/app' else True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.railway.app', '.ngrok.io', 'django-insta', 'dashboard.django-insta']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.railway.app', '.ngrok-free.app', 'django-insta', 'dashboard.django-insta']
 
 HOST = os.environ.get('DEV_URL') if DEBUG else os.environ.get('LIVE_URL')
 

@@ -160,8 +160,8 @@ body{
   border-radius: 50%;
 }
 .profile-small-image-avatar{
-  height: 100px;
-  width: 100px;
+  height: 75px;
+  width: 75px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -171,18 +171,14 @@ body{
   object-fit: cover;
   border-radius: 50%;
 }
-.higlight-story{
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-}
-.higlight-story img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 .search-area{
   width:25%;
+}
+.suggestion-image-avatar{
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 .visuallyhidden {
   border: 0;
@@ -224,5 +220,11 @@ body{
     width: 100%;
     height: 500px;
     overflow: hidden;
+  }
+  .suggestion-image-avatar{
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
   }
 }

@@ -29,7 +29,7 @@ def index(request):
     paginator = Paginator(posts, 25)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    context = {'posts': page_obj, 'story_users':active_story_users, 'my_active_story_count':my_active_story_count,}
+    context = {'posts': page_obj, 'story_users':active_story_users, 'my_active_story_count':my_active_story_count, 'home':True}
     return render(request, 'index.html', context=context)
 
 
@@ -37,24 +37,32 @@ def index(request):
 @normal_user_only
 def custom_feed(request):
 
-    followings_posts = Post.objects.select_related('user').prefetch_related('likes').filter(
-        status=True).filter(user__id__in=request.user.profile.followings.all())
-    
-    favourites_posts = Post.objects.select_related('user').prefetch_related('likes').filter(
-        status=True).filter(user__id__in=request.user.profile.favourites.all())
-    
-    hot_posts = Post.objects.select_related('user').prefetch_related('likes').annotate(likes_count = Count('likes'), comment_count = Count('post_comments')).order_by('-likes_count', '-comment_count', '-created_at').filter(
-        status=True).all()
-
     variant = request.GET['variant']
-    
-    context = {'variant':variant,}
+
+    posts = None
 
     if variant == 'following':
-        context.update({'posts':followings_posts})
-    elif variant == 'favorites':
-        context.update({'posts':favourites_posts})
-    elif variant == 'hot':
-        context.update({'posts':hot_posts})
 
-    return render(request, 'feed/custom-feed.html', context=context)
+        followings_posts = Post.objects.select_related('user').prefetch_related('likes').filter(
+            status=True).filter(user__id__in=request.user.profile.followings.all())
+        posts = followings_posts
+        
+    elif variant == 'favorites':
+    
+        favourites_posts = Post.objects.select_related('user').prefetch_related('likes').filter(
+            status=True).filter(user__id__in=request.user.profile.favourites.all())
+        posts = favourites_posts
+        
+    elif variant == 'hot':
+    
+        hot_posts = (Post.objects.select_related('user').
+                    prefetch_related('likes').annotate(likes_count = Count('likes'), comment_count = Count('post_comments')).
+                    order_by('-likes_count', '-comment_count', '-created_at').filter(status=True).all())
+        posts = hot_posts
+
+    paginator = Paginator(posts, 25)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'posts': page_obj, 'variant':variant}
+
+    return render(request, 'index.html', context=context)

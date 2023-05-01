@@ -1,0 +1,47 @@
+<!-- Post Options Modal -->
+{% extends 'layouts/main-layout.html' %}
+{% load static %}
+{% load format_created_at %}
+{% block content %}
+
+<div class="container px-3">
+    <div class="row mx-auto">
+        <div class="col-12 col-lg-9 mx-auto my-3">
+            <div class="card rounded mt-5">
+                <form method="post" action="{% url 'post:update_post' post.slug %}" class="px-3 py-2" enctype="multipart/form-data">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded" id="floatingInput" placeholder="Caption" name="caption" value="{{post.caption}}" required>
+                            <label for="floatingInput">Caption</label>
+                        </div>
+                        <p class="fw-bold mb-3">Images</p>
+                        <div class="row g-3">
+                            {% for image in post.postimage_set.all %}
+                                <div class="col-6 mb-3">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="delete_images" value="{{image.id}}">
+                                        <label class="form-check-label"><i class="fas fa-trash text-danger"></i></label>
+                                    </div>
+                                    <div class="related-post-image">
+                                        <img src="{{image.image.url}}" class="card-img" alt="{{image.id}}">
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <p class="fw-bold mb-3">Add New Images</p>
+                        <div class="mb-3">
+                            <input type="file" name="new_images" class="form-control rounded mb-2" placeholder="Choose images" accept="image/*" multiple>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center" style="border:none">
+                        <button type="submit" class="btn btn-link fw-bold text-decoration-none">Save</button>
+                        <a href="{% url 'post:post_details' post.slug %}" class="btn btn-link text-decoration-none">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

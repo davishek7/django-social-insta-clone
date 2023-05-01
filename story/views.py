@@ -6,11 +6,14 @@ from .forms import StoryForm, StoryReplyForm
 from django.contrib import messages
 from .decorators import increament_story_view_count, story_user_required
 from commons.decorators import normal_user_only
+from feed.decorators import remove_old_stories
+
 # Create your views here.
 
 User = get_user_model()
 
 @login_required
+@remove_old_stories
 @increament_story_view_count
 def story_details(request, username, slug):
     user = get_user_model().objects.filter(username=username).first()

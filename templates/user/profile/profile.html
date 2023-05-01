@@ -11,26 +11,42 @@
         <hr>
         <ul class="nav nav-pills justify-content-center">
             <li class="nav-item">
-            <a class="nav-link {% if user_posts %}active disabled{% endif %}" href="{% url 'profile' user.username %}"><i class="fas fa-th"></i>&nbsp;POSTS</a>
+            <a class="nav-link {% if user_profile %}active disabled{% endif %}" href="{% url 'profile' user.username %}"><i class="fas fa-th"></i>&nbsp;POSTS</a>
             </li>
             {% if request.user == user %}
                 <li class="nav-item">
-                    <a class="nav-link {% if user_bookmarks %}active disabled{% endif %}" href="{% url 'user_saved' user.username %}"><i class="fas fa-bookmark"></i>&nbsp;SAVED</a>
+                    <a class="nav-link {% if bookmark %}active disabled{% endif %}" href="{% url 'user_saved' user.username %}"><i class="fas fa-bookmark"></i>&nbsp;SAVED</a>
                 </li>
             {% endif %}
         </ul>
-        {% if user_bookmarks %}
-            <div class="px-4 mx-auto">
-                {% include 'user/user-bookmarks.html' %}
-            </div>
-        {% elif user_posts %}
-            <div class="px-4 mx-auto">
-                {% include 'user/user-posts.html' %}
-            </div>
+        {% if not bookmark %}
+            {% if user_posts %}
+                <div class="mx-auto">
+                    {% include 'user/user-posts.html' %}
+                </div>
+            {% else %}
+                <div class="text-center mt-5">
+                    <i class="fas fa-camera mb-5" style="font-size: 48px;"></i>
+                    <h1 class="fs-1">No Posts Yet</h1>
+                </div>
+            {% endif %}
+        {% else %}
+            {% if user_bookmarks %}
+                <div class="mx-auto">
+                    {% include 'user/user-bookmarks.html' %}
+                </div>
+            {% else %}
+                <div class="text-center mt-5">
+                    <i class="fas fa-bookmark mb-5" style="font-size: 48px;"></i>
+                    <h1 class="fs-1">No Bookmarks</h1>
+                </div>
+            {% endif %}
         {% endif %}
-    </div>  
-{% include 'user/highlights-create-modal.html' %}
-{% include 'user/follower-modal.html' %}
-{% include 'user/following-modal.html' %}
+        
+    </div> 
+    {% include 'user/profile-picture-upload-modal.html' %} 
+    {% include 'user/highlights-create-modal.html' %}
+    {% include 'user/follower-modal.html' %}
+    {% include 'user/following-modal.html' %}
 
 {% endblock content %}

@@ -4,7 +4,7 @@
 {% load format_created_at %}
 {% block content %}
 
-<div class="container px-5">
+<div class="container px-3">
     <div class="row mx-auto">
         <div class="col-12">
             <div class="card rounded mt-5">
@@ -12,10 +12,10 @@
                     <div class="col-md-7">
                         <div class="card-header d-md-none d-sm-block" id="card-header-footer-color">
                             <div class="d-flex justify-content-between my-1">
-                                <div class="d-flex justify-content-center">
+                                <a href="{% url 'profile' post.user.username %}" class="d-flex justify-content-center text-decoration-none text-dark">
                                     <img src="{{post.user.profile_photo.url}}" class="me-3 post-profile-avatar">
                                     <h6 class="fw-bold pt-2">{{post.user.username}}</h6>
-                                </div>
+                                </a>
                                 <div>
                                     {% if post.user in request.user.profile.favourites.all %}
                                         <i class="fas fa-star pt-2 me-3" style="color: darkorange;"></i>
@@ -40,10 +40,10 @@
                     <div class="col-md-5">
                         <div class="card-header d-md-block d-none" id="card-header-footer-color">
                             <div class="d-flex justify-content-between my-1">
-                                <div class="d-flex justify-content-center">
+                                <a href="{% url 'profile' post.user.username %}"class="d-flex justify-content-center text-decoration-none text-dark">
                                     <img src="{{post.user.profile_photo.url}}" class="mx-3 post-profile-avatar">
                                     <h6 class="fw-bold pt-2">{{post.user.username}}</h6>
-                                </div>
+                                </a>
                                 <div>
                                     {% if post.user in request.user.profile.favourites.all %}
                                         <i class="fas fa-star pt-2 me-3" style="color: darkorange;"></i>
@@ -110,13 +110,13 @@
     <hr>
 
     <!-- related posts -->
-    <div class="mt-5 px-4">
+    <div class="mt-5">
         <p>
-            <a href="{% url 'profile' post.user.username %}" class="fw-bold mb-3 text-decoration-none text-dark"><span class="text-muted">More posts from</span>&nbsp;{{post.user.username}}</a>
+            <span class="text-muted">More posts from</span><a href="{% url 'profile' post.user.username %}" class="fw-bold mb-3 text-decoration-none text-dark">&nbsp;{{post.user.username}}</a>
         </p>
         <div class="row g-1 mb-5">
             {% for post in related_posts %}
-                <div class="col-md-4 col-sm-4 col-xs-4">
+                <div class="col-4">
                     <div class="card rounded shadow-sm">
                         <div class="related-post-image">
                             <a href="{% url 'post:post_details' post.slug %}">

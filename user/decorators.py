@@ -12,7 +12,6 @@ def user_required(view_func):
         if user == request.user:
             return view_func(request, *args, **kwargs)
         else:
-            print(request.META.get('HTTP_REFERER'))
             return redirect('user_saved', username=request.user.username)
     return wrapper
 

@@ -15,13 +15,13 @@
                 <p class="fw-bold mb-3">Stories</p>
                 <div class="row g-3">
                     {% for story in user.story_set.all %}
-                        <div class="col-md-6 mb-3">
+                        <div class="col-6 mb-3">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1" name="story" value="{{story.id}}" {% if story in highlight.stories.all %}checked{% endif %}>
                                 <label class="form-check-label" for="exampleCheck1">{{story.caption|truncatewords:5}}</label>
                             </div>
-                            <div class="higlight-story bg-dark">
-                                <img src="{{story.image.url}}" alt="" class="higlight-story">
+                            <div class="related-post-image">
+                                <img src="{{story.image.url}}" alt="{{story.caption}}">
                             </div>
                         </div>
                     {% endfor %}

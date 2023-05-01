@@ -1,28 +1,29 @@
 <div class="d-md-none d-sm-block">
     <div class="row mb-3">
-        <div class="col-4 text-center mb-5">
+        <div class="col-4 mb-5 text-start">
             <img src="{{user.profile_photo.url}}" alt="" class="profile-small-image-avatar" data-bs-toggle="modal" data-bs-target="#picture-upload">
-            {% include 'user/profile-picture-upload-modal.html' %}
         </div>
-        <div class="col-8">
-            <h1 class="mb-4">{{user.username}}
-                &ensp;
-                {% if request.user == user %}
-                    <a href="#" class="btn btn-light rounded border border-dark text-dark fw-bold">Edit profile</a>
-                    &ensp;
-                    <a href="#" class="text-dark"><i class="bi bi-gear-wide" style="font-size:28px;"></i></a>
+        <div class="col-8 text-start">
+            <h2>{{user.username}}
+            {% if request.user == user %}
+                <a href="#" class="text-dark pt-1"><i class="bi bi-gear-wide" style="font-size:24px;"></i></a></h2>
+                <a href="#" class="btn btn-light rounded text-dark fw-bold w-100 btn-sm">Edit profile</a>
+            {% else %}
+                {% if user in request.user.profile.followings.all %}
+                    <a href="{% url 'chat:inbox' %}" class="btn btn-light rounded border border-dark text-dark fw-bold">Message</a>
+                    &nbsp;
+                    <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light rounded border border-dark text-dark fw-bold">
+                        <i class="fas fa-user-check" style="font-size:16px;"></i>
+                    </a>
+                    &nbsp;
+                    <a href="#" class="text-dark"><i class="fas fa-ellipsis-h pt-2" style="font-size:24px;"></i></a>
                 {% else %}
-                    {% if user in request.user.profile.followings.all %}
-                        <a href="{% url 'chat:inbox' %}" class="btn btn-light rounded border border-dark text-dark fw-bold">Message</a>
-                        &nbsp;
-                        <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light rounded border border-dark text-dark"><i class="fas fa-user-check" style="font-size:20px;"></i></a>
-                        &nbsp;
-                        <a href="#" class="text-dark"><i class="fas fa-ellipsis-h pt-2" style="font-size:24px;"></i></a>
-                    {% else %}
-                        <a href="{% url 'user:follow' user.id %}" class="btn btn-primary rounded">Follow</a>
-                    {% endif %}
+                    <a href="{% url 'user:follow' user.id %}" class="btn btn-primary rounded"><i class="fas fa-user-plus"></i></a>
                 {% endif %}
-            </h1>
+            {% endif %}
+            
+        </div>
+        <div class="col-12">
             <p class="fs-5">{{user.name}}</p>
             <p class="fs-5">{{user.bio|linebreaks}}</p>
         </div>

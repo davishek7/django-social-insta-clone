@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container my-5">
     <div class="row">
-        <div class="col-12 col-lg-7 mx-auto my-3">
+        <div class="col-12 col-lg-6 mx-auto my-3">
             {% if suggestions %}
                 <h3 class="fw-bold mb-3">Suggested</h3>
                 <div class="card shadow-sm rounded mx-auto">
@@ -12,10 +12,10 @@
                             <ul class="list-group list-group-horizontal">
                                 <li class="list-group-item" style="border: none">
                                     <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
-                                        <img src={{suggestion.profile_photo.url}} alt="" class="story-image-avatar">
+                                        <img src={{suggestion.profile_photo.url}} alt="" class="suggestion-image-avatar">
                                     </a>
                                 </li>
-                                <li class="list-group-item" style="border: none; width: 1000px;">
+                                <li class="list-group-item suggestion-username" style="border: none; width: 1000px;">
                                     <div class="ms-2 me-auto">
                                         <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
                                             <div class="fw-bold">{{suggestion.username}}</div>
@@ -25,7 +25,9 @@
                                     </div>
                                 </li>
                                 <li class="list-group-item" style="border: none;">
-                                    <a href="{% url 'user:follow' suggestion.id %}" class="fw-bold btn btn-primary rounded">Follow</a>
+                                    <a href="{% url 'user:follow' suggestion.id %}" class="fw-bold btn btn-primary btn-sm rounded">
+                                        <i class="fas fa-user-plus"></i>
+                                    </a>
                                 </li>
                             </ul>
                         {% endfor %}

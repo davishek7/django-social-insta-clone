@@ -1,24 +1,17 @@
 <div class="mt-5">
     <div class="row g-1">
-        {% if user_posts %}
-            {% for post in user_posts %}
-                <div class="col-4">
-                    <div class="card rounded shadow-sm">
-                        <div class="related-post-image">
-                            <a href="{% url 'post:post_details' post.slug %}">
-                                {% with image=post.postimage_set.first %}
-                                    <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
-                                {% endwith %}
-                            </a>
-                        </div>
+        {% for post in user_posts %}
+            <div class="col-4">
+                <div class="card rounded shadow-sm">
+                    <div class="related-post-image">
+                        <a href="{% url 'post:post_details' post.slug %}">
+                            {% with image=post.postimage_set.first %}
+                                <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
+                            {% endwith %}
+                        </a>
                     </div>
                 </div>
-            {% endfor %}
-        {% else %}
-            <div class="text-center mt-5">
-                <i class="fas fa-camera mb-5" style="font-size: 48px;"></i>
-                <h1 class="fs-1">No Posts Yet</h1>
             </div>
-        {% endif %}
+        {% endfor %}
     </div>
 </div>

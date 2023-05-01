@@ -2,7 +2,6 @@
     <div class="row mb-3">
         <div class="col-4 text-center mb-5">
             <img src="{{user.profile_photo.url}}" alt="" class="profile-photo-avatar" data-bs-toggle="modal" data-bs-target="#picture-upload">
-            {% include 'user/profile-picture-upload-modal.html' %}
         </div>
         <div class="col-8">
             <h1 class="mb-4">{{user.username}}
@@ -15,11 +14,13 @@
                     {% if user in request.user.profile.followings.all %}
                         <a href="{% url 'chat:inbox' %}" class="btn btn-light rounded border border-dark text-dark fw-bold">Message</a>
                         &nbsp;
-                        <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light rounded border border-dark text-dark"><i class="fas fa-user-check" style="font-size:20px;"></i></a>
+                        <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light rounded border border-dark text-dark fw-bold" title="Following">
+                            <i class="fas fa-user-check" style="font-size:16px;"></i>
+                        </a>
                         &nbsp;
                         <a href="#" class="text-dark"><i class="fas fa-ellipsis-h pt-2" style="font-size:24px;"></i></a>
                     {% else %}
-                        <a href="{% url 'user:follow' user.id %}" class="btn btn-primary rounded">Follow</a>
+                        <a href="{% url 'user:follow' user.id %}" class="btn btn-primary rounded" title="Follow"><i class="fas fa-user-plus"></i></a>
                     {% endif %}
                 {% endif %}
             </h1>
