@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,PermissionsMixin
 from commons.models import StatusModel, TimeStampModel
 from post.models import Post
+from django.urls import reverse
 
 # Create your models here.
 
@@ -38,7 +39,7 @@ class User(AbstractBaseUser,PermissionsMixin, TimeStampModel):
     username = models.CharField(max_length=50, unique=True, blank=True, null=True)
     name = models.CharField(max_length=50, blank=True, null=True)
     bio = models.TextField(max_length=500, blank=True, null=True)
-    phone_number = models.CharField(max_length=10, blank=True, null=True)
+    website = models.URLField(max_length=255, blank=True, null=True)
     profile_photo = models.ImageField(upload_to='profile_photos', default='default.png', blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -54,6 +55,9 @@ class User(AbstractBaseUser,PermissionsMixin, TimeStampModel):
 
     def __str__(self):
         return self.username
+    
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'username':self.username})
     
     @property
     def get_first_active_story(self):

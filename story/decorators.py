@@ -24,3 +24,13 @@ def story_user_required(view_func):
             messages.warning(request, 'You are not authorised!')
             return redirect(request.META.get('HTTP_REFERER'))
     return wrapper
+
+def redirect_to_home_on_story_expire(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        story = get_object_or_404(Story, slug=kwargs.get('slug'))
+        if story.status == False:
+            messages.info(request, 'Story expired!')
+            return redirect('/')
+        return view_func(request, *args, **kwargs)
+    return wrapper

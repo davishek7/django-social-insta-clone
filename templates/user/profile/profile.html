@@ -11,7 +11,7 @@
         <hr>
         <ul class="nav nav-pills justify-content-center">
             <li class="nav-item">
-            <a class="nav-link {% if user_profile %}active disabled{% endif %}" href="{% url 'profile' user.username %}"><i class="fas fa-th"></i>&nbsp;POSTS</a>
+            <a class="nav-link {% if user_profile %}active disabled{% endif %}" href="{{ user.get_absolute_url }}"><i class="fas fa-th"></i>&nbsp;POSTS</a>
             </li>
             {% if request.user == user %}
                 <li class="nav-item">
@@ -48,5 +48,6 @@
     {% include 'user/highlights-create-modal.html' %}
     {% include 'user/follower-modal.html' %}
     {% include 'user/following-modal.html' %}
+    {% include 'user/profile/profile-option-modal.html' %}
 
 {% endblock content %}

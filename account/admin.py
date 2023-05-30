@@ -19,7 +19,16 @@ class ProfileAdmin(admin.ModelAdmin):
     def favourites_count(self, obj):
         return obj.favourites.count()
 
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields + ('user',)
+        return self.readonly_fields
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'username', 'profile_photo', 'is_active', 'is_superuser', 'last_login']
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields + ('password', 'last_login', )
+        return self.readonly_fields

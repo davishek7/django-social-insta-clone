@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Post, PostImage, Comment, Reply
 from .forms import PostForm, CommentForm, ReplyForm
-from .decorators import post_user_required, comment_user_required
+from .decorators import post_user_required, comment_user_required, reply_user_required
 from account.models import Profile
 from django.contrib.auth import get_user_model
 from django.contrib import messages
@@ -36,6 +36,11 @@ def post_details(request, slug):
     context = {'post':post, 'images':images, 'images_count':images_count, 'details':True, 'related_posts':related_posts,'title':title}
     return render(request, 'post/detail.html', context=context)
 
+def get_post_comments(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    context = {'post':post}
+    return render(request, 'post/post_comments.html', context=context)
+
 @login_required
 @normal_user_only
 def add_comment(request, pk):
@@ -51,24 +56,11 @@ def add_comment(request, pk):
 
 @login_required
 @normal_user_only
-def add_reply(request, comment_pk):
-    comment = get_object_or_404(Comment, id=comment_pk)
-    if request.method == 'POST':
-        reply_form = ReplyForm(request.POST)
-        if reply_form.is_valid():
-            reply = reply_form.save(commit=False)
-            reply.user = request.user
-            reply.comment = comment
-            reply.save()
-    return redirect(request.META.get('HTTP_REFERER'))
-
-@login_required
-@normal_user_only
 @comment_user_required
 def delete_comment(request, pk):
     comment = get_object_or_404(Comment, id=pk)
     comment.status = False
-    comment.save()
+    comment.save(update_fields=['status'])
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
@@ -155,3 +147,39 @@ def explore(request):
     
     context = {'posts':posts}
     return render(request, 'post/explore.html', context=context)
+
+@login_required
+@normal_user_only
+def add_reply(request, pk):
+    comment = get_object_or_404(Comment, id=pk)
+    if request.method == 'POST':
+        reply_id = request.POST.get('reply')
+        reply_form = ReplyForm(request.POST)
+        if reply_form.is_valid():
+            reply = reply_form.save(commit=False)
+            reply.user = request.user
+            reply.comment = comment
+            if reply_id:
+                replied_reply = get_object_or_404(Reply, id=reply_id)
+                reply.reply = replied_reply
+            reply.save()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+@normal_user_only
+@reply_user_required
+def delete_reply(request, pk):
+    reply = get_object_or_404(Reply, id=pk)
+    reply.status = False
+    reply.save(update_fields=['status'])
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+@normal_user_only
+def like_reply(request, pk):
+    reply = get_object_or_404(Reply, id=pk)
+    if request.user not in reply.likes.all():
+        reply.likes.add(request.user)
+    else:
+        reply.likes.remove(request.user)
+    return redirect(request.META.get('HTTP_REFERER'))

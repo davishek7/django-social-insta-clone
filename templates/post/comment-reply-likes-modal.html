@@ -1,0 +1,37 @@
+<!-- Post Likes Modal -->
+{% load static %}
+<div class="modal" id="reply-{{reply.id}}-likes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content rounded">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100">
+                    Likes
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ol class="list-group list-group-flush">
+                    {% for liker in reply.likes.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-start" style="border: none">
+                            <a href="{{ liker.get_absolute_url }}" class="text-decoration-none text-dark">
+                            <img src={{liker.profile_photo.url}} alt="" class="post-profile-avatar">
+                            <div class="ms-2 me-auto fs-6">
+                                <div class="fw-bold">{{liker.username}}</a></div>
+                                <span class="text-muted">{{liker.name}}</span>
+                            </div>
+                            <span>
+                                {% if liker != request.user %}
+                                    {% if liker in request.user.profile.followings.all %}
+                                        <a href="{% url 'user:unfollow' liker.username %}" class="fw-bold btn btn-light btn-sm border rounded">Following</a>
+                                    {% else %}
+                                        <a href="{% url 'user:follow' liker.id %}" class="fw-bold btn btn-primary btn-sm rounded">Follow</a>
+                                    {% endif %}
+                                {% endif %}
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>

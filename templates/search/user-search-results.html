@@ -1,6 +1,6 @@
 <h5 class="my-3 fw-bold">Accounts</h5>
 {% for user in users %}
-    <a href="{% url 'profile' user.username %}" class="text-decoration-none text-dark d-flex justify-content-between align-items-start mb-3">
+    <a href="{{ user.get_absolute_url }}" class="text-decoration-none text-dark d-flex justify-content-between align-items-start mb-3">
         <img src={{user.profile_photo.url}} alt="" class="story-image-avatar me-3">
         <div class="ms-2 me-auto fs-6">
             <div class="fw-bold">{{user.username}}</div>

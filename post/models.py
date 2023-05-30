@@ -3,6 +3,7 @@ from commons.models import TimeStampModel, StatusModel
 from django.contrib.auth.models import BaseUserManager
 from django.conf import settings
 from .random_slug import generate_random_slug
+from django.urls import reverse
 
 # Create your models here.
 
@@ -21,6 +22,9 @@ class Post(TimeStampModel, StatusModel):
         if not self.id:
             self.slug = generate_random_slug()
         super(Post, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('post:post_details', kwargs={'slug':self.slug})
 
     class Meta:
         ordering = ['-created_at']
@@ -46,14 +50,12 @@ class Comment(TimeStampModel, StatusModel):
     objects = CommentManager()
 
     def __str__(self):
-        return self.body
-    
-    class Meta:
-        ordering = ['-created_at']
+        return f"{self.user} commented on '{self.post}': '{self.body}'"
 
 
 class Reply(TimeStampModel, StatusModel):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comment_replies', blank=True, null=True)
+    reply = models.ForeignKey('self', on_delete=models.CASCADE, related_name='reply_replies', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_replies', blank=True, null=True)
     body = models.TextField(max_length=255, blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='reply_likes', blank=True)
@@ -61,3 +63,11 @@ class Reply(TimeStampModel, StatusModel):
 
     class Meta:
         ordering = ['created_at']
+        verbose_name_plural = 'replies'
+
+    @property
+    def replied_user(self):
+        return self.reply.user if self.reply else self.comment.user
+
+    def __str__(self):
+        return f"{self.user} replied to your comment '{self.comment}': '{self.body}'"

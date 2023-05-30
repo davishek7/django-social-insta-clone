@@ -3,6 +3,7 @@ from commons.models import TimeStampModel, StatusModel
 from django.contrib.auth.models import BaseUserManager
 from django.conf import settings
 from post.random_slug import generate_random_slug
+from django.urls import reverse
 
 # Create your models here.
 
@@ -23,6 +24,9 @@ class Story(TimeStampModel, StatusModel):
         if not self.id:
             self.slug = generate_random_slug()
         super(Story, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('story:story_details', kwargs={'username':self.user.username, 'slug':self.slug})
 
     class Meta:
         ordering = ['created_at']

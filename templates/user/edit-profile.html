@@ -1,0 +1,59 @@
+<!-- Post Options Modal -->
+{% extends 'layouts/main-layout.html' %}
+{% load static %}
+{% load format_created_at %}
+{% block content %}
+
+<div class="container px-3">
+    <div class="row mx-auto">
+        <div class="col-12 col-lg-7 mx-auto my-3">
+            <h3 class="fw-bold my-5">Settings</h3>
+            <div class="card rounded">
+                <p class="my-5 fs-4 px-5">Edit profile</p>
+                <form action="" method="post" class="px-5 mb-3">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <div class="col-lg-6">
+                            <div class="d-flex justify-content-center align-items-start">
+                                <img src="{{user.profile_photo.url}}" class="post-profile-avatar">
+                                <div>
+                                    <h6>{{user.username}}</h6>
+                                    <br>
+                                    <a href="#" class="btn btn-link fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#picture-upload">Change profile photo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label fw-bold">Name</label>
+                        <div class="col-sm-10">
+                          {{form.name}}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label fw-bold">Website</label>
+                      <div class="col-sm-10">
+                        {{form.website}}
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label class="col-sm-2 col-form-label fw-bold">Bio</label>
+                      <div class="col-sm-10">
+                        {{form.bio}}
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label fw-bold"></label>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary rounded fw-bold">Submit</button>
+                        </div>
+                    </div>
+                </form>                 
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'user/profile-picture-upload-modal.html' %} 
+
+{% endblock content %}

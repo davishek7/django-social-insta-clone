@@ -30,6 +30,7 @@ urlpatterns = [
     path('user/', include('user.urls', namespace='user')),
     path('stories/', include('story.urls', namespace='story')),
     path('notification/', include('notification.urls', namespace='notification')),
+    path('your-activity/', include('activity.urls', namespace='activity')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
 
     # user views

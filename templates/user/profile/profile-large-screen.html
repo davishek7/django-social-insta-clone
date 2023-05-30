@@ -1,27 +1,33 @@
+{% load split_url %}
 <div class="d-md-block d-none">
     <div class="row mb-3">
         <div class="col-4 text-center mb-5">
-            <img src="{{user.profile_photo.url}}" alt="" class="profile-photo-avatar" data-bs-toggle="modal" data-bs-target="#picture-upload">
+            <img src="{{user.profile_photo.url}}" alt="" class="profile-photo-avatar" {% if request.user == user %}data-bs-toggle="modal" data-bs-target="#picture-upload"{% endif %}>
         </div>
         <div class="col-8">
-            <h1 class="mb-4">{{user.username}}
-                &ensp;
+            <h1 class="mb-4"> 
+                {{user.username}}
+                &nbsp;
                 {% if request.user == user %}
-                    <a href="#" class="btn btn-light rounded border border-dark text-dark fw-bold">Edit profile</a>
-                    &ensp;
+                    <a href="{% url 'account:edit_profile' %}" class="btn btn-light border rounded text-dark fw-bold">Edit profile</a>
+                    &nbsp;
                     <a href="#" class="text-dark"><i class="bi bi-gear-wide" style="font-size:28px;"></i></a>
                 {% else %}
                     {% if user in request.user.profile.followings.all %}
-                        <a href="{% url 'chat:inbox' %}" class="btn btn-light rounded border border-dark text-dark fw-bold">Message</a>
-                        &nbsp;
-                        <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light rounded border border-dark text-dark fw-bold" title="Following">
-                            <i class="fas fa-user-check" style="font-size:16px;"></i>
+                        <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light border rounded text-dark fw-bold" title="Following">
+                            Following
                         </a>
-                        &nbsp;
-                        <a href="#" class="text-dark"><i class="fas fa-ellipsis-h pt-2" style="font-size:24px;"></i></a>
+                        <a href="{% url 'chat:inbox' %}" class="btn btn-light border rounded text-dark fw-bold">Message</a>
                     {% else %}
-                        <a href="{% url 'user:follow' user.id %}" class="btn btn-primary rounded" title="Follow"><i class="fas fa-user-plus"></i></a>
+                        {% if request.user in user.profile.followings.all %}
+                            <a href="{% url 'user:follow' user.id %}" class="btn btn-primary fw-bold rounded" title="Follow Back">Follow Back</a>
+                        {% else %}
+                            <a href="{% url 'user:follow' user.id %}" class="btn btn-primary fw-bold rounded" title="Follow">Follow</a>
+                        {% endif %}
                     {% endif %}
+                    <a href="#" class="text-dark">
+                        <i class="fas fa-ellipsis-h pt-2" style="font-size:20px;" data-bs-toggle="modal" data-bs-target="#profile-option-{{user.id}}"></i>
+                    </a>
                 {% endif %}
             </h1>
             <div class="fs-5 mb-4">
@@ -35,8 +41,15 @@
                     <span class="fw-bold">{{user.profile.followings.count}}</span> following
                 </a>
             </div>
-            <p class="fs-5">{{user.name}}</p>
-            <p class="fs-5">{{user.bio|linebreaks}}</p>
+            <div class="fs-6">
+                {{user.name}}                
+                {% if user.bio %}              
+                    {{user.bio|linebreaks}}
+                {% endif%}
+                {% if user.website %}
+                    <a href="{{user.website}}" class="text-decoration-none fw-bold" target="_blank">{{user.website|split_url}}</a>
+                {% endif %}
+            </div>
         </div>
         {% if stories_count > 0 %}
             <div class="px-5">

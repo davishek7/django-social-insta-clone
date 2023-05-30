@@ -40,7 +40,7 @@
                         <tr>
                             <th scope="row"><a href="#">#{{forloop.counter}}</a></th>
                             <th scope="row">
-                                <a href="{% url 'profile' user.username %}">
+                                <a href="{{ user.get_absolute_url }}">
                                     <img src="{{user.profile_photo.url}}" alt="" style="width:48px;height:48px;object-fit: cover;">
                                 </a>
                             </th>

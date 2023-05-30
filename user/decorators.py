@@ -7,8 +7,7 @@ from .models import Highlight
 def user_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        if 'username' in kwargs:
-            user = get_object_or_404(get_user_model(), username=kwargs.get('username'))
+        user = get_object_or_404(get_user_model(), username=kwargs.get('username'))
         if user == request.user:
             return view_func(request, *args, **kwargs)
         else:

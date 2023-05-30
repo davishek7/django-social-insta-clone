@@ -1,22 +1,22 @@
 {% load format_created_at %}
-{% for comment in comment.comment_replies.all %}
+{% for reply in comment.comment_replies.all %}
 <ul class="list-group list-group-horizontal">
     <li class="list-group-item" style="border: none">
-        <img src={{comment.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+        <img src={{reply.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
     </li>
     <li class="list-group-item" style="border: none; width:300px">
-        <b>{{comment.user.username}}</b> <small class="ms-2 text-muted">{{comment.created_at|format_created_time}}</small>
-        <p>{{comment.body}}</p>
-        <span class="small text-muted d-flex justify-content-start">
-            <a href="#" class="me-3 text-decoration-none" data-bs-toggle="modal" data-bs-target="#comment-reply-modal">Reply</a>
-            {% include 'common/comment-reply-modal.html' %}
+        <b>{{reply.user.username}}</b>
+        <p><a href="{{reply.replied_user.get_absolute_url}}" class="text-decoration-none mb-1">@{{reply.replied_user}}</a> {{reply.body}}</p>
+        <span class="small d-flex justify-content-start">
+            <div class="text-muted">{{reply.created_at|format_created_time}}</div>
+            <a href="#" class="ms-2 me-3 text-decoration-none fw-bold text-muted" data-bs-toggle="modal" data-bs-target="#reply-reply-modal-{{comment.id}}" aria-expanded="false">Reply</a>
             <div class="dropdown">
                 <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;" data-bs-toggle="dropdown" aria-expanded="false"></i>
                 <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
-                    {% if request.user == comment.user %}
-                        <li><a class="dropdown-item text-danger fw-bold" href="{% url 'post:delete_comment' comment.id %}">Delete</a></li>
+                    {% if request.user == reply.user %}
+                        <li><a class="dropdown-item text-danger fw-bold" href="{% url 'post:delete_reply' reply.id %}">Delete</a></li>
                     {% endif %}
-                    {% if request.user != comment.user %}
+                    {% if request.user != reply.user %}
                         <li><a class="dropdown-item text-danger fw-bold" href="#">Report</a></li>
                     {% endif %}
                 </ul>
@@ -24,15 +24,17 @@
         </span> 
     </li>
     <li class="list-group-item mt-2" style="border: none">
-        <a href="{% url 'post:like_comment' comment.id %}" class="text-decoration-none">
-            {% if request.user in comment.likes.all %}
+        <a href="{% url 'post:like_reply' reply.id %}" class="text-decoration-none">
+            {% if request.user in reply.likes.all %}
                 <i class="fas fa-heart me-3" style='font-size:14px;color: red;'></i>
             {% else %}
                 <i class="far fa-heart me-3 text-dark" style='font-size:14px;'></i>
             {% endif %}
         </a>
         <br>
-        <small class="ms-1" style="font-size: 14px;">{{comment.likes.count}}</small>
+        <small class="ms-1" style="font-size: 14px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#reply-{{reply.id}}-likes">{{reply.likes.count}}</small>
+        {% include 'post/comment-reply-likes-modal.html' %}
     </li>
 </ul>
+{% include 'common/reply-reply-modal.html'%}
 {% endfor %}

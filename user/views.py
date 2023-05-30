@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Count
 from account.models import Profile
+from account.forms import UserEditForm
 from post.models import Post
 from django.contrib.auth.decorators import login_required
 from commons.decorators import normal_user_only
@@ -15,7 +16,7 @@ from .decorators import highlight_user_required, user_required
 @normal_user_only
 def profile(request, username):
     user = get_object_or_404(get_user_model(), username=username)
-    title = f'{user.name} (@{user.username}) \u2022 Instagram photos and videos'
+    title = f'{user.name} (@{user.username}) | Instagram'
     user_posts = Post.objects.filter(user=user, status=True).order_by('-created_at')
     stories_count = Story.objects.filter(user = user).count()
     highlights = Highlight.objects.filter(user = user, status = True).order_by('-created_at').all()
@@ -38,6 +39,15 @@ def user_saved(request, username):
     context = {'user':user, 'title':title, 'user_bookmarks':user_bookmarks, 'bookmark':True, 
                'user_posts_count':user_posts_count, 'highlights':highlights, 'stories_count':stories_count}
     return render(request, 'user/profile/profile.html', context=context)
+
+@login_required
+def edit_profile(request):
+    user = get_object_or_404(get_user_model(), username=request.user.username)
+    form = UserEditForm(instance=user)
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=user)
+    context = {'form':form, 'user':user, 'edit_profile':True}
+    return render(request, 'user/edit-profile.html', context=context)
 
 @login_required
 @normal_user_only
@@ -114,7 +124,7 @@ def highlight_details(request, slug, story_slug):
     next_story = Story.objects.filter(id__in = highlight.stories.all(), created_at__gt = story.created_at,).first()
 
     context = {'highlight':highlight, 'story':story, 'highlight_stories':highlight_stories, 
-               'prev_story':prev_story, 'next_story':next_story, 'title':'Stories'}
+               'prev_story':prev_story, 'next_story':next_story, 'title':'Stories', 'highlight_page':True}
     return render(request, 'user/highlight-details.html', context=context)
 
 @login_required

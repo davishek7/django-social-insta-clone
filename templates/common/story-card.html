@@ -1,5 +1,5 @@
 <div class="card mb-2" style="border: none">
-    <div class="story-block pt-3 mb-3 px-3" style="height: 110px;">
+    <div class="story-block pt-3 mb-3" style="height: 130px;">
         <ul class="list-group list-group-horizontal list-group-flush">
             
             <li class="list-group-item" style="border: none">
@@ -14,7 +14,7 @@
             {% if story_users %}
                 {% for user in story_users %}
                     <li class="list-group-item" style="border: none">
-                        <a href="{% url 'story:story_details' user.username user.get_first_active_story.slug %}">
+                        <a href="{{user.get_first_active_story.get_absolute_url}}">
                             <img src="{{user.profile_photo.url}}" alt="" 
                             class="story-image-avatar border border-3 {% if request.user not in user.story_set.last.views.all %}border-danger{% endif %}">
                         </a>

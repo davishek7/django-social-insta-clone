@@ -1,4 +1,4 @@
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" class="my-2">
     <ul class="pagination justify-content-center">
         {% for page_number in notifications.paginator.get_elided_page_range %}
             {% if page_number == notifications.paginator.ELLIPSIS %}
@@ -6,7 +6,7 @@
             {% else %}
             <li class="page-item">
                 <a
-                    href="?page={{page_number}}"
+                    href="?{% if category%}category={{category}}&{% endif %}page={{page_number}}"
                     class="{% if page_number == notifications.number %}btn btn-link text-decoration-none disabled{% else %}page-link{% endif %}"
                 >
                     {{page_number}}

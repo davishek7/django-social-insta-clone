@@ -56,17 +56,18 @@
                                         <div class="d-flex justify-content-center">
                                             <ul class="list-group list-group-horizontal">
                                                 <li class="list-group-item" style="border: none">
-                                                    <a href="{% url 'profile' post.user.username %}">
+                                                    <a href="{{ post.user.get_absolute_url }}">
                                                         <img src={{post.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
                                                     </a>
                                                 </li>
                                                 <li class="list-group-item" style="border: none;">
-                                                    <p> <a href="{% url 'profile' post.user.username %}" class="fw-bold text-decoration-none text-dark">{{post.user.username}}</a> &nbsp;{{post.caption}}</p>  
+                                                    <p> <a href="{{ post.user.get_absolute_url }}" class="fw-bold text-decoration-none text-dark">{{post.user.username}}</a> &nbsp;{{post.caption}}</p>  
                                                 </li>
                                             </ul>
                                         </div>
                                     </div> 
                                 </div>
+                                <hr>
                                 {% include 'common/comments.html' %}
                             </div>
                             <div class="card-body w-100">
@@ -94,9 +95,9 @@
                             </div>
                             <form action="{% url 'post:add_comment' post.id %}" method="post" class="input-group">
                                 {% csrf_token %}
-                                <span class="input-group-text"><i class='far fa-smile' style='font-size:24px'></i></span>
+                                <!-- <span class="input-group-text"><i class='far fa-smile' style='font-size:24px'></i></span> -->
                                 {{comment_form.body}}
-                                <button class="btn btn-outline-primary" type="submit">Post</button>                                                 
+                                <button class="btn btn-link text-decoration-none fw-bold" type="submit">Post</button>                                                 
                             </form>
                         </div>
                     </div>

@@ -4,9 +4,12 @@
         <div class="col-4">
             <div class="card rounded shadow-sm">
                 <div class="related-post-image">
-                    <a href="{% url 'post:post_details' post.slug %}">
-                        {% with image=post.postimage_set.first %}
-                            <img src="{{image.image.url}}" class="card-img" alt="{{post.caption}}">
+                    <a href="{% url 'post:post_details' post.slug %}" class="text-decoration-none text-light" style="display: inline;position:relative;">
+                        {% with image=post.postimage_set.all %}
+                            <img src="{{image.first.image.url}}" class="card-img" alt="{{post.caption}}">
+                            {% if image.count > 1 %}
+                                <i class="fas fa-clone mx-2 my-2" style="position:absolute;right: 0;"></i>
+                            {% endif %}
                         {% endwith %}
                     </a>
                 </div>

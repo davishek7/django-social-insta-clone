@@ -20,7 +20,7 @@ class PostImageForm(forms.Form):
 
 class CommentForm(forms.ModelForm):
 
-    body = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Add a comment', 'id':'add-comment', 'rows':'1'}))
+    body = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-control border-0 rounded', 'placeholder':'Add a comment', 'rows':'1'}))
 
     class Meta:
         model = Comment
@@ -29,7 +29,7 @@ class CommentForm(forms.ModelForm):
 
 class ReplyForm(forms.ModelForm):
 
-    body = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Add your reply', 'id':'add-comment', 'rows':'1'}))
+    body = forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-control mb-2', 'placeholder':'Add your reply', 'rows':'1'}))
 
     class Meta:
         model = Reply

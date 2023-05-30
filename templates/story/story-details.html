@@ -16,7 +16,7 @@
               </div>
               <div class="card-body text-center">
                 <div class="d-flex justify-content-between mb-4 px-3">
-                  <a href="{% url 'profile' story.user.username %}" class="d-flex justify-content-start text-decoration-none text-dark">
+                  <a href="{{ story.user.get_absolute_url }}" class="d-flex justify-content-start text-decoration-none text-dark">
                       <img src="{{story.user.profile_photo.url}}" class="me-2 post-profile-avatar">
                       <h6 class="fw-bold pt-2">{{story.user.username}}
                         &bull;
@@ -63,21 +63,25 @@
   </div>
 </div>
 
-<div class="text-center mt-2">
-  {% if next_story %}
-    <a href="{% url 'story:story_details' user.username next_story.slug %}" class="btn btn-dark btn-sm rounded float-end">&#8250;</a>
-  {% else %}
-    <a href="#" class="btn btn-dark btn-sm rounded float-end disabled">&#8250;</a>
-  {% endif %}
-
-  {% for user_story in user_stories %}
-    <span class="badge rounded-pill bg-{% if user_story.id == story.id %}info{% else %}secondary{% endif %} text-decoration-none">-</span>  
-  {% endfor %}
-
+<div class="d-flex justify-content-between text-center mt-2">
   {% if prev_story %}
-    <a href="{% url 'story:story_details' user.username prev_story.slug %}" class="btn btn-dark btn-sm rounded float-start">&#8249;</a>
+    <a href="{% url 'story:story_details' user.username prev_story.slug %}" class="btn btn-dark btn-sm rounded">&#8249;</a>
   {% else %}
     <a href="#" class="btn btn-dark btn-sm rounded float-start disabled">&#8249;</a>
+  {% endif %}
+
+  <div class="text-center mx-auto">
+    {% for user_story in user_stories %}
+      {% if user_story.id == story.id %}
+        {{forloop.counter}} of {{user_stories.count}}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% if next_story %}
+    <a href="{% url 'story:story_details' user.username next_story.slug %}" class="btn btn-dark btn-sm rounded">&#8250;</a>
+  {% else %}
+    <a href="#" class="btn btn-dark btn-sm rounded float-end disabled">&#8250;</a>
   {% endif %}
 </div>
 

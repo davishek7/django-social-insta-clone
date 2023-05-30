@@ -1,6 +1,7 @@
 {% extends 'layouts/main-layout.html' %}
 {% load static %}
 {% load format_created_at %}
+
 {% block content %}
 <div class="container mt-4 mb-2">
     <div class="row">
@@ -17,7 +18,7 @@
                             <div class="card rounded my-3" id="{{post.slug}}" style="border:none;">
                                 <div class="card-header" id="card-header-footer-color">
                                     <div class="d-flex justify-content-between my-1">
-                                        <a href="{% url 'profile' post.user.username %}" class="d-flex justify-content-start text-dark text-decoration-none">
+                                        <a href="{{ post.user.get_absolute_url }}" class="d-flex justify-content-start text-dark text-decoration-none">
                                             <img src="{{post.user.profile_photo.url}}" class="me-3 post-profile-avatar">
                                             <h6 class="fw-bold pt-2">{{post.user.username}} &bull; <small class="text-muted">{{post.created_at|format_created_time}}</small></h6>
                                         </a>
@@ -51,10 +52,12 @@
                                                 <i class="far fa-heart me-3 text-dark" style='font-size:24px;'></i>
                                                 {% endif %}
                                             </a>
-                                            <i class="far fa-comment me-3 d-md-block d-none" style='font-size:24px; cursor:pointer;' data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}"></i>
-                                                {% include 'post/post-detail-modal.html' %}
-                                            <i class="far fa-comment me-3 d-md-none d-sm-block" style='font-size:24px; cursor:pointer;' data-bs-toggle="offcanvas" data-bs-target="#post-{{post.id}}-comment" aria-controls="offcanvasBottom"></i>
-                                                {% include 'common/comment-canvas.html' %}
+                                            <a href="{{post.get_absolute_url}}" class="d-md-block d-none text-dark text-decoration-none">
+                                                <i class="far fa-comment me-3" style='font-size:24px;'></i>
+                                            </a>
+                                            <a href="{% url 'post:post_comments' post.slug %}" class="d-md-none d-sm-block text-dark text-decoration-none">
+                                                <i class="far fa-comment me-3" style='font-size:24px;'></i>
+                                            </a>
                                             <i class="far fa-paper-plane" style='font-size:24px'></i>
                                         </div>
                                         <a href="{% url 'post:add_bookmark' post.id %}" class="text-decoration-none">
@@ -65,19 +68,20 @@
                                             {% endif %}
                                         </a>
                                     </div>
-                                    <p class="fw-bold" data-bs-toggle="modal" data-bs-target="#post-{{post.id}}-likes">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
+                                    <p class="fw-bold" data-bs-toggle="modal" data-bs-target="#post-{{post.id}}-likes" style="cursor:pointer;">{{post.likes.count}} like{{post.likes.count|pluralize}}</p>
                                     {% include 'post/post-likes-modal.html' %}
                                     <p class="card-text"><b>{{post.user.username}}</b>&nbsp;{{post.caption}}</p>
-                                    <p class="text-muted d-md-block d-none" data-bs-toggle="modal" data-bs-target="#post-details-{{post.id}}" style='cursor:pointer;'>View all {{post.post_comments.all.count}} comments</p>
-                                    <p class="text-muted d-md-none d-sm-block" data-bs-toggle="offcanvas" data-bs-target="#post-{{post.id}}-comment" aria-controls="offcanvasBottom" style='cursor:pointer;'>View all {{post.post_comments.all.count}} comments</p>
+                                    <a class="text-muted d-md-block d-none text-decoration-none" href="{{post.get_absolute_url}}">View all {{post.post_comments.count}} comment{{post.post_comments.count|pluralize}}</a>
+                                    <a href="{% url 'post:post_comments' post.slug %}" class="text-muted d-md-none d-sm-block text-decoration-none">View all {{post.post_comments.count}} comment{{post.post_comments.count|pluralize}}</a>
                                 </div>
                                 <form action="{% url 'post:add_comment' post.id %}" method="post" class="input-group">
                                     {% csrf_token %}
-                                    <span class="input-group-text"><i class='far fa-smile' style='font-size:24px'></i></span>
+                                    <img src={{request.user.profile_photo.url}} class="comment-form-profile-image me-2">
                                     {{comment_form.body}}
-                                    <button class="btn btn-outline-primary" type="submit">Post</button>                                                 
+                                    <button class="btn btn-link fw-bold text-decoration-none" type="submit">Post</button>                                                 
                                 </form>
                             </div>
+                            <hr>
                         {% endfor %}
                         {% include 'post/pagination.html' %}
                     {% else %}

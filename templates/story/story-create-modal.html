@@ -9,12 +9,14 @@
           <div class="modal-body">
                 {% csrf_token %}
               <div class="form-floating mb-3">
-                {{story_form.caption}}
+                <!-- {{story_form.caption}} -->
+                <input type="text" name="caption" class="form-control mb-2 rounded" placeholder="Write a caption">
                 <label for="caption" class="col-form-label">Write a caption</label>
               </div>
               <div class="mb-3">
                 <label for="image" class="col-form-label">Story image</label>
-                {{story_form.image}}
+                <!-- {{story_form.image}} -->
+                <input type="file" name="images" class="form-control mb-2 rounded" placeholder="Your story image" multiple>
               </div>        
             </form>
           </div>

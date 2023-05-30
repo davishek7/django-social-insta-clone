@@ -11,22 +11,28 @@
                         {% for suggestion in suggestions %}
                             <ul class="list-group list-group-horizontal">
                                 <li class="list-group-item" style="border: none">
-                                    <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
+                                    <a href="{{ suggestion.get_absolute_url }}" class="text-decoration-none text-dark">
                                         <img src={{suggestion.profile_photo.url}} alt="" class="suggestion-image-avatar">
                                     </a>
                                 </li>
                                 <li class="list-group-item suggestion-username" style="border: none; width: 1000px;">
                                     <div class="ms-2 me-auto">
-                                        <a href="{% url 'profile' suggestion.username %}" class="text-decoration-none text-dark">
+                                        <a href="{{ suggestion.get_absolute_url }}" class="text-decoration-none text-dark">
                                             <div class="fw-bold">{{suggestion.username}}</div>
                                             <span class="text-muted">{{suggestion.name}}</span>
                                         </a>
-                                        <p class="text-muted">Suggested for you</p>
+                                        <p class="text-muted">
+                                            {% if request.user in suggestion.profile.followings.all %}
+                                                Follows You
+                                            {% else %}
+                                                Suggested for you
+                                            {% endif %}
+                                        </p>
                                     </div>
                                 </li>
                                 <li class="list-group-item" style="border: none;">
                                     <a href="{% url 'user:follow' suggestion.id %}" class="fw-bold btn btn-primary btn-sm rounded">
-                                        <i class="fas fa-user-plus"></i>
+                                        Follow
                                     </a>
                                 </li>
                             </ul>

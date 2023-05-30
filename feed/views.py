@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q, Count, Subquery, OuterRef
-from post.models import Post
+from post.models import Post, Comment
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
@@ -54,7 +54,7 @@ def custom_feed(request):
         posts = favourites_posts
         
     elif variant == 'hot':
-    
+
         hot_posts = (Post.objects.select_related('user').
                     prefetch_related('likes').annotate(likes_count = Count('likes'), comment_count = Count('post_comments')).
                     order_by('-likes_count', '-comment_count', '-created_at').filter(status=True).all())

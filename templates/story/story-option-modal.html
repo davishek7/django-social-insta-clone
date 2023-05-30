@@ -6,7 +6,7 @@
             <div class="modal-body">
                 <ul class="list-group">
                     {% if my_active_story_count %}
-                        <a href="{% url 'story:story_details' request.user.username request.user.get_first_active_story.slug %}" class="btn btn-light w-100 text-start">View Story</a>
+                        <a href="{{request.user.get_first_active_story.get_absolute_url}}" class="btn btn-light w-100 text-start">View Story</a>
                     {% endif %}
                     <a href="#" class="btn btn-light w-100 text-start" data-bs-toggle="modal" data-bs-target="#add-to-story">
                         Add to Story

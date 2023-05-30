@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Story
 from .forms import StoryForm, StoryReplyForm
 from django.contrib import messages
-from .decorators import increament_story_view_count, story_user_required
+from .decorators import increament_story_view_count, story_user_required, redirect_to_home_on_story_expire
 from commons.decorators import normal_user_only
 from feed.decorators import remove_old_stories
 
@@ -13,28 +13,29 @@ from feed.decorators import remove_old_stories
 User = get_user_model()
 
 @login_required
+@redirect_to_home_on_story_expire
 @remove_old_stories
 @increament_story_view_count
 def story_details(request, username, slug):
     user = get_user_model().objects.filter(username=username).first()
     story = Story.objects.filter(user = user, slug = slug, status = True).first()
     user_stories = Story.objects.filter(user=user, status = True).all()
-
     prev_story = Story.objects.filter(user = user, created_at__lt = story.created_at, status = True).last()
     next_story = Story.objects.filter(user = user, created_at__gt = story.created_at, status = True).first()
     story_reply_form = StoryReplyForm()
-    context = {'user':user, 'story':story, 'user_stories':user_stories, 'prev_story':prev_story, 'next_story':next_story, 'story_reply_form':story_reply_form, 'title':'Stories'}
+    context = {'user':user, 'story':story, 'user_stories':user_stories, 
+               'prev_story':prev_story, 'next_story':next_story, 
+               'story_reply_form':story_reply_form, 'title':'Stories', 'story_page':True}
     return render(request, 'story/story-details.html', context=context)
 
 @login_required
 @normal_user_only
 def add_to_story(request):
     if request.method == 'POST':
-        story_form = StoryForm(request.POST, request.FILES)
-        if story_form.is_valid():
-            story = story_form.save(commit=False)
-            story.user = request.user
-            story.save()
+        caption = request.POST.get('caption')
+        images = request.FILES.getlist('images')      
+        for image in images:
+            Story.objects.create(caption=caption, user=request.user, image=image)
             messages.success(request, 'Your story updated successfully.')
     return redirect(request.META.get('HTTP_REFERER'))
 

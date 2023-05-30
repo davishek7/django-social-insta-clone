@@ -24,7 +24,7 @@
       <nav class="navbar sticky-top navbar-expand" style="border:none;">
         <div class="d-flex justify-content-around">
             <div class="navbar-brand pb-3 me-5">
-                <a class="nav-link active me-1" href="/">
+                <a class="nav-link active me-1" href="{% if story_page %}/{% elif highlight_page %}{{highlight.user.get_absolute_url}}{% endif %}">
                     <img src="{% static 'images/logo.png' %}" alt="logo" style="height: 30px;">
                 </a>
             </div>

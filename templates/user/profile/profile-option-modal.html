@@ -1,0 +1,37 @@
+<!-- Post Options Dropdown -->
+{% load static %}
+<div class="modal fade" id="profile-option-{{user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content rounded">
+        <div class="modal-body">
+          <ul class="list-group text-center">
+            <li class="list-group-item">
+              {% if request.user != user%}
+                  <a href="#" class="text-decoration-none text-danger fw-bold">
+                    Block
+                  </a>
+                {% endif %}
+            </li>
+            <li class="list-group-item">
+              {% if request.user != user %}
+                  <a href="#" class="text-decoration-none text-danger fw-bold">
+                    Report
+                  </a>
+                {% endif %}
+            </li>
+            <li class="list-group-item">
+              {% if request.user != user and user in request.user.profile.followings.all %}
+                  <a href="{% url 'post:add_favorites' user.id %}" class="text-decoration-none text-dark">
+                    {% if user not in request.user.profile.favourites.all %}
+                        Add to favorites
+                    {% else %}
+                        Remove from favorites
+                    {% endif %}
+                  </a>
+                {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>
