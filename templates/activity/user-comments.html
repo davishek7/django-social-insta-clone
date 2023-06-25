@@ -1,0 +1,135 @@
+{% load format_created_at %}
+<div class="mt-5">
+    <div class="me-5 mb-3 d-flex justify-content-end dropdown">
+        <button class="btn btn-link text-decoration-none fw-bold" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        Filter
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start rounded" aria-labelledby="navbarDropdown" style="width: 200px">
+            <li><h6 class="dropdown-header">Categories</h6></li>
+            <form action="" class="px-3">
+                <li class="mb-2">
+                    <div class="form-check">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            All
+                        </label>
+                        <input class="form-check-input" type="radio" name="category" value="all" id="flexCheckDefault">
+                    </div>
+                </li>
+                <li class="mb-2">
+                    <div class="form-check">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Comments
+                        </label>
+                        <input class="form-check-input" type="radio" name="category" value="comments" id="flexCheckDefault">
+                    </div>
+                </li>
+                <li class="mb-2">
+                    <div class="form-check">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Replies
+                        </label>
+                        <input class="form-check-input" type="radio" name="category" value="replies" id="flexCheckDefault">
+                    </div>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <button class="btn btn-primary btn-sm w-100 rounded">Apply</button>
+            </form>
+        </ul>
+    </div>
+    <div class="row activity-post-details">
+        <div class="col-12 mx-5">
+        {% for comment in all_comments %}
+            {% if comment.post %}
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" style="border: none">
+                        <a href="{{ comment.post.user.get_absolute_url }}">
+                            <img src={{comment.post.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+                        </a>
+                    </li>
+                    <li class="list-group-item" style="border: none; width:500px">
+                        <p> 
+                            <a href="{{ comment.post.user.get_absolute_url }}" class="fw-bold text-decoration-none text-dark">{{comment.post.user.username}}</a> 
+                            &nbsp;
+                            <a href="{{comment.post.get_absolute_url}}" class="text-decoration-none text-dark">{{comment.post.caption}}</a>
+                            <br>
+                            <span class="text-muted small">{{comment.post.created_at|format_created_time}}</span>
+                        </p>  
+                    </li>
+                    <li class="list-group-item " style="border: none;"> 
+                        <a href="{{comment.post.get_absolute_url}}">
+                            {% with image=comment.post.postimage_set.first %}
+                                <img src="{{image.image.url}}" alt="{{comment.post.caption}}" style="width:48px;height:48px;object-fit: cover;">
+                            {% endwith %}
+                        </a>                            
+                    </li>
+                </ul> 
+                <ul class="ms-5 list-group list-group-horizontal">
+                    <li class="list-group-item" style="border: none">
+                        <a href="{{ comment.user.get_absolute_url }}">
+                            <img src={{comment.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+                        </a>
+                    </li>
+                    <li class="list-group-item " style="border: none; width:500px">
+                        <p> 
+                            <a href="{{ comment.user.get_absolute_url }}" class="fw-bold text-decoration-none text-dark">{{comment.user.username}}</a> &nbsp;{{comment.body}}
+                            <br>
+                            <span class="text-muted small">{{comment.created_at|format_created_time}}</span>
+                        </p>  
+                    </li>
+                </ul> 
+            {% elif comment.comment %}
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item" style="border: none">
+                        <a href="{{ comment.comment.post.user.get_absolute_url }}">
+                            <img src={{comment.comment.post.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+                        </a>
+                    </li>
+                    <li class="list-group-item" style="border: none; width:500px">
+                        <p> 
+                            <a href="{{ comment.comment.post.user.get_absolute_url }}" class="fw-bold text-decoration-none text-dark">{{comment.comment.post.user.username}}</a> &nbsp;
+                            <a href="{{comment.comment.post.get_absolute_url}}" class="text-decoration-none text-dark">{{comment.comment.post.caption}}</a>
+                            <br>
+                            <span class="text-muted small">{{comment.comment.post.created_at|format_created_time}}</span>
+                        </p>  
+                    </li>
+                    <li class="list-group-item " style="border: none;">
+                        <a href="{{comment.comment.post.get_absolute_url}}">
+                            {% with image=comment.comment.post.postimage_set.first %}
+                                <img src="{{image.image.url}}" alt="{{comment.comment.post.caption}}" style="width:48px;height:48px;object-fit: cover;">
+                            {% endwith %}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="ms-5 list-group list-group-horizontal">
+                    <li class="list-group-item" style="border: none">
+                        <a href="{{ comment.comment.user.get_absolute_url }}">
+                            <img src={{comment.comment.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+                        </a>
+                    </li>
+                    <li class="list-group-item " style="border: none; width:500px">
+                        <p> 
+                            <a href="{{ comment.comment.user.get_absolute_url }}" class="fw-bold text-decoration-none text-dark">{{comment.comment.user.username}}</a> &nbsp;{{comment.comment.body}}
+                            <br>
+                            <span class="text-muted small">{{comment.comment.created_at|format_created_time}}</span>
+                        </p>  
+                    </li>
+                </ul> 
+                <ul class="ms-5 list-group list-group-horizontal">
+                    <li class="list-group-item" style="border: none">
+                        <a href="{{ comment.user.get_absolute_url }}">
+                            <img src={{comment.user.profile_photo.url}} alt="" class="post-profile-avatar"> 
+                        </a>
+                    </li>
+                    <li class="list-group-item " style="border: none; width:500px">
+                        <p> 
+                            <a href="{{ comment.user.get_absolute_url }}" class="fw-bold text-decoration-none text-dark">{{comment.user.username}}</a> &nbsp;{{comment.body}}
+                            <br>
+                            <span class="text-muted small">{{comment.created_at|format_created_time}}</span>
+                        </p>  
+                    </li>
+                </ul> 
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+</div>

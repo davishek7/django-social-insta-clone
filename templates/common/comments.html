@@ -11,18 +11,7 @@
                 <p class="mb-1">{{comment.body}}</p>
                 <span class="small d-flex justify-content-start">
                     <div class="text-muted">{{comment.created_at|format_created_time}}</div>
-                    <!-- <div class="ms-2 dropdown"> -->
-                        <a href="#" class="ms-2 me-3 text-decoration-none fw-bold text-muted" data-bs-toggle="modal" data-bs-target="#comment-reply-modal-{{comment.id}}" aria-expanded="false">Reply</a>
-                        <!-- <form class="dropdown-menu p-4" method="post" action="{% url 'post:add_reply' comment.id %}" style="width:400px">
-                            <li><h6 class="dropdown-header">Reply to @{{comment.user.username}}</h6></li>
-                            {% csrf_token %}
-                            <div class="form-floating mb-3">
-                                {{reply_form.body}}
-                                <label for="caption" class="col-form-label">Write your reply</label>
-                                <button type="submit" class="btn btn-outline-primary btn-sm">Post</button>
-                            </div>
-                        </form> -->
-                    <!-- </div> -->
+                    <a href="#" class="ms-2 me-3 text-decoration-none fw-bold text-muted" data-bs-toggle="modal" data-bs-target="#comment-reply-modal-{{comment.id}}" aria-expanded="false">Reply</a>
                     <div class="dropdown">
                         <i class="fas fa-ellipsis-h pt-1 me-3" style="cursor:pointer;" data-bs-toggle="dropdown" aria-expanded="false"></i>
                         <ul class="dropdown-menu text-center dropdown-menu-start" aria-labelledby="dropdownMenuButton1">

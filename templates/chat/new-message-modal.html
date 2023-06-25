@@ -1,0 +1,34 @@
+<div class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="send-message">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content rounded-4">
+          <div class="modal-header text-center">
+            <h6 class="modal-title w-100 fw-bold">New message</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-start">
+                <form method="post" action="{% url 'chat:new_chat' %}" class="px-3">
+                    {% csrf_token %}
+                    <input type="text" name="username" hx-get="{% url 'chat:get_users' %}" class="form-control" hx-trigger="keyup delay:500ms changed" hx-target="#search-results" placeholder="Search...">
+                    <p class="fw-bold mb-3">Users</p>
+                    <ul class="list-group list-group-flush overflow-scroll mb-2" id="search-results" style="height:500px;">
+                    {% for user in users %}
+                        <li class="list-group-item">
+                            <input class="form-check-input me-1 float-end" type="radio" name="user" value="{{user.username}}">
+                            <div class="form-check-label d-flex justify-content-between align-items-start">
+                                <img src={{user.profile_photo.url}} alt="" class="profile-image-avatar">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">{{user.name}}</div>
+                                  <span class="small">{{user.username}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% empty %}
+                        No user found
+                    {% endfor %}
+                    </ul>
+                    <button type="submit" class="btn btn-primary rounded fw-bold w-100">Chat</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

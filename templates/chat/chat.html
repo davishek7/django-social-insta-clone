@@ -1,25 +1,119 @@
 {% extends 'layouts/main-layout.html' %}
-
+{% load static %}
+{% load format_created_at %}
 {% block content %}
-<div class="container my-5 w-50">
-    <div class="card shadow-sm rounded mx-auto">
-        <div class="card-body">
-            <p>{{request.user.username}}</p>
-            <div class="d-flex align-items-start">
-                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                  <button class="nav-link" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
-                  <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</button>
-                  <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
-                  <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
-                </div>
-                <div class="tab-content" id="v-pills-tabContent">
-                  <div class="tab-pane fade" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">Home</div>
-                  <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">Profile</div>
-                  <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">Messages</div>
-                  <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">Settings</div>
-                </div>
+<div class="row">
+  <div class="col-12 col-lg-8 mx-auto">
+    <div class="card border my-5">
+      <div class="card-body">
+        <div class="row g-0">
+          {% if user_inboxes %}
+            <div class="col-4 border-end">
+              <div class="mx-3 my-3 d-flex justify-content-around">
+                <h4 class="d-md-inline d-none fw-bold">{{request.user.username}}</h4>
+                <i class="ms-sm-5 fas fa-edit fs-4"></i>
+              </div>
+              <p class="mx-3 fw-bold fs-5 d-md-inline d-none">Messages</p>
+              <div class="list-group list-group-flush chat-sidebar">
+                {% for inbox in user_inboxes %}
+                  {% for user in inbox.users.all %}
+                    {% if inbox.message_set.count > 0 and request.user != user %}
+                      <a href="{% url 'chat:chat' inbox.slug %}#page-end" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 {% if chat_user == user %}active{% endif %}">
+                        <img src={{user.profile_photo.url}} alt="" class="profile-image-avatar me-2">
+                        <div class="ms-2 me-auto d-md-inline d-none">
+                          <div class="fw-medium">{{user.name}}</div>
+                          {% if inbox.get_last_message %}
+                            <span class="small">
+                              {% if inbox.get_last_message.user == request.user %}You: {% endif %}
+                              {% if inbox.get_last_message.body|length > 34 %}
+                                {{inbox.get_last_message.body|slice:':34'}}...
+                              {% else %}
+                                {{inbox.get_last_message.body}}
+                              {% endif %}
+                              &ensp;&bull;&ensp;{{inbox.get_last_message.created_at|format_created_time}}
+                            </span>
+                          {% endif %}
+                        </div>
+                        {% if inbox.unread_message_count %}
+                          <span class="badge bg-danger rounded-pill">{{inbox.unread_message_count}}</span>
+                        {% endif %}
+                      </a>
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              </div>
             </div>
+            <div class="col-8">
+          {% else %}
+            <div class="col-12">
+          {% endif %}
+            {% if chat %}
+              <nav class="navbar border-bottom">
+                <div class="container-fluid">
+                  <a class="navbar-brand d-flex justify-content-between align-items-center border-0" href="{{chat_user.get_absolute_url}}">
+                    <img src={{chat_user.profile_photo.url}} alt="" class="profile-image-avatar">             
+                    <div class="ms-2 me-auto fs-6">
+                      <div class="fw-bold">{{chat_user.name}}</div>
+                      <span class="text-muted small">{% if chat_user_active.status %}Active now{% else %}Active {{chat_user_active.updated_at|format_created_time}} ago{% endif %}</span>
+                    </div>
+                  </a>
+                  <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                      <li class="nav-item active">
+                        <a class="nav-link" href="#!" type="button" data-bs-toggle="offcanvas" data-bs-target="#chat-{{chat_user.username}}-details" aria-controls="offcanvasRight">
+                          <i class="fas fa-info-circle fs-4"></i>
+                          {% include 'chat/details-canvas.html' %}
+                        </a>
+                      </li>
+                  </ul>
+                </div>
+              </nav>   
+              <div class="chat-area">
+                <div class="text-center my-5">             
+                    <img src="{{chat_user.profile_photo.url}}" alt="{{chat_user.username}}" class="unfollow-image-avatar mb-1">
+                    <h4 class="fw-bold">{{chat_user.name}}</h4>
+                    <p class="small fs-6">{{chat_user.username}} &bull; Instagram</p>
+                    <a href="{{chat_user.get_absolute_url}}" class="btn btn-light fw-bold rounded btn-sm border">View profile</a>
+                </div>
+                {% include 'chat/chat-body.html' %}
+              </div>
+              <div class="row g-0">
+                <div class="col-11">
+                  <form action="{% url 'chat:send_message' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="input-group">
+                      <input type="text" name="body" class="ms-2 form-control rounded-5" placeholder="Message..." required>
+                      <input type="hidden" name="chat_user_id" value="{{chat_user.id}}">
+                      <input type="hidden" name="type" value="TEXT">
+                      <label class="pt-1 ms-2" style="cursor: pointer;">
+                        <i class="bi bi-file-image fs-2"></i>
+                        <input type="file" name="image" id="file-input" class="visuallyhidden" accept="image/*" style="display:none;">
+                      </label>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-1">
+                  <form action="{% url 'chat:send_message' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="chat_user_id" value="{{chat_user.id}}">
+                    <input type="hidden" name="body" value="❤️">
+                    <input type="hidden" name="type" value="EMOJI">
+                    <button type="submit" class="btn btn-link text-decoration-none text-dark" type="button"><i class="bi bi-heart fs-2"></i></button>
+                  </form>
+                </div>
+              </div>
+            {% else %}
+              <div class="text-center my-5">
+                <img src="{% static 'images/messenger.png' %}" alt="messenger icon" height="100">
+                <h3>Your messages</h3>
+                <p>Send private photos and messages to a friend.</p>
+                <button class="btn btn-primary fw-bold rounded btn-sm" data-bs-toggle="modal" data-bs-target="#send-message">Send message</button>
+                {% include 'chat/new-message-modal.html' %}
+              </div>
+            {% endif %}
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock content %}

@@ -60,6 +60,14 @@ class User(AbstractBaseUser,PermissionsMixin, TimeStampModel):
         return reverse('profile', kwargs={'username':self.username})
     
     @property
+    def get_follow_url(self):
+        return reverse('user:follow', args=[self.id])
+    
+    @property
+    def get_remove_follower_url(self):
+        return reverse('user:remove_follower', args=[self.username])
+    
+    @property
     def get_first_active_story(self):
         return self.story_set.filter(status = True).first()
 
@@ -73,3 +81,10 @@ class Profile(TimeStampModel, StatusModel):
 
     def __str__(self):
         return f'{self.user} profile'
+    
+
+class LoggedUser(TimeStampModel, StatusModel):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return self.user.username

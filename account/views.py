@@ -14,10 +14,6 @@ def login_user(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('email')
-            # if get_user_model().objects.filter(email=email, is_superuser=True).exists():
-            #     messages.error(request, 'You are not authorised to view this page.')
-            #     return redirect(request.META.get('HTTP_REFERER'))
-            # else:
             password = form.cleaned_data.get('password')
             user = authenticate(request, email=email, password=password)
             if user:

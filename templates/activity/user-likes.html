@@ -1,0 +1,20 @@
+<div class="mt-5">
+    <div class="row g-1">
+        {% for post in liked_posts %}
+            <div class="col-4">
+                <div class="card rounded shadow-sm">
+                    <div class="activity-post-image">
+                        <a href="{{post.get_absolute_url}}" class="text-decoration-none text-light" style="display: inline;position:relative;">
+                            {% with image=post.postimage_set.all %}
+                                <img src="{{image.first.image.url}}" class="card-img" alt="{{post.caption}}">
+                                {% if image.count > 1 %}
+                                    <i class="fas fa-clone mx-2 my-2" style="position:absolute;right: 0;"></i>
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

@@ -10,6 +10,7 @@ from commons.decorators import normal_user_only
 from .models import Highlight
 from story.models import Story
 from .decorators import highlight_user_required, user_required
+from chat.utils import get_inbox
 
 # Create your views here.
 
@@ -21,8 +22,11 @@ def profile(request, username):
     stories_count = Story.objects.filter(user = user).count()
     highlights = Highlight.objects.filter(user = user, status = True).order_by('-created_at').all()
     user_posts_count = user_posts.count()
+    inbox = None
+    if request.user != user:
+        inbox = get_inbox(request.user, user)
     context = {'user':user, 'title':title, 'user_profile':True, 'user_posts':user_posts,
-               'user_posts_count':user_posts_count, 'highlights':highlights, 'stories_count':stories_count}
+               'user_posts_count':user_posts_count, 'highlights':highlights, 'stories_count':stories_count, 'inbox':inbox}
     return render(request, 'user/profile/profile.html', context=context)
 
 @login_required

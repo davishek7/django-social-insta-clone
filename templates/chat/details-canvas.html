@@ -1,0 +1,26 @@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="chat-{{chat_user.username}}-details" aria-labelledby="offcanvasTopLabel">
+    <div class="offcanvas-header">
+      <h4 class="offcanvas-title fw-bold" id="offcanvasTopLabel">Details</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <a class="d-flex justify-content-between text-decoration-none text-dark m-3" href="{{chat_user.get_absolute_url}}">
+            <img src={{chat_user.profile_photo.url}} alt="" class="profile-image-avatar">
+            <div class="ms-2 me-auto fs-6">
+              <div class="fw-bold">{{chat_user.username}}</div>
+              <span class="text-muted small">{{chat_user.name}}</span>
+            </div>
+        </a>
+        <ul class="nav flex-column border-top">
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="#">Report</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="#">Block</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="#">Delete chat</a>
+            </li>
+          </ul>
+    </div>
+  </div>

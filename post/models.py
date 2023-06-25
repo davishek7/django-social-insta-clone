@@ -25,6 +25,14 @@ class Post(TimeStampModel, StatusModel):
 
     def get_absolute_url(self):
         return reverse('post:post_details', kwargs={'slug':self.slug})
+    
+    @property
+    def get_like_url(self):
+        return reverse('post:add_like', args=[self.id])
+    
+    @property
+    def get_bookmark_url(self):
+        return reverse('post:add_bookmark', args=[self.id])
 
     class Meta:
         ordering = ['-created_at']

@@ -1,0 +1,15 @@
+<div class="mt-5">
+    <div class="row g-1">
+        {% for highlight in user_highlights %}
+            <div class="col-4">
+                <div class="card rounded-3 shadow-sm">
+                    <div class="activity-highlight-image">
+                        <a href="{% url 'story:highlight_details' highlight.slug highlight.get_first_story.slug %}" class="text-decoration-none text-light">
+                            <img src="{{highlight.get_first_story.image.url}}" alt="{{highlight.name}}">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

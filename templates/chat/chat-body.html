@@ -1,0 +1,51 @@
+{% load format_created_at %}
+<div>
+    {% for message in messages %}
+        {% if message.user == request.user %}
+            <div class="text-center">
+                <small class="mb-3">{{message.created_at}}</small>
+            </div> 
+            <div class="d-flex justify-content-end ps-5">
+                {% if message.type == 'EMOJI' %}
+                    <div class="ms-5 mb-3 fs-3">
+                        {{message.body}}
+                    </div>
+                {% elif message.type == 'TEXT' %}
+                    <div class="text-bg-primary p-3 rounded-5 ms-5 mb-3 {% if message.body|length > 100 %}w-75{% endif %}">
+                        {% if message.image %}
+                            <div class="message-attachment">
+                                <a href="{{message.image.url}}">
+                                    <img src="{{message.image.url}}" alt="" class="message-attachment">
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{message.body}}
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="text-center">
+                <small class="mb-3">{{message.created_at}}</small> 
+            </div>
+            <div class="d-flex justify-content-start pe-5">
+                {% if message.type == 'EMOJI' %}
+                    <div class="ms-5 mb-3 fs-3">
+                        {{message.body}}
+                    </div>
+                {% elif message.type == 'TEXT' %}
+                    <div class="text-bg-light p-3 rounded-5 shadow border ms-2 me-5 mb-3 {% if message.body|length > 100 %}w-75{% endif %}">
+                        {% if message.image %}
+                            <div class="message-attachment">
+                                <a href="{{message.image.url}}">
+                                    <img src="{{message.image.url}}" alt="" class="message-attachment">
+                                </a>
+                            </div>
+                        {% endif %}
+                        {{message.body}}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div id="page-end"></div>
+</div>

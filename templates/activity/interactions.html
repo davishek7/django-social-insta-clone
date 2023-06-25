@@ -1,0 +1,46 @@
+{% extends 'layouts/main-layout.html' %}
+{% load static %}
+{% load format_created_at %}
+{% block content %}
+
+<div class="container">
+    <div class="row mx-auto">
+        <div class="col-12 col-lg-8 mx-auto my-3">
+            <h3 class="fw-bold my-3">Your activity</h3>
+            <div class="card rounded">
+                <div class="card-body">
+                    <ul class="nav nav-pills nav-justified mb-3">
+                        <li class="nav-item">
+                          <a class="nav-link {% if interactions %}active{% endif %}" aria-current="page" href="#"><i class="bi bi-arrow-left-right"></i>&nbsp;Interactions</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link {% if photos %}active{% endif %}" href="{% url 'activity:posts' %}"><i class="bi bi-images"></i>&nbsp;Photos</a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-tabs justify-content-center">
+                        <li class="nav-item">
+                          <a class="nav-link {% if likes %}active{% endif %}" aria-current="page" href="{% url 'activity:likes' %}" title="Likes"><i class="bi bi-heart"></i> <span class="ms-1 d-md-inline d-none">LIKES</span></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link {% if comments %}active{% endif %}" href="{% url 'activity:comments' %}" title="Comments"><i class="bi bi-chat"></i><span class="ms-1 d-md-inline d-none">COMMENTS</span></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link {% if story_replies %}active{% endif %}" href="{% url 'activity:story_replies' %}" title="Story Replies"><i class="bi bi-arrow-90deg-left"></i><span class="ms-1 d-md-inline d-none">STORY REPLIES</span></a>
+                        </li>
+                    </ul>
+                    <div class="mx-auto activity-area">
+                      {% if likes %}
+                        {% include 'activity/user-likes.html' %}
+                      {% elif comments %}
+                        {% include 'activity/user-comments.html' %}
+                      {% elif story_replies %}
+                        {% include 'activity/user-story-replies.html' %}
+                      {% endif %}
+                  </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

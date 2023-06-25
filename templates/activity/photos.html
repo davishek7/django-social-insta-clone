@@ -1,0 +1,41 @@
+{% extends 'layouts/main-layout.html' %}
+{% load static %}
+{% load format_created_at %}
+{% block content %}
+
+<div class="container px-3">
+    <div class="row mx-auto">
+        <div class="col-12 col-lg-8 mx-auto my-3">
+            <h3 class="fw-bold my-3">Your activity</h3>
+            <div class="card rounded">
+                <div class="card-body">
+                    <ul class="nav nav-pills nav-justified mb-3">
+                        <li class="nav-item">
+                          <a class="nav-link {% if interactions %}active{% endif %}" aria-current="page" href="{% url 'activity:likes' %}"><i class="bi bi-arrow-left-right"></i>&nbsp;Interactions</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link {% if photos %}active{% endif %}" href="#"><i class="bi bi-images"></i>&nbsp;Photos</a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-tabs justify-content-center">
+                        <li class="nav-item">
+                          <a class="nav-link {% if posts %}active{% endif %}" aria-current="page" href="{% url 'activity:posts' %}" title="Posts"><i class="bi bi-table"></i> <span class="ms-1 d-md-inline d-none">POSTS</span></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link {% if highlights %}active{% endif %}" href="{% url 'activity:highlights' %}" title="Highlights"><i class="bi bi-circle"></i><span class="ms-1 d-md-inline d-none">HIGHLIGHTS</span></a>
+                        </li>
+                    </ul>
+                    <div class="mx-auto activity-area">
+                        {% if posts %}
+                            {% include 'activity/user-posts.html' %}
+                        {% elif highlights %}
+                            {% include 'activity/user-highlights.html' %}
+                        {% endif %}
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

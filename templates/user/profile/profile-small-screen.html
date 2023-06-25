@@ -19,7 +19,7 @@
                         <a href="{% url 'user:unfollow' user.username %}" class="btn btn-light border btn-sm rounded text-dark fw-bold">
                             Following
                         </a>
-                        <a href="{% url 'chat:inbox' %}" class="btn btn-light border btn-sm rounded text-dark fw-bold">Message</a>
+                        <a href="{% url 'chat:chat' inbox.slug %}" class="btn btn-light border btn-sm rounded text-dark fw-bold">Message</a>
                     {% else %}
                         {% if request.user in user.profile.followings.all %}
                             <a href="{% url 'user:follow' user.id %}" class="btn btn-primary btn-sm fw-bold rounded" title="Follow Back">Follow Back</a>

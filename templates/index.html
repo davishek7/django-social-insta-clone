@@ -45,7 +45,7 @@
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between my-2">
                                         <div class="d-flex justify-content-center">
-                                            <a href="{% url 'post:add_like' post.id %}" class="text-decoration-none">
+                                            <a onclick="window.location.href='{{post.get_like_url}}'" class="text-decoration-none" style="cursor:pointer">
                                                 {% if request.user in post.likes.all %}
                                                 <i class="fas fa-heart me-3" style='font-size:24px;color: red;'></i>
                                                 {% else %}
@@ -60,7 +60,7 @@
                                             </a>
                                             <i class="far fa-paper-plane" style='font-size:24px'></i>
                                         </div>
-                                        <a href="{% url 'post:add_bookmark' post.id %}" class="text-decoration-none">
+                                        <a onclick="window.location.href='{{post.get_bookmark_url}}'" class="text-decoration-none" style="cursor:pointer">
                                             {% if post in profile.bookmarks.all %}
                                                 <i class="fas fa-bookmark text-dark" style='font-size:24px'></i>
                                             {% else %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Profile
+from .models import User, Profile, LoggedUser
 
 # Register your models here.
 
@@ -31,4 +31,13 @@ class UserAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return self.readonly_fields + ('password', 'last_login', )
+        return self.readonly_fields
+    
+
+@admin.register(LoggedUser)
+class LoggedUserAdmin(admin.ModelAdmin):
+    
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields + ('user', )
         return self.readonly_fields

@@ -26,14 +26,14 @@
                             </div>
                             {% if user == request.user  %}
                                 <span>
-                                    <a href="{% url 'user:remove_follower' follower.id %}" class="fw-bold btn btn-light btn-sm border rounded">Remove</a>
+                                    <a onclick="window.location.href='{{follower.get_remove_follower_url}}'" class="fw-bold btn btn-light btn-sm border rounded">Remove</a>
                                 </span>
                             {% endif %}
                             {% if follower != request.user and user != request.user %}
                                 {% if follower in request.user.profile.followings.all %}
                                     <a href="{% url 'user:unfollow' follower.username %}" class="fw-bold btn btn-light btn-sm border rounded">Following</a>
                                 {% else %}
-                                    <a href="{% url 'user:follow' follower.id %}" class="fw-bold btn btn-primary btn-sm rounded">Follow</a>
+                                    <a onclick="window.location.href='{{follower.get_follow_url}}'" class="fw-bold btn btn-primary btn-sm rounded">Follow</a>
                                 {% endif %}
                             {% endif %}
                         </li>

@@ -11,11 +11,11 @@
         <hr>
         <ul class="nav nav-pills justify-content-center">
             <li class="nav-item">
-            <a class="nav-link {% if user_profile %}active disabled{% endif %}" href="{{ user.get_absolute_url }}"><i class="fas fa-th"></i>&nbsp;POSTS</a>
+            <a class="nav-link {% if user_profile %}active disabled{% endif %}" href="{{ user.get_absolute_url }}"><i class="bi bi-table"></i>&nbsp;POSTS</a>
             </li>
             {% if request.user == user %}
                 <li class="nav-item">
-                    <a class="nav-link {% if bookmark %}active disabled{% endif %}" href="{% url 'user_saved' user.username %}"><i class="fas fa-bookmark"></i>&nbsp;SAVED</a>
+                    <a class="nav-link {% if bookmark %}active disabled{% endif %}" href="{% url 'user_saved' user.username %}"><i class="bi bi-bookmark-fill"></i>&nbsp;SAVED</a>
                 </li>
             {% endif %}
         </ul>

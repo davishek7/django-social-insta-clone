@@ -4,15 +4,15 @@
 
         {% if variant == 'following' %}
             <a class="navbar-brand pb-3 me-5 fs-4" href="/">
-                <i class="fas fa-arrow-left"></i>&ensp;<i class="fas fa-user-check"></i>
+                <i class="fas fa-arrow-left"></i>&ensp;<i class="fas fa-user-check d-md-none d-sm-inline"></i><span class="d-md-inline d-none">Following</span>
             </a>
         {% elif variant == 'favorites' %}
             <a class="navbar-brand pb-3 me-5 fs-4" href="/">
-                <i class="fas fa-arrow-left"></i>&ensp;<i class="fas fa-star"></i>
+                <i class="fas fa-arrow-left"></i>&ensp;<i class="fas fa-star d-md-none d-sm-inline"></i><span class="d-md-inline d-none">Favorites</span>
             </a>
         {% elif variant == 'hot' %}
             <a class="navbar-brand pb-3 me-5 fs-4" href="/">
-                <i class="fas fa-arrow-left"></i>&ensp;<i class="fas fa-fire"></i>
+                <i class="fas fa-arrow-left"></i>&ensp;<i class="fas fa-fire d-md-none d-sm-inline"></i><span class="d-md-inline d-none">Hot Posts</span>
             </a>
         {% else %}
             <div class="navbar-brand dropdown pb-3 me-5">
@@ -44,7 +44,15 @@
                         <a class="nav-link active me-1" href="/"><i class="fas fa-home" style='font-size:24px'></i></a>
                     </li>
                     <li class="nav-item d-md-block d-sm-none d-none">
-                        <a class="nav-link active me-1" href="{% url 'chat:inbox' %}"><i class="fab fa-facebook-messenger" style='font-size:24px;'></i></a>
+                        <a class="nav-link active me-1 position-relative" href="{% url 'chat:inbox' %}">
+                            <i class="fab fa-facebook-messenger" style='font-size:24px;'></i>
+                            {% if unread_messages_count > 0 %}
+                                <span class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger">
+                                    {{unread_messages_count}}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            {% endif %}
+                        </a>
                     </li>
                     <li class="nav-item d-md-block d-sm-none d-none">
                         <a class="nav-link active me-1" href="#" data-bs-toggle="modal" data-bs-target="#create-post-modal">
@@ -58,11 +66,13 @@
                         <a class="nav-link active text-decoration-none text-dark" href="{% url 'suggestions' %}"><i class="fas fa-user-plus" style='font-size:24px'></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active me-1" href="{% url 'notification:list' %}">
+                        <a class="nav-link active me-1 position-relative" href="{% url 'notification:list' %}">
+                            <i class="far fa-heart" style='font-size:24px;'></i>
                             {% if unread_notifications_count > 0 %}
-                                <i class="fas fa-heart" style='font-size:24px;color:red;'></i>
-                            {% else %}
-                                <i class="far fa-heart" style='font-size:24px;'></i>
+                                <span class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger">
+                                    {{unread_notifications_count}}
+                                    <span class="visually-hidden">unread notifications</span>
+                                </span>
                             {% endif %}
                         </a>
                     </li>
@@ -92,40 +102,48 @@
     </div>
 </nav>
 
+{% if request.user.is_authenticated %}
 <nav class="d-md-none d-sm-block navbar fixed-bottom navbar-light bg-light border">
     <div class="container d-flex justify-content-around">
         <div>
             <ul class="nav justify-content-around">
-                {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link active text-decoration-none text-dark" href="/"><i class="fas fa-home" style='font-size:24px'></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-decoration-none text-dark" href="{% url 'chat:inbox' %}"><i class="fab fa-facebook-messenger" style='font-size:24px;'></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-decoration-none text-dark" href="#" data-bs-toggle="modal" data-bs-target="#create-post-modal">
-                            <i class="far fa-plus-square" style='font-size:24px'></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-decoration-none text-dark" href="{% url 'explore' %}"><i class="far fa-compass" style='font-size:24px'></i></a>
-                    </li>
-                    <li class="nav-item dropup flex-shrink-0 text-decoration-none text-dark">
-                        <a class="nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src={{request.user.profile_photo.url}} class="navbar-profile-image">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="navbarDropdown" style="width: 200px">
-                            <li><a class="dropdown-item" href="{{ request.user.get_absolute_url }}"><i class="bi bi-person-circle"></i> Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'user_saved' request.user.username %}"><i class="bi bi-bookmark"></i> Saved</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear-wide"></i> Settings</a></li>
-                            <li><a class="dropdown-item" href="{% url 'activity:likes' %}"><i class="bi bi-clock-history"></i> Your activity</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'account:logout'%}">Log Out</a></li>
-                        </ul>
-                    </li>
-                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link active text-decoration-none text-dark" href="/"><i class="fas fa-home" style='font-size:24px'></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-decoration-none text-dark position-relative" href="{% url 'chat:inbox' %}">
+                        <i class="fab fa-facebook-messenger" style='font-size:24px;'></i>
+                        {% if unread_messages_count > 0 %}
+                            <span class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger">
+                                {{unread_messages_count}}
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-decoration-none text-dark" href="#" data-bs-toggle="modal" data-bs-target="#create-post-modal">
+                        <i class="far fa-plus-square" style='font-size:24px'></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-decoration-none text-dark" href="{% url 'explore' %}"><i class="far fa-compass" style='font-size:24px'></i></a>
+                </li>
+                <li class="nav-item dropup flex-shrink-0 text-decoration-none text-dark">
+                    <a class="nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src={{request.user.profile_photo.url}} class="navbar-profile-image">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="navbarDropdown" style="width: 200px">
+                        <li><a class="dropdown-item" href="{{ request.user.get_absolute_url }}"><i class="bi bi-person-circle"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user_saved' request.user.username %}"><i class="bi bi-bookmark"></i> Saved</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear-wide"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="{% url 'activity:likes' %}"><i class="bi bi-clock-history"></i> Your activity</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'account:logout'%}">Log Out</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
+{% endif %}

@@ -186,17 +186,17 @@ body{
   object-fit: cover;
   border-radius: 50%;
 }
-/* .notifications{
-  height:800px;
+.activity-area{
+  height:650px;
   overflow-x: hidden;
 }
-.notifications{
+.activity-area{
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.notifications:-webkit-scrollbar { 
+.activity-area:-webkit-scrollbar { 
   display: none;
-} */
+}
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -206,6 +206,58 @@ body{
   padding: 0;
   position: absolute;
   width: 1px;
+}
+.activity-post-image{
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+.activity-post-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.activity-highlight-image{
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+}
+.activity-highlight-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.chat-sidebar{
+  height:650px;
+  overflow-x: hidden;
+}
+.chat-sidebar{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.chat-sidebar:-webkit-scrollbar { 
+  display: none;
+}
+.chat-area{
+  height:600px;
+  overflow-x: hidden;
+}
+.chat-area{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.chat-area:-webkit-scrollbar { 
+  display: none;
+}
+.message-attachment{
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+}
+.message-attachment img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 @media only screen and (max-width: 990px) {
   .related-post-image{
@@ -243,8 +295,25 @@ body{
     object-fit: cover;
     border-radius: 50%;
   }
-  /* .comment-area{
-    height:800px;
-    overflow-x: hidden;
-  } */
+  .activity-post-image{
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+  }
+  .activity-highlight-image{
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+  }
+  .activity-post-details{
+    overflow-y: hidden;
+    /* white-space: nowrap; */
+  }
+  .activity-post-details {
+    -ms-overflow-style: none;  /*Internet Explorer 10+*/
+    scrollbar-width: none;  /*Firefox*/
+  }
+  .activity-post-details::-webkit-scrollbar { 
+    display: none;  /*Safari and Chrome*/
+  }
 }
