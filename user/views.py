@@ -50,6 +50,10 @@ def edit_profile(request):
     form = UserEditForm(instance=user)
     if request.method == 'POST':
         form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully.')
+            return redirect('profile', username=user.username)
     context = {'form':form, 'user':user, 'edit_profile':True}
     return render(request, 'user/edit-profile.html', context=context)
 

@@ -83,8 +83,9 @@ class Profile(TimeStampModel, StatusModel):
         return f'{self.user} profile'
     
 
-class LoggedUser(TimeStampModel, StatusModel):
+class LoggedUser(TimeStampModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    status = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

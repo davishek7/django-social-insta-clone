@@ -8,22 +8,17 @@
     <div class="row mx-auto">
         <div class="col-12 col-lg-7 mx-auto my-3">
             <h3 class="fw-bold my-5">Settings</h3>
-            <div class="card rounded">
+            <div class="card rounded px-md-5">
                 <p class="my-5 fs-4 px-5">Edit profile</p>
+                <div class="text-center mb-3">
+                    <img src="{{user.profile_photo.url}}" class="unfollow-image-avatar">
+                    <div>
+                        <h6 class="fw-bold">{{user.username}}</h6>
+                        <a href="#" class="btn btn-link fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#picture-upload">Change profile photo</a>
+                    </div>
+                </div>
                 <form action="" method="post" class="px-5 mb-3">
                     {% csrf_token %}
-                    <div class="row mb-3">
-                        <div class="col-lg-6">
-                            <div class="d-flex justify-content-center align-items-start">
-                                <img src="{{user.profile_photo.url}}" class="post-profile-avatar">
-                                <div>
-                                    <h6>{{user.username}}</h6>
-                                    <br>
-                                    <a href="#" class="btn btn-link fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#picture-upload">Change profile photo</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label fw-bold">Name</label>
                         <div class="col-sm-10">

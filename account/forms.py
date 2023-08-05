@@ -25,8 +25,8 @@ class LoginForm(forms.Form):
 
 class UserEditForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control mb-2 rounded', 'placeholder':'Full Name'}))
-    website = forms.URLField(widget=forms.URLInput(attrs={'class':'form-control mb-2 rounded', 'placeholder':'Website'}))
-    bio = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control mb-2 rounded', 'placeholder':'Bio', 'rows':'3'}))
+    website = forms.URLField(required=False, widget=forms.URLInput(attrs={'class':'form-control mb-2 rounded', 'placeholder':'Website'}))
+    bio = forms.CharField(required=False, widget=forms.Textarea(attrs={'class':'form-control mb-2 rounded', 'placeholder':'Bio', 'rows':'3'}))
 
     class Meta:
         model = User
