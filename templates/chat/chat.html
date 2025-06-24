@@ -11,35 +11,35 @@
             <div class="col-4 border-end">
               <div class="mx-3 my-3 d-flex justify-content-around">
                 <h4 class="d-md-inline d-none fw-bold">{{request.user.username}}</h4>
-                <i class="ms-sm-5 fas fa-edit fs-4"></i>
+                <i class="ms-sm-5 fas fa-edit fs-4" data-bs-toggle="modal" data-bs-target="#send-message"></i>
               </div>
               <p class="mx-3 fw-bold fs-5 d-md-inline d-none">Messages</p>
               <div class="list-group list-group-flush chat-sidebar">
                 {% for inbox in user_inboxes %}
-                  {% for user in inbox.users.all %}
-                    {% if inbox.message_set.count > 0 and request.user != user %}
-                      <a href="{% url 'chat:chat' inbox.slug %}#page-end" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 {% if chat_user == user %}active{% endif %}">
-                        <img src={{user.profile_photo.url}} alt="" class="profile-image-avatar me-2">
-                        <div class="ms-2 me-auto d-md-inline d-none">
-                          <div class="fw-medium">{{user.name}}</div>
-                          {% if inbox.get_last_message %}
-                            <span class="small">
-                              {% if inbox.get_last_message.user == request.user %}You: {% endif %}
-                              {% if inbox.get_last_message.body|length > 34 %}
-                                {{inbox.get_last_message.body|slice:':34'}}...
-                              {% else %}
-                                {{inbox.get_last_message.body}}
-                              {% endif %}
-                              &ensp;&bull;&ensp;{{inbox.get_last_message.created_at|format_created_time}}
-                            </span>
+                  {% if inbox.get_last_message %}
+                    {% for user in inbox.users.all %}
+                      {% if inbox.message_set.count > 0 and request.user != user %}
+                        <a href="{% url 'chat:chat' inbox.slug %}#page-end" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 {% if chat_user == user %}active{% endif %}">
+                          <img src={{user.profile_photo.url}} alt="" class="profile-image-avatar me-2">
+                          <div class="ms-2 me-auto d-md-inline d-none">
+                            <div class="fw-medium">{{user.name}}</div>
+                              <span class="small">
+                                {% if inbox.get_last_message.user == request.user %}You: {% endif %}
+                                {% if inbox.get_last_message.body|length > 34 %}
+                                  {{inbox.get_last_message.body|slice:':34'}}...
+                                {% else %}
+                                  {{inbox.get_last_message.body}}
+                                {% endif %}
+                                &ensp;&bull;&ensp;{{inbox.get_last_message.created_at|format_created_time}}
+                              </span>
+                          </div>
+                          {% if inbox.unread_message_count %}
+                            <span class="badge bg-danger rounded-pill">{{inbox.unread_message_count}}</span>
                           {% endif %}
-                        </div>
-                        {% if inbox.unread_message_count %}
-                          <span class="badge bg-danger rounded-pill">{{inbox.unread_message_count}}</span>
-                        {% endif %}
-                      </a>
-                    {% endif %}
-                  {% endfor %}
+                        </a>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
                 {% endfor %}
               </div>
             </div>
@@ -54,7 +54,7 @@
                     <img src={{chat_user.profile_photo.url}} alt="" class="profile-image-avatar">             
                     <div class="ms-2 me-auto fs-6">
                       <div class="fw-bold">{{chat_user.name}}</div>
-                      <span class="text-muted small">{% if chat_user_active.status %}Active now{% else %}Active {{chat_user_active.updated_at|format_created_time}} ago{% endif %}</span>
+                      {% comment %}<span class="text-muted small">{% if chat_user_active.status %}Active now{% else %}Active {{chat_user_active.updated_at|format_created_time}} ago{% endif %}</span>{% endcomment %}
                     </div>
                   </a>
                   <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
@@ -107,7 +107,6 @@
                 <h3>Your messages</h3>
                 <p>Send private photos and messages to a friend.</p>
                 <button class="btn btn-primary fw-bold rounded btn-sm" data-bs-toggle="modal" data-bs-target="#send-message">Send message</button>
-                {% include 'chat/new-message-modal.html' %}
               </div>
             {% endif %}
           </div>
@@ -116,4 +115,5 @@
     </div>
   </div>
 </div>
+{% include 'chat/new-message-modal.html' %}
 {% endblock content %}

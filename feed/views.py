@@ -26,7 +26,7 @@ def index(request):
 
     my_active_story_count = Story.objects.filter(user=request.user, status=True).all()
     
-    paginator = Paginator(posts, 25)
+    paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'posts': page_obj, 'story_users':active_story_users, 'my_active_story_count':my_active_story_count, 'home':True}
@@ -60,7 +60,7 @@ def custom_feed(request):
                     order_by('-likes_count', '-comment_count', '-created_at').filter(status=True).all())
         posts = hot_posts
 
-    paginator = Paginator(posts, 25)
+    paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'posts': page_obj, 'variant':variant}

@@ -34,7 +34,7 @@ def comments(request):
 def story_replies(request):
     user = get_object_or_404(get_user_model(), username=request.user.username)
     story_replies = user.storyreply_set.all()
-    context = {'story_replies':story_replies, 'story_replies':True, 'interactions':True}
+    context = {'story_replies':story_replies, 'story_replies_tab':True, 'interactions':True}
     return render(request, 'activity/interactions.html', context=context)
 
 def posts(request):

@@ -10,7 +10,7 @@ from django.db.models.functions import TruncDate
 from .utils import get_inbox
 from .decorators import read_messages
 from account.models import LoggedUser
-from django.http import JsonResponse
+# from django.http import JsonResponse
 
 # Create your views here.
 
@@ -72,8 +72,8 @@ def new_chat(request):
         inbox = get_inbox(request.user, chat_user)
         return redirect('chat:chat', slug=inbox.slug)
     
-@login_required
-def get_users(request):
-    username = request.GET.get('username')
-    users = list(get_user_model().objects.filter(username__icontains=username).values('id', 'username', 'name', 'profile_photo'))
-    return JsonResponse(users, safe=False)
+# @login_required
+# def get_users(request):
+#     username = request.GET.get('username')
+#     users = list(get_user_model().objects.filter(username__icontains=username).values('id', 'username', 'name', 'profile_photo'))
+#     return JsonResponse(users, safe=False)
