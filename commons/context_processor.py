@@ -24,6 +24,5 @@ def common_context(request):
             'unread_messages_count' : Message.objects.filter(~Q(user=request.user), inbox__in  = request.user.user_inboxes.all(), status=True, read_status = False).count(),
             'host' : settings.HOST,
             'suggestions' : get_user_model().objects.exclude(Q(id__in=request.user.profile.followings.all()) | Q(id=request.user.id) | Q(is_superuser=True))[:3],
-            'user_has_profile_photo' : True if request.user.profile_photo else False
         }
     return {}

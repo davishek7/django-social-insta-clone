@@ -78,9 +78,7 @@
                     </li>
                     <li class="nav-item dropdown flex-shrink-0 d-md-block d-sm-none d-none">
                         <a class="nav-link active me-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% if user_has_profile_photo %}
-                                <img src={{request.user.profile_photo.url}} class="navbar-profile-image">
-                            {% endif %}
+                            <img src={{request.user.profile_photo.url}} class="navbar-profile-image">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="navbarDropdown" style="width: 200px">
                             <li><a class="dropdown-item" href="{{ request.user.get_absolute_url }}"><i class="bi bi-person-circle"></i> Profile</a></li>

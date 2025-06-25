@@ -17,6 +17,7 @@ from chat.utils import get_inbox
 @normal_user_only
 def profile(request, username):
     user = get_object_or_404(get_user_model(), username=username)
+    print(True if user.profile_photo else False)
     title = f'{user.name} (@{user.username}) | Instagram'
     user_posts = Post.objects.filter(user=user, status=True).order_by('-created_at')
     stories_count = Story.objects.filter(user = user).count()
@@ -62,10 +63,13 @@ def edit_profile(request):
 def upload_profile_photo(request, username):
     user = get_object_or_404(get_user_model(), username=username)
     if request.method == 'POST':
-        uploaded_photo = request.FILES.get('profile_photo')
-        user.profile_photo = uploaded_photo
-        user.save()
-        messages.success(request, 'Profile picture updated successfully.')
+        if request.FILES.get('profile_photo') is not None:
+            uploaded_photo = request.FILES.get('profile_photo')
+            user.profile_photo = uploaded_photo
+            user.save()
+            messages.success(request, 'Profile picture updated successfully.')
+        else:
+            messages.error(request, 'Please select an image to continue.')
     return redirect(request.META.get('HTTP_REFERER'))
 
 @login_required
