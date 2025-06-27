@@ -30,3 +30,28 @@ A photo and video sharing app where users can post, like, comment, and follow ot
 * Running the dev server
 
       python manage.py runserver
+
+
+
+### Login Screen
+![Login Page](/assets/login.png)
+
+### Home Screen
+![Home Page](/assets/home.png)
+
+### Create Post Screen
+![Create Post Page](/assets/create-post.png)
+
+### Post Details Screen
+![Post Details Page](/assets/post-details.png)
+
+### Profile Screen
+![Profile Page](/assets/profile.png)
+
+### Notification Screen
+![Notification Page](/assets/notifications.png)
+
+### Chat Screen
+![Chat Page](/assets/chat.png)
+
+
